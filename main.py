@@ -27,9 +27,9 @@ async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...),):
     with open(img_path, "wb") as f:
         f.write(img_content)
 
+    alt_text = create_alttext(text, img_path)
+
     return JSONResponse(content={
-        "Message": "UPLOADED SUCCESS - SERVER RESPONSE TO CLIENT =", 
-        "Uploaded Text": text, 
-        "Uploaded Image": img.filename
+        "Generated Alt-Text": alt_text, 
     }) 
 
