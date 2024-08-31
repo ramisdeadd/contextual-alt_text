@@ -94,6 +94,10 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
 async def home(request: Request):
     return templates.TemplateResponse("/pages/index.html", {"request": request})
 
+@app.get("/login", response_class=HTMLResponse)
+async def login(request: Request):
+    return templates.TemplateResponse("/pages/login.html", {"request": request})
+
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
     img_content = await img.read()

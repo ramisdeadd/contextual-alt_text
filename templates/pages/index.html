@@ -24,8 +24,7 @@
             
             <div class="hgroup2">
                 <div class="login">
-                    Login
-                    
+                    <a href="/login">Login</a>
                 </div>
                 <div>
                     <img src="../../static/images/profile.png" height="35px">
@@ -55,6 +54,26 @@
     </div>
     <!-- Homepage -->
 
+    <div class="inputcontainer">
+        <div class="center_form">
+            <form id="upload-article">
+
+                <div class="uploadimage">
+                    <label for="getimage"><img src="../../static/images/upload.png" width="35px" height="auto"></label>
+                    <input type="file" id="getimage" name="img">
+                </div>
+
+
+                <div class="uploadtext">
+                    <label for="gettext"></label>
+                    <textarea id="gettext" name="text">Enter Article Here</textarea>
+                </div>
+
+        
+                <button type="submit" id="generate">Generate Alt-Text</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Info -->
     <div class="infocontainer">
@@ -87,22 +106,6 @@
         </div>
     </div>
 
-    <div class="inputcontainer">
-        <div class="center_form">
-            <form id="upload-article">
-                <label for="getimage">Insert image</label>
-                <input type="file" id="getimage" name="img">
-                <br>
-                <br>
-        
-                <label for="gettext">Insert Article</label>
-                <textarea id="gettext" name="text"></textarea>
-                <br>
-                <br>
-        
-                <button type="submit" id="generate">Generate Alt-Text</button>
-            </form>
-        </div>
-    </div>
+ 
 
 {% endblock %}
