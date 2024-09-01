@@ -183,11 +183,17 @@ body{
     align-items: center;
 }
 
+.upimage {
+    margin-top: 20px;
+    margin-right: 750px;
+}
+
 .uploadimage {
     border: 2px dashed rgb(73, 73, 73);
-    padding: 200px 500px 200px;
     border-radius: 5px;
 
+    width: 1050px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -196,13 +202,15 @@ body{
     font-size: 10px;
 }
 
-.uploadimage>input {
-    display: none;
+.uploadimage img {
+    width: auto;
+    height: 600px;
 }
 
-.uploadimage img {
-    object-fit: cover;
-}
+/* .uploadimage>input {
+    display: none;
+} */
+
 .uploadtext textarea{
     border: 1px solid rgb(236, 236, 236);
     resize:vertical;
