@@ -279,10 +279,8 @@ body{
 }
 
 .results {
+    margin-left: 40px;
     margin-top: 25px;
     font-family: serif;
     font-size: 25px;
-}
-
-.imagetake img{
 }
