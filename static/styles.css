@@ -247,6 +247,16 @@ body{
     color: black;
 }
 
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 150px 700px 150px;
+    border: 2px solid black;
+    padding: 300px 20px 300px;
+    color: black;
+}
+
 .login a{
     text-decoration: none;
     color: white;
