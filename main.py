@@ -13,16 +13,16 @@ from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from generate import create_alttext
 
-SECRET_KEY = "261bf58e0aac77becaad284225519d3d131a74fca519b6e6e39b26f9461edaaf"
+SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 db = {
-    "johnsmith": {
-        "username": "johnsmith",
-        "full_name": "John Smith",
-        "email": "johnsmith@gmail.com",
-        "hashed_password": "fakehashedsecret1",
+    "johndoe": {
+        "username": "johndoe",
+        "full_name": "John Doe",
+        "email": "johndoe@example.com",
+        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         "disabled": False,
     },
     "ryanbang": {
@@ -38,7 +38,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-class TokenData(Token):
+class TokenData(BaseModel):
     username: str | None = None
 
 class User(BaseModel):
@@ -49,7 +49,6 @@ class User(BaseModel):
 
 class UserInDB(User):
     hashed_password: str
-
 
 app = FastAPI()
 
@@ -95,7 +94,6 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         detail="Invalid Credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-
     try: 
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -134,8 +132,9 @@ async def login_for_access_token(
         data = {"sub": user.username}, 
         expires_delta = access_token_expires
     )
-    return Token(access_token, token_type="bearer")
+    return Token(access_token=access_token, token_type="bearer")
 
+# read_users_me -> get_current_active_user -> get_current_user -> get_user
 @app.get("/users/me", response_model = User)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)],

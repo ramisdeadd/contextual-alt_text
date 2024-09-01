@@ -34,7 +34,6 @@ TA = Union[T, ARRAY]
 curr_dir = Path(__file__).parent.absolute()
 WEIGHTS_PATHS = {
     "coco": f"{curr_dir}/pretrained_models/coco_weights.pt",
-    # "conceptual-captions": f"{curr_dir}/pretrained_models/conceptual_weights.pt",
 }
 
 D = torch.device
