@@ -24,6 +24,10 @@ async def home(request: Request):
 async def login(request: Request):
     return templates.TemplateResponse("/pages/login.html", {"request": request})
 
+@app.get("/signup", response_class=HTMLResponse)
+async def signup(request: Request):
+    return templates.TemplateResponse("/pages/signup.html", {"request": request})
+
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...),):
     img_content = await img.read()

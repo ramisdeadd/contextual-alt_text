@@ -35,14 +35,15 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
     document.getElementById("getresult").innerText = result['Generated Alt-Text'];
 });
 
-// const fileUpload = (event) => {
-//     const files = event.target.files;
-//     const filesLength = files.length;
-//     if (filesLength > 0) {
-//       const imageSrc = URL.createObjectURL(files[0]);
-//       const imagePreviewElement = document.querySelector("#imagetake");
-//       imagePreviewElement.src = imageSrc;
-//       imagePreviewElement.style.display = "block";
-//     }
-//   };
 
+var loadFile = function(event) {
+    var output = document.getElementById('output');
+    const border = document.querySelector('.uploadimage');
+    const border2 = document.getElementById('imagebox')
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+
+    border.style.border = "unset";
+};  

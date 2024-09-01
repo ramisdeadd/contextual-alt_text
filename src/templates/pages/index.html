@@ -58,13 +58,21 @@
         <div class="center_form">
             <form id="upload-article">
 
-                <div class="uploadimage">
-                    <div>
-                    </div>
-                    <label for="getimage"><img src="../../static/images/upload.png" width="35px" height="auto"  ></label>
-                    <label>Upload Image</label>
-                    <input type="file" id="getimage" name="img" accept="image/*" onchange="fileUpload(event);">
+
+
+                <div class="uploadimage" id="imagebox">
+                    <img id="output">
+                    
+                    <!-- <img src="../../static/images/upload.png" width="35px" height="auto"  > -->
+                    <!-- <label for="getimage"></label> -->
+
+                    <!-- <label>Upload Image</label> -->
+
                 </div>
+                <div>
+                    <input type="file" id="getimage" name="img" accept="image/*" class="upimage" onchange="loadFile(event)">
+                </div>
+
 
                 <div class="results-container">
                     <div class="alt-title">Generated Alt-Text</div>
@@ -114,5 +122,5 @@
     </div>
 
  
-
+<script src="{{ url_for('static', path='scripts.js') }}" defer></script>
 {% endblock %}
