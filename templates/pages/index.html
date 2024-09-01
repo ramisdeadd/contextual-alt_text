@@ -59,10 +59,17 @@
             <form id="upload-article">
 
                 <div class="uploadimage">
-                    <label for="getimage"><img src="../../static/images/upload.png" width="35px" height="auto"></label>
-                    <input type="file" id="getimage" name="img">
+                    <div>
+                    </div>
+                    <label for="getimage"><img src="../../static/images/upload.png" width="35px" height="auto"  ></label>
+                    <label>Upload Image</label>
+                    <input type="file" id="getimage" name="img" accept="image/*" onchange="fileUpload(event);">
                 </div>
 
+                <div class="results-container">
+                    <div class="alt-title">Generated Alt-Text</div>
+                    <div class="results" id="getresult">Hello</div>
+                </div>
 
                 <div class="uploadtext">
                     <label for="gettext"></label>

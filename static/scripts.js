@@ -31,5 +31,18 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     const result = await response.json()
     console.log(result)
+
+    document.getElementById("getresult").innerText = result['Generated Alt-Text'];
 });
+
+// const fileUpload = (event) => {
+//     const files = event.target.files;
+//     const filesLength = files.length;
+//     if (filesLength > 0) {
+//       const imageSrc = URL.createObjectURL(files[0]);
+//       const imagePreviewElement = document.querySelector("#imagetake");
+//       imagePreviewElement.src = imageSrc;
+//       imagePreviewElement.style.display = "block";
+//     }
+//   };
 
