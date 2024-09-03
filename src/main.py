@@ -1,13 +1,16 @@
 import os
+import json
 from datetime import datetime, timedelta, timezone
 from typing import Union, Annotated
 
 import jwt
 from pydantic import BaseModel
-from sqlmodel import Field, SQLModel, create_engine
+from sqlmodel import Field, Session, SQLModel, create_engine
 from sqlalchemy import Column, Integer
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -22,14 +25,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 db = {
     "johndoe": {
         "username": "johndoe",
-        "full_name": "John Doe",
         "email": "johndoe@example.com",
         "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         "disabled": False,
     },
     "ryanbang": {
         "username": "ryanbang",
-        "full_name": "Ryan Bang",
         "email": "ryanbang@gmail.com",
         "hashed_password": "f3d600bd00b0ce715b50e189dd34d7f12c0bb7173ae49c380cdecae5c74bb279",
         "disabled": True,
@@ -50,16 +51,18 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None = None
 
-class User(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
-
 class UserInDB(User):
     hashed_password: str
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Starting Server ....")
+    create_db_and_tables()
+    yield
+    print("Stopping Server ....")
+
+app = FastAPI(lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
@@ -70,8 +73,11 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 sqlite_file_name = "alt-text.db"
 sqlite_url = f"sqlite:///../data/{sqlite_file_name}"
 
+connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, echo=True)
-SQLModel.metadata.create_all(engine)
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -155,8 +161,6 @@ async def read_users_me(
 ):
     return current_user
 
-#app.get()
-
 ########
 
 @app.get("/", response_class=HTMLResponse)
@@ -166,6 +170,32 @@ async def home(request: Request):
 @app.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
     return templates.TemplateResponse("/pages/login.html", {"request": request})
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup(request: Request):
+    return templates.TemplateResponse("/pages/signup.html", {"request": request})
+
+@app.post("/signup")
+async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], password: Annotated[str, Form()]):
+    user = User(
+        username = username,
+        email = email,
+        password = password,
+        disabled = False,
+    )
+    await create_user(user)
+    user = jsonable_encoder(user)
+    return JSONResponse(content={
+        "Generated User": user,
+    })
+
+async def create_user(user: Annotated[User, Depends(signup_user)]):
+    with Session(engine) as session:
+        session.add(user)
+        session.commit()
+        session.refresh(user)
+    print(f"Succesful Signup")
+    return user
 
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
