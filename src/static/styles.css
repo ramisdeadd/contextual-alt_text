@@ -145,37 +145,37 @@ body{
     margin-bottom: 200px;
 }
 .info1 h1{
-    margin-top: 230px;
-    margin-left: 300px;
+    margin-top: 240px;
+    margin-left: 400px;
     margin-right: 100px;
     color: black;
-    font-size: 45px;
+    font-size: 30px;
     letter-spacing: -3px;
 }
 
 .info1 p{
     margin-right: 100px;
-    margin-left: 300px;
+    margin-left: 400px;
     color: rgb(65, 65, 65);
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .info2 h1{
     margin-top: 200px;
-    margin-right: 300px;
+    margin-right: 400px;
     color: black;
-    font-size: 45px;
+    font-size: 30px;
     letter-spacing: -3px;
 }
 
 .info2 p{
-    margin-right: 300px;
+    margin-right: 400px;
     color: rgb(65, 65, 65);
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .center_form{
-    margin-top: 300px;
+    margin-top: 100px;
     color: black;
     flex-direction: row;
     display: flex;
@@ -192,8 +192,8 @@ body{
     border: 2px dashed rgb(73, 73, 73);
     border-radius: 5px;
 
-    width: 1050px;
-    height: 600px;
+    width: 700px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -204,7 +204,7 @@ body{
 
 .uploadimage img {
     width: auto;
-    height: 600px;
+    height: 400px;
 }
 
 /* .uploadimage>input {
@@ -216,9 +216,9 @@ body{
     resize:vertical;
     margin-bottom: 50px;
     border-radius: 5px;
-    width: 1000px;
+    width: 700px;
     height: auto;
-    font-size: 18px;
+    font-size: 14px;
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 30px;
@@ -274,7 +274,7 @@ body{
     resize: none;
     margin-bottom: 30px;
     border-radius: 5px;
-    width: 1080px;
+    width: 750px;
     height: auto;
     font-size: 18px;
     padding-left: 0px;
@@ -283,12 +283,16 @@ body{
 
 .alt-title {
     color: #aaaaaa;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .results {
     margin-left: 40px;
     margin-top: 25px;
     font-family: serif;
-    font-size: 25px;
+    font-size: 17px;
+}
+
+.uploadbutton {
+    margin-left: 300px;
 }
