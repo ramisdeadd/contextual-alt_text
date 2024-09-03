@@ -37,12 +37,20 @@ db = {
     }
 }
 
-class User(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    username: str
+class UserBase(SQLModel):
+    username: str = Field(index=True)
     email: str = Field(unique=True)
+    disabled: bool = Field(default=False)
+
+class User(UserBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
     password: str
-    disabled: bool
+
+class UserCreate(UserBase):
+    password: str
+
+class UserPublic(UserBase):
+    id: int
 
 class Token(BaseModel):
     access_token: str
@@ -51,9 +59,9 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None = None
 
+# Temporary
 class UserInDB(User):
     hashed_password: str
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -175,27 +183,25 @@ async def login(request: Request):
 async def signup(request: Request):
     return templates.TemplateResponse("/pages/signup.html", {"request": request})
 
-@app.post("/signup")
+@app.post("/signup", response_model=UserPublic)
 async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], password: Annotated[str, Form()]):
-    user = User(
+    user = UserCreate(
         username = username,
         email = email,
         password = password,
         disabled = False,
     )
-    await create_user(user)
-    user = jsonable_encoder(user)
-    return JSONResponse(content={
-        "Generated User": user,
-    })
-
-async def create_user(user: Annotated[User, Depends(signup_user)]):
-    with Session(engine) as session:
-        session.add(user)
-        session.commit()
-        session.refresh(user)
-    print(f"Succesful Signup")
+    user = await create_user(user)
     return user
+
+async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
+    with Session(engine) as session:
+        db_user = User.model_validate(user)
+        session.add(db_user)
+        session.commit()
+        session.refresh(db_user)
+    print(f"Succesful Signup")
+    return db_user
 
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
