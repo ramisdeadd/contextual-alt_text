@@ -10,7 +10,7 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -22,21 +22,6 @@ from generate import create_alttext
 SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-db = {
-    "johndoe": {
-        "username": "johndoe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        "disabled": False,
-    },
-    "ryanbang": {
-        "username": "ryanbang",
-        "email": "ryanbang@gmail.com",
-        "hashed_password": "f3d600bd00b0ce715b50e189dd34d7f12c0bb7173ae49c380cdecae5c74bb279",
-        "disabled": True,
-    }
-}
 
 class UserBase(SQLModel):
     username: str = Field(index=True)
@@ -145,7 +130,7 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
 
-@app.post("/login")
+@app.post("/login", response_class=RedirectResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
@@ -163,8 +148,10 @@ async def login_for_access_token(
         data = {"sub": user.username}, 
         expires_delta = access_token_expires
     )
-    print("Succesful Login")
-    return Token(access_token=access_token, token_type="bearer")
+
+    response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+    return response
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
 @app.get("/users/me", response_model = User)

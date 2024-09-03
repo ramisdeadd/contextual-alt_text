@@ -10,9 +10,10 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
         body: formData
     });
 
-    console.log(response)
-
-    const result = await response.json()
-    console.log(result)
-
+    if (response.redirected) {
+        window.location.href = response.url;
+    } else {
+        const result = await response.json();
+        alert('Login Failed: ' + result.detail);
+    }
 });
