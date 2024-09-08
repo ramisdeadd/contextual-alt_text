@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status
+from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status, Cookie
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
@@ -61,7 +61,7 @@ app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 sqlite_file_name = "alt-text.db"
@@ -104,20 +104,25 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: bool = None):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid Credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    try: 
+
+    if token == None and allow == True:
+        return None
+
+    try:
+        if token.startswith("Bearer "):
+            token = token[len("Bearer "):]
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        if username is None:
-            raise credentials_exception
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
+    
     user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
@@ -130,10 +135,36 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
 
-@app.post("/login", response_class=RedirectResponse)
+# read_users_me -> get_current_active_user -> get_current_user -> get_user
+@app.get("/users/me", response_model = UserPublic)
+async def read_users_me(current_user: Annotated[str, Depends(get_current_active_user)]):
+    return current_user
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
+    user = await get_current_user(token=token, allow=True)
+    if user == None:
+        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None})
+    return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user})
+
+@app.get("/login", response_class=HTMLResponse)
+async def login(request: Request):
+    return templates.TemplateResponse("/pages/login.html", {"request": request})
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup(request: Request):
+    return templates.TemplateResponse("/pages/signup.html", {"request": request})
+
+@app.get("/logout", response_class=HTMLResponse)
+async def logout(request: Request):
+    response = RedirectResponse(url="/")
+    response.delete_cookie("token")
+    return response
+
+@app.post("/login", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-) -> Token:
+):
     # login_for_access_token -> authenticate_user -> get_user -> verify_password -> END
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -149,32 +180,12 @@ async def login_for_access_token(
         expires_delta = access_token_expires
     )
 
-    response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+    response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
+
     return response
 
-# read_users_me -> get_current_active_user -> get_current_user -> get_user
-@app.get("/users/me", response_model = User)
-async def read_users_me(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
-    return current_user
-
-########
-
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse("/pages/index.html", {"request": request})
-
-@app.get("/login", response_class=HTMLResponse)
-async def login(request: Request):
-    return templates.TemplateResponse("/pages/login.html", {"request": request})
-
-@app.get("/signup", response_class=HTMLResponse)
-async def signup(request: Request):
-    return templates.TemplateResponse("/pages/signup.html", {"request": request})
-
-@app.post("/signup", response_model=UserPublic)
+@app.post("/signup", response_class=RedirectResponse)
 async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], plain_password: Annotated[str, Form()]):
     hashed_password = get_password_hash(plain_password)
     user = UserCreate(
@@ -184,7 +195,7 @@ async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Fo
         disabled = False,
     )
     user = await create_user(user)
-    return user
+    return RedirectResponse("/login", status_code=status.HTTP_303_SEE_OTHER)
 
 async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
     with Session(engine) as session:
@@ -207,3 +218,6 @@ async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
     return JSONResponse(content={
         "Generated Alt-Text": alt_text, 
     }) 
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

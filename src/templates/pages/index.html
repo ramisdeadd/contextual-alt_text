@@ -23,9 +23,15 @@
             </div>
             
             <div class="hgroup2">
+                {% if user and user.username %}
+                <div class="login">
+                    <a href="/logout">Logout</a>
+                </div>
+                {% else %}
                 <div class="login">
                     <a href="/login">Login</a>
                 </div>
+                {% endif %}
                 <div>
                     <img src="../../static/images/profile.png" height="35px">
                 </div>

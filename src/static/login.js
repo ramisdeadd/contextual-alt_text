@@ -13,7 +13,8 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     if (response.redirected) {
         window.location.href = response.url;
     } else {
+        // Optional - checks for errors if redirect fails
         const result = await response.json();
-        alert('Login Failed: ' + result.detail);
+        console.log(result)
     }
 });
