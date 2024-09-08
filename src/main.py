@@ -4,8 +4,9 @@ from datetime import datetime, timedelta, timezone
 from typing import Union, Annotated
 
 import jwt
+import uvicorn
 from pydantic import BaseModel
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status
@@ -44,10 +45,10 @@ class UserBase(SQLModel):
 
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    password: str
+    hashed_password: str
 
 class UserCreate(UserBase):
-    password: str
+    hashed_password: str
 
 class UserPublic(UserBase):
     id: int
@@ -90,19 +91,21 @@ def create_db_and_tables():
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
+def get_password_hash(plain_password):
+    return pwd_context.hash(plain_password)
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+def get_user(username: str):
+    with Session(engine) as session:
+        statement = select(User).where(User.username == username)
+        result = session.exec(statement)
+        user = result.first()
+        return user
 
-def authenticate_user(db, username: str, password: str):
-    user = get_user(db, username)
-    if not User:
+def authenticate_user(username: str, plain_password: str):
+    user = get_user(username)
+    if not user:
         return False
-    if not verify_password(password, user.hashed_password):
+    if not verify_password(plain_password, user.hashed_password):
         return False
     return user
 
@@ -130,7 +133,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
-    user = get_user(db, username=token_data.username)
+    user = get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
     return user
@@ -142,12 +145,12 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive User")
     return current_user
 
-@app.post("/token")
+@app.post("/login")
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
     # login_for_access_token -> authenticate_user -> get_user -> verify_password -> END
-    user = authenticate_user(db, form_data.username, form_data.password)
+    user = authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -160,6 +163,7 @@ async def login_for_access_token(
         data = {"sub": user.username}, 
         expires_delta = access_token_expires
     )
+    print("Succesful Login")
     return Token(access_token=access_token, token_type="bearer")
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
@@ -184,11 +188,12 @@ async def signup(request: Request):
     return templates.TemplateResponse("/pages/signup.html", {"request": request})
 
 @app.post("/signup", response_model=UserPublic)
-async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], password: Annotated[str, Form()]):
+async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], plain_password: Annotated[str, Form()]):
+    hashed_password = get_password_hash(plain_password)
     user = UserCreate(
         username = username,
         email = email,
-        password = password,
+        hashed_password = hashed_password,
         disabled = False,
     )
     user = await create_user(user)

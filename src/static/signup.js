@@ -7,7 +7,7 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
     console.log(formData)
 
     const response = await fetch('/signup', {
-        method: 'POST',
+        method: 'POST', 
         body: formData
     });
 
