@@ -1,27 +1,57 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 
-<div class="login-container">
-    <div>
-        <form id="login-form">
-            <div>
-                <label for="">Username</label>
-                <input type="text" id="" name="username">               
-            </div>
-            <div>
-                <label for="">Password</label>
-                <input type="password" id="" name="password">               
-            </div>
-            <div>
-                <button type="submit">Login</button>
-            </div>
-        </form>
+<div class="mainlog-container">
+
+    <div class="log-container">
+        <div class="logcobalt">
+            <h1>
+                COBALT
+            </h1>
+        </div>
+
+        <div class="logintoptitle">
+            <h1>
+                Log into your <br> account!
+            </h1>
+        </div>
+        <div class="log-form">
+            
+            <form id="login-form">
+                <div class="loguser">
+                    <label for="">Username:</label>
+                    <input type="text" id="" name="username">               
+                </div>
+                <div class="logpass">
+                    <label for="">Password:</label>
+                    <input type="password" id="" name="password">               
+                </div>
+                <div class="logbutton">
+                    <button type="submit">LOGIN</button>
+                </div>
+            </form>
+        </div>
+    
+        <div class="logsign">
+            <a href="/signup">No account? Signup Here</a>
+        </div>
     </div>
 
-    <div>
-        <a href="/signup">No account? Signup Here</a>
+    <div class="logimage">
+        <div class="logtitle">
+            Enhancing contextuality of alt-text, <br>
+            Better context is better quality.
+        </div>
+        <div class="logsubtitle">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br>
+                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco <br>
+                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in <br>
+            </p>
+        </div>
     </div>
 </div>
+
 
 
 

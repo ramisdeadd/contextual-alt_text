@@ -1,37 +1,67 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 
-<div class="signup-container">
-    <div>
-        <form id="signup-form">
-            <div>
-                <label for="">Username</label>
-                <input type="text" id="username_input" name="username">               
-            </div>
-            <div>
-                <label for="">Full Name</label>
-                <input type="text" id="" name="full_name" disabled>               
-            </div>
-            <div>
-                <label for="">Email</label>
-                <input type="text" id="email_input" name="email">               
-            </div>
-            <div>
-                <label for="">Password</label>
-                <input type="text" id="password_input" name="plain_password">               
-            </div>
-            <div>
-                <label for="">Confirm Password</label>
-                <input type="text" id="" name="" disabled>               
-            </div>
-            <div>
-                <button type="submit" id="signup_btn">Sign Up</button>
-            </div>
-        </form>
-
-        <div>
-            <a href="/login">Login Here</a>
+<div class="main-signup-container">
+    <div class="signup-container">
+        <div class="logcobalt">
+            <h1>
+                COBALT
+            </h1>
         </div>
+        <div class="logintoptitle">
+            <h1>
+                Create a new <br> account!
+            </h1>
+        </div>
+        <div class="signform">
+            <form id="signup-form">
+                <div class="signuser">
+                    <label for="">Username</label>
+                    <input type="text" id="username_input" name="username">               
+                </div>
+                <div class="signuser">
+                    <label for="">Full Name</label>
+                    <input type="text" id="" name="full_name" disabled>               
+                </div>
+                <div class="signuser">
+                    <label for="">Email</label>
+                    <input type="text" id="email_input" name="email">               
+                </div>
+                <div class="signuser">
+                    <label for="">Password</label>
+                    <input type="text" id="password_input" name="plain_password">               
+                </div>
+                <div class="signuser">
+                    <label for="">Confirm Password</label>
+                    <input type="text" id="" name="" disabled>               
+                </div>
+
+                <div class="signbutton"> 
+                    <button type="submit" id="signup_btn">Sign Up</button>
+                </div>
+            </form>
+    
+            <div class="logsign">
+                <a href="/login">Login Here</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="logimage">
+        <div class="logtitle">
+            Enhancing contextuality of alt-text, <br>
+            Better context is better quality.
+        </div>
+        <div class="logsubtitle">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br>
+                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco <br>
+                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in <br>
+            </p>
+        </div>
+    </div>
+
     </div>
 </div>
 

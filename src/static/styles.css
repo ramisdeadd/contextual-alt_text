@@ -245,25 +245,8 @@ body{
 }
 
 
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 150px 700px 150px;
-    border: 2px solid black;
-    padding: 300px 20px 300px;
-    color: black;
-}
 
-.signup-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 150px 700px 150px;
-    border: 2px solid black;
-    padding: 300px 20px 300px;
-    color: black;
-}
+
 
 .login a{
     text-decoration: none;
@@ -295,4 +278,161 @@ body{
 
 .uploadbutton {
     margin-left: 300px;
+}
+
+.mainlog-container {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.log-container{
+    margin-left: 100px;
+    color: black;
+}
+
+.logimage {
+    flex: 1;
+    background: url(../../static/images/bg5.jpg) no-repeat;
+    background-size:cover;
+    height: 100vh;
+    width: 200vw;
+    position: relative;
+    margin-left: 100px;
+}
+
+.logtitle {
+    font-size: 50px;
+    margin-left: 50px;
+    letter-spacing: 5px;
+    margin-top: 700px;
+}
+
+.logsubtitle p {
+    margin-left: 50px;
+    font-size: 15px;
+    font-family: sans-serif;
+    color: #e7e7e7;
+}
+
+.loguser {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.loguser label {
+    font-size: 15px;
+    margin: 5px;
+    color: #383737;
+}
+
+.loguser input {
+    height: 30px;
+    border-radius: 5px;
+    border: 3px solid #ccc;
+}
+
+.logpass {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.logpass label {
+    font-size: 15px;
+    margin: 5px;
+    color: #383737;
+}
+
+.logpass input {
+    height: 30px;
+    border-radius: 5px;
+    border: 3px solid #ccc;
+}
+
+.logbutton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logbutton button{  
+    padding: 10px 100px 10px;
+    border-radius: 10px;
+    background-color: #fcefa1e0;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: Archivo;
+    color: rgb(55, 55, 55);
+}
+
+.logsign a{
+    text-decoration: none;
+    color: #646464;
+    font-size: 15px;
+}
+
+.logsign {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logintoptitle {
+    color: rgb(54, 53, 53);
+    font-size: 15px;
+    margin-bottom: 5px;
+    letter-spacing: -3px;
+}
+
+.logcobalt {
+    color: rgb(207, 156, 79);
+    font-size: 20px;
+    margin-bottom: 0px;
+    letter-spacing: 6px;
+}
+
+.main-signup-container {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.signuser {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.signuser label {
+    font-size: 15px;
+    margin: 5px;
+    color: #383737;
+}
+
+.signuser input {
+    height: 30px;
+    border-radius: 5px;
+    border: 3px solid #ccc;
+}
+
+.signup-container {
+    margin-left: 100px;
+}
+
+.signbutton button{
+    padding: 10px 100px 10px;
+    border-radius: 10px;
+    background-color: #fcefa1e0;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-family: Archivo;
+    color: rgb(55, 55, 55);
 }
