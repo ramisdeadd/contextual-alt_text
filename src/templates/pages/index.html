@@ -4,13 +4,22 @@
     <!-- Homepage -->
     <section id="home">
         <div class="bg">
+
             <div class="header">
-                <div class="cobalt">
-                    {% if user%}
-                        Hi {{user.first_name | capitalize}}
-                    {% else %}
-                        Cobalt
-                    {% endif %}
+                <div class="titlecont">
+                    
+
+                    <div class="cobalt">Cobalt</div>
+                    
+                    <div class="hsub3">
+                        <div class="greet">
+                            {% if user%}
+                                <span>Hi {{user.first_name | capitalize}}</span>
+                            {% else %}
+                                <span>Greetings!</span>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
         
                 <div class="hgroup1">
@@ -28,21 +37,27 @@
                 </div>
                 
                 <div class="hgroup2">
-                    {% if user and user.username %}
-                    <div class="login">
-                        <a href="/logout">Logout</a>
-                    </div>
-                    {% else %}
-                    <div class="login">
-                        <a href="/login">Login</a>
-                    </div>
-                    {% endif %}
-                    <div>
-                        <img src="../../static/images/profile.png" height="35px">
+
+                    <div class="hsub2">
+                        {% if user and user.username %}
+                        <div class="login">
+                            <a href="/logout">Logout</a>
+                        </div>
+                        {% else %}
+                        <div class="login">
+                            <a href="/login">Login</a>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <img src="../../static/images/profile.png" height="35px">
+                        </div>
                     </div>
                 </div>
         
             </div>
+
+
+
 
             <div class="maintitle">
                 <h1>Contextual Alt-Text</h1>
@@ -50,7 +65,7 @@
 
             <div class="container">
                 <div class="getstarted">
-                    Get Started!
+                    <a href="/signup">Sign up!</a>
                 </div>
                 <div class="remarks">
                     Enhancing contextuality of alt-text, <br>
@@ -87,7 +102,7 @@
     
                     <div class="results-container">
                         <div class="alt-title">Generated Alt-Text</div>
-                        <div class="results" id="getresult">Hello</div>
+                        <div class="results" id="getresult"></div>
                     </div>
     
                     <div class="uploadtext">
@@ -131,7 +146,7 @@
                     sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </p>
             </div>
-        </div>
+        </div>  
     </div>
     </section>
  

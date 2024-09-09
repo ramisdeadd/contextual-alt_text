@@ -14,30 +14,30 @@
             </h1>
         </div>
         <div class="signform">
-            <form id="signup-form">
+            <form id="signup-form" name="signup_form">
                 <div class="signuser">
                     <label for="">Username</label>
-                    <input type="text" id="username_input" name="username">               
+                    <input type="text" id="username_input" name="username" required>               
                 </div>
                 <div class="signuser">
                     <label for="">First Name</label>
-                    <input type="text" id="first_name_input" name="first_name">               
+                    <input type="text" id="first_name_input" name="first_name" required>               
                 </div>
                 <div class="signuser">
                     <label for="">Last Name</label>
-                    <input type="text" id="last_input_input" name="last_name">               
+                    <input type="text" id="last_input_input" name="last_name" required>               
                 </div>
                 <div class="signuser">
                     <label for="">Email</label>
-                    <input type="text" id="email_input" name="email">               
+                    <input type="text" id="email_input" name="email" required>               
                 </div>
                 <div class="signuser">
                     <label for="">Password</label>
-                    <input type="password" id="password_input" name="plain_password">               
+                    <input type="password" id="password_input" name="plain_password" required>               
                 </div>
                 <div class="signuser">
                     <label for="">Confirm Password</label>
-                    <input type="password" id="" name="" disabled>               
+                    <input type="password" id="conf_password" name="confpassword" required>               
                 </div>
 
                 <div class="signbutton"> 
@@ -47,6 +47,9 @@
     
             <div class="logsign">
                 <a href="/login">Login Here</a>
+            </div>
+            <div class="returnhome">
+                <a href="/">Return to home</a>
             </div>
         </div>
     </div>
