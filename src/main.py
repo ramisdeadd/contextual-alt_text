@@ -126,9 +126,9 @@ async def get_current_active_user(
     return current_user
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
-@app.get("/users/me", response_model = UserPublic)
-async def read_users_me(current_user: Annotated[str, Depends(get_current_active_user)]):
-    return current_user
+@app.get("/profile/{current_user}", response_class=HTMLResponse)
+async def read_users_me(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+    return templates.TemplateResponse("/pages/profile.html", {"request": request, "user": current_user})
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
