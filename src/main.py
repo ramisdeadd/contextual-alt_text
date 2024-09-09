@@ -25,6 +25,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 class UserBase(SQLModel):
     username: str = Field(index=True)
+    first_name: str
+    last_name: str
     email: str = Field(unique=True)
     disabled: bool = Field(default=False)
 
@@ -37,17 +39,6 @@ class UserCreate(UserBase):
 
 class UserPublic(UserBase):
     id: int
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-class TokenData(BaseModel):
-    username: str | None = None
-
-# Temporary
-class UserInDB(User):
-    hashed_password: str
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -119,11 +110,10 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
             token = token[len("Bearer "):]
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        token_data = TokenData(username=username)
     except InvalidTokenError:
         raise credentials_exception
     
-    user = get_user(username=token_data.username)
+    user = get_user(username=username)
     if user is None:
         raise credentials_exception
     return user
@@ -161,7 +151,7 @@ async def logout(request: Request):
     response.delete_cookie("token")
     return response
 
-@app.post("/login", response_model=Token)
+@app.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
@@ -185,17 +175,24 @@ async def login_for_access_token(
 
     return response
 
-@app.post("/signup", response_class=RedirectResponse)
-async def signup_user(username: Annotated[str, Form()], email: Annotated[str, Form()], plain_password: Annotated[str, Form()]):
+@app.post("/signup", response_class=HTMLResponse)
+async def signup_user(username: Annotated[str, Form()],
+                      first_name: Annotated[str, Form()],
+                      last_name: Annotated[str, Form()], 
+                      email: Annotated[str, Form()], 
+                      plain_password: Annotated[str, Form()]):
     hashed_password = get_password_hash(plain_password)
     user = UserCreate(
         username = username,
+        first_name = first_name,
+        last_name = last_name,
         email = email,
         hashed_password = hashed_password,
         disabled = False,
     )
     user = await create_user(user)
-    return RedirectResponse("/login", status_code=status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
+    return response 
 
 async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
     with Session(engine) as session:
