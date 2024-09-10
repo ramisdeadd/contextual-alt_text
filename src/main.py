@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status, Cookie
+from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status, Cookie, Response
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
@@ -90,7 +90,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=60)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -99,6 +99,12 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid Credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    credentials_timeout = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Token Timeout",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
@@ -111,7 +117,7 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
     except InvalidTokenError:
-        raise credentials_exception
+        raise credentials_timeout
     
     user = get_user(username=username)
     if user is None:
@@ -126,16 +132,23 @@ async def get_current_active_user(
     return current_user
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
-@app.get("/users/me", response_model = UserPublic)
-async def read_users_me(current_user: Annotated[str, Depends(get_current_active_user)]):
-    return current_user
+@app.get("/profile/{current_user}", response_class=HTMLResponse)
+async def read_users_me(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+    return templates.TemplateResponse("/pages/profile.html", {"request": request, "user": current_user})
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
-    user = await get_current_user(token=token, allow=True)
-    if user == None:
-        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None})
-    return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user})
+    try:
+        user = await get_current_user(token=token, allow=True)
+        if user == None:
+            return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None})
+        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user})
+    except HTTPException as error: 
+        if error.status_code == status.HTTP_401_UNAUTHORIZED:
+            response = RedirectResponse(url="/login")
+            response.delete_cookie("token")
+            return response
+        raise error
 
 @app.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
