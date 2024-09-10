@@ -486,10 +486,12 @@ body{
     text-decoration: none;
     color: #524f4f;                                                
     font-size: 15px;
+
 }
 
 .returnhome {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 25px;
 }
