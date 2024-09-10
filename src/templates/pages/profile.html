@@ -1,13 +1,15 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
-<p>
-    Hello!
-</p>
-<input type="text" value={{user.username}}>
-<input type="text" value={{user.first_name}}>
-<input type="text" value={{user.last_name}}>
-<input type="text" value={{user.email}}>
-<input type="text" value={{user.disabled}}>
 
+<form id="profile-form" name="user-profile">
+    <label for="username">Username</label>
+    <input type="text" value={{user.username}} name="username">
+    <input type="text" value={{user.first_name}} name="first_name">
+    <input type="text" value={{user.last_name}} name="last_name">
+    <input type="email" value={{user.email}} name="email">
+    <input type="checkbox" value={{user.disabled}} name="disabled">
+    <button type="submit">Submit Changes</button>
+</form>
 
+<script src="{{ url_for('static', path='profile.js') }}" defer></script>
 {% endblock %}
