@@ -16,28 +16,85 @@
         <div class="signform">
             <form id="signup-form" name="signup_form">
                 <div class="signuser">
-                    <label for="">Username</label>
+                    <label for="username_input">Username<br>
                     <input type="text" id="username_input" name="username" minlength="6" maxlength="13" pattern="[a-zA-Z0-9]+" title="Username must be between 6 and 13 Characters. No special Characters and spaces." required>               
+                    
+                    <div class="requirements">
+                        <ul>
+                            <li>At least 6-13 characters long.</li>
+                            <li>No special characters.</li>
+                            <li>No spaces.</li>
+                        </ul>
+                    </div>
+                    </label>
+
+                
                 </div>
                 <div class="signuser">
-                    <label for="">First Name</label>
-                    <input type="text" id="first_name_input" name="first_name" minlength="2" maxlength="40" pattern="[a-zA-Z\s]+" title="First Name must be between 2 and 40. No special Characters and numbers." required >               
+                    <label for="first_name_input">First Name<br>
+                    <input type="text" id="first_name_input" name="first_name" minlength="2" maxlength="40" pattern="[a-zA-Z\s]+" title="First Name must be between 2 and 40. No special Characters and numbers." required >       
+                    
+                    <div class="requirements">
+                        <ul>
+                            <li>Atleast 2-40 characters</li>
+                            <li>No special characters</li>
+                            <li>No Numbers</li>
+                            <li>No spaces</li>
+                        </ul>
+                    </div>       
+                    </label> 
                 </div>
                 <div class="signuser">
-                    <label for="">Last Name</label>
-                    <input type="text" id="last_input_input" name="last_name" minlength="2" maxlength="40" pattern="[a-zA-Z\s]+" title="First Name must be between 2 and 40. No special Characters and numbers." required>               
+                    <label for="last_input_input">Last Name<br>
+                    <input type="text" id="last_input_input" name="last_name" minlength="2" maxlength="40" pattern="[a-zA-Z]+" title="First Name must be between 2 and 40. No special Characters and numbers." required>               
+                
+                    <div class="requirements">
+                        <ul>
+                            <li>At least 2-40 characters long.</li>
+                            <li>No special characters.</li>
+                            <li>No spaces.</li>
+                        </ul>
+                    </div>
+                    </label>
                 </div>
                 <div class="signuser">
-                    <label for="">Email</label>
+                    <label for="email_input">Email<br>
                     <input type="text" id="email_input" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Email must be provided by order of: 'characters@characters.domain'." required>               
+                    
+                    <div class="requirements">
+                        <ul>
+                            <li>Must be in order of: characters@characters.domain</li>
+                        </ul>
+                    </div>
+                    </label>
                 </div>
                 <div class="signuser">
-                    <label for="">Password</label>
-                    <input type="password" id="password_input" name="plain_password" title="Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
+                    <label for="password_input">Password<br>
+                    <input type="password" id="password_input" name="plain_password" title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
+                
+                    <div class="requirements">
+                        <ul>
+                            <li>At least 8 characters</li>
+                            <li>Must contain at least one number</li>
+                            <li>Must contain at least one uppercase character</li>
+                            <li>Must contain at least one lowercase</li>
+                        </ul>
+                    </div>
+                    </label>
                 </div>
                 <div class="signuser">
-                    <label for="">Confirm Password</label>
+                    <label for="conf_password">Confirm Password<br>
                     <input type="password" id="conf_password" name="confpassword" title="Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
+                
+                    <div class="requirements">
+                        <ul>
+                            <li>At least 8 characters</li>
+                            <li>Must contain at least one number</li>
+                            <li>Must contain at least one uppercase character</li>
+                            <li>Must contain at least one lowercase</li>
+                        </ul>
+                    </div>
+                    </label>
                 </div>
 
                 <div class="signbutton"> 
@@ -45,12 +102,14 @@
                 </div>
             </form>
     
-            <div class="logsign">
-                <a href="/login">Login Here</a>
-            </div>
-            <div class="returnhome">
-                <a href="/">Return to home</a>
-            </div>
+
+        </div>
+
+        <div class="logsign">
+            <a href="/login">Login Here</a>
+        </div>
+        <div class="returnhome">
+            <a href="/">Return to home</a>
         </div>
     </div>
 
