@@ -35,8 +35,9 @@ class UserUpdate(SQLModel):
     first_name: str | None = None
     last_name: str | None = None
     email: str | None = None
+    disabled: bool | None = None
 
-class UserUpdatePassword(UserUpdate):
+class UserPasswordUpdate(UserUpdate):
     hashed_password: str | None = None
 
 class User(UserBase, table=True):
@@ -173,6 +174,15 @@ async def logout(request: Request):
     response.delete_cookie("token")
     return response
 
+@app.post("/profile", response_class=HTMLResponse)
+async def update_user(
+    username: Annotated[str, Form()],
+    first_name: Annotated[str, Form()],
+    last_name: Annotated[str, Form()], 
+    email: Annotated[str, Form()], 
+):
+    
+
 @app.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -198,13 +208,11 @@ async def login_for_access_token(
     return response
 
 @app.post("/signup", response_class=HTMLResponse)
-async def signup_user(
-    username: Annotated[str, Form()],
-    first_name: Annotated[str, Form()],
-    last_name: Annotated[str, Form()], 
-    email: Annotated[str, Form()], 
-    plain_password: Annotated[str, Form()]):
-
+async def signup_user(username: Annotated[str, Form()],
+                      first_name: Annotated[str, Form()],
+                      last_name: Annotated[str, Form()], 
+                      email: Annotated[str, Form()], 
+                      plain_password: Annotated[str, Form()]):
     hashed_password = get_password_hash(plain_password)
     user = UserCreate(
         username = username,
@@ -218,43 +226,6 @@ async def signup_user(
     response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
     return response 
 
-@app.post("/profile", response_class=HTMLResponse)
-async def update_profile(
-    username: Annotated[str, Form()],
-    first_name: Annotated[str, Form()],
-    last_name: Annotated[str, Form()], 
-    email: Annotated[str, Form()],
-    ):
-
-    user = UserUpdate(
-        username = username,
-        first_name = first_name,
-        last_name = last_name,
-        email = email,
-    )
-    user = await update_profile(user)
-    response = RedirectResponse("/profile", status_code=status.HTTP_100_CONTINUE)
-    return response
-
-async def update_user(user_update: Annotated[UserUpdate, Depends(update_profile)], curr_user: Annotated[str, Depends(get_current_active_user)]):
-    with Session(engine) as session:
-        db_user = User.model_validate(user_update)
-        statement = select(User).where(User.username == curr_user)
-        results = session.exec(statement)
-        user = results.one()
-
-        user.username = db_user.username
-        user.first_name = db_user.first_name
-        user.last_name = db_user.last_name
-        user.email = db_user.email 
-
-        session.add(user)
-        session.commit(user)
-        session.refresh(user)
-    print(f"Succcesful Update")
-    return user
-
-
 async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
     with Session(engine) as session:
         db_user = User.model_validate(user)
@@ -263,6 +234,10 @@ async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
         session.refresh(db_user)
     print(f"Succesful Signup")
     return db_user
+
+async def update_user(user: Annotated[UserCreate, Depends(update_user)]):
+    with Session(engine) as session:
+        statement = select(User)
 
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
