@@ -11,9 +11,7 @@ function validatePassword(){
 
 password.onchange = validatePassword;
 confirm_password.onkeyup = validatePassword;
-
-
-
+ 
 
 document.getElementById("signup-form").addEventListener("submit", async (e) => {
     e.preventDefault();

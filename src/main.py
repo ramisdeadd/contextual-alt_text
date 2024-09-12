@@ -120,7 +120,7 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
 
     if token == None and allow == True:
         return None
-
+    print(token)
     try:
         if token.startswith("Bearer "):
             token = token[len("Bearer "):]
@@ -139,6 +139,7 @@ async def get_current_active_user(
 ):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
+    print(current_user)
     return current_user
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
@@ -180,8 +181,20 @@ async def update_user(
     first_name: Annotated[str, Form()],
     last_name: Annotated[str, Form()], 
     email: Annotated[str, Form()], 
+    token: Annotated[str, Cookie(...)],
+    disabled: Annotated[bool, Form()] = 0,
 ):
-    
+    user = UserUpdate(
+        username = username,
+        first_name = first_name,
+        last_name = last_name,
+        email = email,
+        disabled = disabled,
+    )
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+    user = await update_user(user, curr_user)
+    response = RedirectResponse("/profile/{user.username}", status_code=status.HTTP_100_CONTINUE)
+    return response
 
 @app.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
@@ -235,9 +248,24 @@ async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
     print(f"Succesful Signup")
     return db_user
 
-async def update_user(user: Annotated[UserCreate, Depends(update_user)]):
+async def update_user(user: Annotated[UserUpdate, Depends(update_user)], curr_user: Annotated[User, Depends(get_current_active_user)]):
     with Session(engine) as session:
-        statement = select(User)
+        valid_user = UserUpdate.model_validate(user)
+
+        print(valid_user)
+        print(curr_user)
+        curr_user.username = valid_user.username
+        curr_user.first_name = valid_user.first_name
+        curr_user.last_name = valid_user.last_name
+        curr_user.email = valid_user.email
+        curr_user.disabled = valid_user.disabled
+
+        session.add(curr_user)
+        session.commit()
+        session.refresh(curr_user)
+    
+    print(f"USER UPDATED")
+    return curr_user
 
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
