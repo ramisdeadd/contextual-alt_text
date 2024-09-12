@@ -295,12 +295,24 @@ body{
 
 .logimage {
     flex: 1;
-    background: url(../../static/images/bg5.jpg) no-repeat;
-    background-size:cover;
+    background-size: cover;
     height: 100vh;
     width: 200vw;
-    position: relative;
     margin-left: 100px;
+    overflow: hidden;
+
+}
+
+.logimage::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 500px;
+    right: 0;
+    bottom: 0;
+    background: url(../../static/images/bg5.jpg) no-repeat;
+    background-size: cover;
+    z-index: -1;
 }
 
 .logtitle {
@@ -375,11 +387,25 @@ body{
     font-size: 15px;
 }
 
-.logsign {
-    margin-top: 60px;
+.logsign2 a {
+    text-decoration: none;
+    color: #646464;
+    font-size: 15px;
+}
+
+.logsign2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 60px;
+}
+
+.logsign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -70px;
+    margin-top: 60px;
 }
 
 .logintoptitle {
@@ -404,23 +430,22 @@ body{
     align-items: center;
 }
 
+
 .signuser {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-.signuser input:invalid {
-    height: 30px;
+/* .signuser input:invalid {
     border-radius: 5px;
     border: 3px solid #a84f4f;
 }
 
 .signuser input:empty{
-    height: 30px;
     border-radius: 5px;
     border: 3px solid #ccc;
-}
+} */
 
 .signuser label {
     font-size: 15px;
@@ -430,6 +455,7 @@ body{
 
 .signuser input {
     height: 30px;
+    width: 255px;
     border-radius: 5px;
     border: 3px solid #ccc;
 }
@@ -481,6 +507,19 @@ body{
     color: #575252;
 }
 
+.returnhome2 a{
+    text-decoration: none;
+    color: #524f4f;                                                
+    font-size: 15px;
+
+}
+
+.returnhome2 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
 
 .returnhome a{
     text-decoration: none;
@@ -490,8 +529,27 @@ body{
 }
 
 .returnhome {
-    display: flex;
+    margin-left: -70px;
+    text-align: center;
     justify-content: center;
     align-items: center;
     margin-top: 25px;
+}
+
+.requirements ul li {
+    color: black;
+    font-size: 13px;
+    font-family: sans-serif;
+}
+
+.signuser .requirements {
+    max-height: 0;
+    transition: max-height 1.5s ease-out;
+    overflow: hidden;
+}
+
+.signuser input:focus + .requirements,
+.signuser input:active + .requirements {
+    max-height: 2000px;
+    transition: max-height 1.5s ease-in;
 }

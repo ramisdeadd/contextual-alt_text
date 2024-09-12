@@ -28,7 +28,7 @@ var loadFile = function(event) {
     const border2 = document.getElementById('imagebox')
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
-      URL.revokeObjectURL(output.src) // free memory
+      URL.revokeObjectURL(output.src) 
     }
 
     border.style.border = "unset";
