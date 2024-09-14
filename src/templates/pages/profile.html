@@ -1,6 +1,8 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 
+<h2 id="profile-username">{{user.username}}</h2>
+
 <form id="profile-form" name="user-profile">
     <label for="username">Username</label>
     <input type="text" value={{user.username}} name="username">
@@ -8,6 +10,12 @@
     <input type="text" value={{user.last_name}} name="last_name">
     <input type="email" value={{user.email}} name="email">
     <button type="submit">Submit Changes</button>
+</form>
+
+<form id="password-form" name="password-profile">
+    <input type="text" name="password">
+    <input type="text" name="confirm_password">
+    <button type="submit">Change Password</button>
 </form>
 
 <script src="{{ url_for('static', path='profile.js') }}" defer></script>

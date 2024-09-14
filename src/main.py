@@ -118,9 +118,15 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
         headers={"WWW-Authenticate": "Bearer"},
     )
 
+    # Checks if user is authenticated and if endpoint allows non-authenticated users
+    # Returns none to indicate to display non-authenticated endpoint
     if token == None and allow == True:
         return None
-    print(token)
+    
+    if token == None:
+        print("Token Error - Nonexistent")
+        raise credentials_exception
+    
     try:
         if token.startswith("Bearer "):
             token = token[len("Bearer "):]
@@ -129,21 +135,23 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
     except InvalidTokenError:
         raise credentials_timeout
     
+    print(f"Username: {username}")
     user = get_user(username=username)
     if user is None:
+        print("Token Error - User Not Found")
         raise credentials_exception
     return user
 
 async def get_current_active_user(
         current_user: Annotated[User, Depends(get_current_user)]
-):
+):  
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive User")
-    print(current_user)
+    
     return current_user
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
-@app.get("/profile/{current_user}", response_class=HTMLResponse)
+@app.get("/profile", response_class=HTMLResponse)
 async def read_users_me(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
     return templates.TemplateResponse("/pages/profile.html", {"request": request, "user": current_user})
 
@@ -175,7 +183,7 @@ async def logout(request: Request):
     response.delete_cookie("token")
     return response
 
-@app.post("/profile", response_class=HTMLResponse)
+@app.post("/profile/update-profile", response_class=HTMLResponse)
 async def update_user(
     username: Annotated[str, Form()],
     first_name: Annotated[str, Form()],
@@ -192,9 +200,28 @@ async def update_user(
         disabled = disabled,
     )
     curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
-    user = await update_user(user, curr_user)
-    response = RedirectResponse("/profile/{user.username}", status_code=status.HTTP_100_CONTINUE)
+    user = await update_user_profile(user, curr_user)
+    print(f"Updated User {user.username}")
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data = {"sub": user.username}, 
+        expires_delta = access_token_expires
+    )
+
+    print(f"access token {access_token}")
+
+    response = RedirectResponse("/profile", status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
     return response
+
+@app.post("/profile/change-password", response_class=HTMLResponse)
+async def change_password(
+    password: Annotated[str, Form()],
+    confirm_password: Annotated[str, Form()],
+    token:  Annotated[str, Form()],
+):
+    return print(f"Hello World!")
 
 @app.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
@@ -248,12 +275,10 @@ async def create_user(user: Annotated[UserCreate, Depends(signup_user)]):
     print(f"Succesful Signup")
     return db_user
 
-async def update_user(user: Annotated[UserUpdate, Depends(update_user)], curr_user: Annotated[User, Depends(get_current_active_user)]):
+async def update_user_profile(user: Annotated[UserUpdate, Depends(update_user)], curr_user: Annotated[User, Depends(get_current_active_user)]):
     with Session(engine) as session:
         valid_user = UserUpdate.model_validate(user)
 
-        print(valid_user)
-        print(curr_user)
         curr_user.username = valid_user.username
         curr_user.first_name = valid_user.first_name
         curr_user.last_name = valid_user.last_name
@@ -264,8 +289,20 @@ async def update_user(user: Annotated[UserUpdate, Depends(update_user)], curr_us
         session.commit()
         session.refresh(curr_user)
     
-    print(f"USER UPDATED")
     return curr_user
+
+async def change_user_password(user: Annotated[UserPasswordUpdate, Depends()], curr_user: Annotated[User, Depends(get_current_active_user)]):
+    with Session(engine) as session:
+        valid_user = UserPasswordUpdate.model_validate(user)
+
+        curr_user.hashed_password = valid_user.hashed_password
+
+        session.add(curr_user)
+        session.commit()
+        session.refresh(curr_user)
+        print("PASSWORD UPDATED")
+    return curr_user
+
 
 @app.post("/")
 async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
