@@ -1,5 +1,3 @@
-const username = document.getElementById("profile-username")
-
 document.getElementById("profile-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("profile-form")
@@ -22,10 +20,10 @@ document.getElementById("profile-form").addEventListener("submit", async (e) => 
 
 document.getElementById("password-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const form = document.getElementById("password-form")
+    const form = document.getElementById("password-form");
     const formData = new FormData(form);
 
-    console.log(formData)
+    console.log([...formData.entries()]);
 
     const response = await fetch(`/profile/change-password`, {
         method: 'POST',
@@ -36,6 +34,6 @@ document.getElementById("password-form").addEventListener("submit", async (e) =>
         window.location.href = response.url;
     } else {
         const result = await response.json();
-        console.log(result)
+        console.log(result);
     }
 });

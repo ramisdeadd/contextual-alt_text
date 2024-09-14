@@ -219,9 +219,19 @@ async def update_user(
 async def change_password(
     password: Annotated[str, Form()],
     confirm_password: Annotated[str, Form()],
-    token:  Annotated[str, Form()],
+    token: Annotated[str, Cookie(...)]
 ):
-    return print(f"Hello World!")
+    
+    hashed_password = get_password_hash(password)
+    user = UserPasswordUpdate(
+        hashed_password=hashed_password
+    )
+
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+    user = await change_user_password(user, curr_user)
+
+    response = RedirectResponse("/profile", status_code=status.HTTP_302_FOUND)
+    return response
 
 @app.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
