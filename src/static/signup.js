@@ -89,16 +89,20 @@ CustomValidation.prototype = {
     }
 
     var element = document.querySelector('label[for="first_name_input"] li:nth-child(4)');
-    if (input.value.match(/\s/g)) {
-      element.textContent = 'First name must not contain spaces.';
+    var input = document.querySelector('#first_name_input');
+
+    var trimmedValue = input.value.trim();
+    
+    if (input.value !== trimmedValue) {
+      element.textContent = 'First name must not have leading or trailing spaces.';
       element.classList.add('invalid');
       element.classList.remove('valid');
-      element.style.color = 'red'; 
+      element.style.color = 'red';
     } else {
-      element.textContent = 'First name does not contain spaces.';
+      element.textContent = 'First name is valid.';
       element.classList.add('valid');
       element.classList.remove('invalid');
-      element.style.color = 'green';  
+      element.style.color = 'green';
     }
 
     var element = document.querySelector('label[for="last_input_input"] li:nth-child(1)');
@@ -142,7 +146,6 @@ CustomValidation.prototype = {
       element.classList.remove('invalid');
       element.style.color = 'green';
       element.textContent = 'Contains a valid Email';
-      // this.removeInvalidity();
     } else {
       element.classList.add('invalid');
       element.classList.remove('valid');
@@ -162,17 +165,33 @@ CustomValidation.prototype = {
       element.style.color = 'green'; 
     }
     
+    // var element = document.querySelector('label[for="conf_password"] li:nth-child(1)');
+    // if (input.value.length < 8) {
+    //   element.classList.add('invalid');
+    //   element.classList.remove('valid');
+    //   element.style.color = 'red'; 
+    // } else {
+    //   element.classList.add('valid');
+    //   element.classList.remove('invalid');
+    //   element.style.color = 'green'; 
+    // }
+    var password = document.getElementById('password_input');
+    var confirm_password = document.getElementById('conf_password');
     var element = document.querySelector('label[for="conf_password"] li:nth-child(1)');
-    if (input.value.length < 8) {
+
+    if(password.value != confirm_password.value) {
+      // confirm_password.setCustomValidity("Passwords Don't Match");
+      element.textContent = 'Passwords do not match';
+      element.style.color = 'red';
       element.classList.add('invalid');
       element.classList.remove('valid');
-      element.style.color = 'red'; 
     } else {
+      // confirm_password.setCustomValidity('');
+      element.textContent = 'Passwords must match';
+      element.style.color = 'green'; 
       element.classList.add('valid');
       element.classList.remove('invalid');
-      element.style.color = 'green'; 
     }
-
 
   }
 };
@@ -221,49 +240,49 @@ document.querySelector('#password_input').addEventListener('input', function() {
   }
 });
 
-document.querySelector('#conf_password').addEventListener('input', function() {
-  var input = this;
-  var feedbackElement = document.querySelector('label[for="conf_password"] li:nth-child(2)');
-  var uppercaseFeedback = document.querySelector('label[for="conf_password"] li:nth-child(3)');
-  var lowercaseFeedback = document.querySelector('label[for="conf_password"] li:nth-child(4)');
-  var password = input.value;
+// document.querySelector('#conf_password').addEventListener('input', function() {
+//   var input = this;
+//   var feedbackElement = document.querySelector('label[for="conf_password"] li:nth-child(2)');
+//   var uppercaseFeedback = document.querySelector('label[for="conf_password"] li:nth-child(3)');
+//   var lowercaseFeedback = document.querySelector('label[for="conf_password"] li:nth-child(4)');
+//   var password = input.value;
   
-  if (/\d/.test(password)) {
-    feedbackElement.classList.add('valid');
-    feedbackElement.classList.remove('invalid');
-    feedbackElement.style.color = 'green'; 
-    feedbackElement.textContent = 'Password contains at least one number.';
-  } else {
-    feedbackElement.classList.add('invalid');
-    feedbackElement.classList.remove('valid');
-    feedbackElement.style.color = 'red'; 
-    feedbackElement.textContent = 'Password must contain at least one number.';
-  }
+//   if (/\d/.test(password)) {
+//     feedbackElement.classList.add('valid');
+//     feedbackElement.classList.remove('invalid');
+//     feedbackElement.style.color = 'green'; 
+//     feedbackElement.textContent = 'Password contains at least one number.';
+//   } else {
+//     feedbackElement.classList.add('invalid');
+//     feedbackElement.classList.remove('valid');
+//     feedbackElement.style.color = 'red'; 
+//     feedbackElement.textContent = 'Password must contain at least one number.';
+//   }
 
-  if (/[A-Z]/.test(password)) {
-    uppercaseFeedback.classList.add('valid');
-    uppercaseFeedback.classList.remove('invalid');
-    uppercaseFeedback.style.color = 'green'; 
-    uppercaseFeedback.textContent = 'Password contains at least one uppercase letter.'; 
-  } else {
-    uppercaseFeedback.classList.add('invalid');
-    uppercaseFeedback.classList.remove('valid');
-    uppercaseFeedback.style.color = 'red'; 
-    uppercaseFeedback.textContent = 'Password must contain at least one uppercase letter.';
-  }
+//   if (/[A-Z]/.test(password)) {
+//     uppercaseFeedback.classList.add('valid');
+//     uppercaseFeedback.classList.remove('invalid');
+//     uppercaseFeedback.style.color = 'green'; 
+//     uppercaseFeedback.textContent = 'Password contains at least one uppercase letter.'; 
+//   } else {
+//     uppercaseFeedback.classList.add('invalid');
+//     uppercaseFeedback.classList.remove('valid');
+//     uppercaseFeedback.style.color = 'red'; 
+//     uppercaseFeedback.textContent = 'Password must contain at least one uppercase letter.';
+//   }
 
-  if (/[a-z]/.test(password)) {
-    lowercaseFeedback.classList.add('valid');
-    lowercaseFeedback.classList.remove('invalid');
-    lowercaseFeedback.style.color = 'green'; 
-    lowercaseFeedback.textContent = 'Password contains at least one lowercase letter.'; 
-  } else {
-    lowercaseFeedback.classList.add('invalid');
-    lowercaseFeedback.classList.remove('valid');
-    lowercaseFeedback.style.color = 'red'; 
-    lowercaseFeedback.textContent = 'Password must contain at least one lowercase letter.';
-  }
-});
+//   if (/[a-z]/.test(password)) {
+//     lowercaseFeedback.classList.add('valid');
+//     lowercaseFeedback.classList.remove('invalid');
+//     lowercaseFeedback.style.color = 'green'; 
+//     lowercaseFeedback.textContent = 'Password contains at least one lowercase letter.'; 
+//   } else {
+//     lowercaseFeedback.classList.add('invalid');
+//     lowercaseFeedback.classList.remove('valid');
+//     lowercaseFeedback.style.color = 'red'; 
+//     lowercaseFeedback.textContent = 'Password must contain at least one lowercase letter.';
+//   }
+// });
 
 var username = document.getElementById('username_input');
 username.CustomValidation = new CustomValidation();
@@ -295,6 +314,11 @@ password.addEventListener('keyup', function() {
   password.CustomValidation.checkInvalidity(this);
 });
 
+var confpass = document.getElementById('conf_password');
+confpass.CustomValidation = new CustomValidation();
+confpass.addEventListener('keyup', function() {
+  confpass.CustomValidation.checkInvalidity(this);
+});
 
 
 
@@ -308,19 +332,24 @@ password.addEventListener('keyup', function() {
 
 
 
-var password = document.getElementById("password_input")
-  , confirm_password = document.getElementById("conf_password");
 
-function validatePassword(){
-  if(password.value != confirm_password.value) {
-    confirm_password.setCustomValidity("Passwords Don't Match");
-  } else {
-    confirm_password.setCustomValidity('');
-  }
-}
 
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
+// var password = document.getElementById("password_input")
+//   , confirm_password = document.getElementById("conf_password"), element = document.querySelector('label[for="username_input"] li:nth-child(1)');
+
+
+// function validatePassword(){
+//   if(password.value != confirm_password.value) {
+//     // confirm_password.setCustomValidity("Passwords Don't Match");
+//     element.textContent('Passwords do not match');
+//   } else {
+//     // confirm_password.setCustomValidity('');
+//     element.textContent('Passwords must match');
+//   }
+// }
+
+// password.onchange = validatePassword;
+// confirm_password.onkeyup = validatePassword;
  
 
 
