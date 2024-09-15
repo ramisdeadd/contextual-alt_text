@@ -13,12 +13,12 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
         body: formData
     });
 
-    console.log(response)
-
-    const result = await response.json()
-    console.log(result)
-
-    document.getElementById("getresult").innerText = result['Generated Alt-Text'];
+    if (response.redirected) {
+        window.location.href = response.url;
+    } else {
+        const result = await response.json();
+        console.log(result);
+    }
 });
 
 

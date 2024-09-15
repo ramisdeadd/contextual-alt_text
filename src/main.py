@@ -164,7 +164,7 @@ async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
         return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user})
     except HTTPException as error: 
         if error.status_code == status.HTTP_401_UNAUTHORIZED:
-            response = RedirectResponse(url="/login")
+            response = RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
             response.delete_cookie("token")
             return response
         raise error
@@ -179,7 +179,7 @@ async def signup(request: Request):
 
 @app.get("/logout", response_class=HTMLResponse)
 async def logout(request: Request):
-    response = RedirectResponse(url="/")
+    response = RedirectResponse(url="/", status_code=status.HTTP_302_FOUND)
     response.delete_cookie("token")
     return response
 
@@ -218,6 +218,7 @@ async def update_user(
 @app.post("/profile/change-password", response_class=HTMLResponse)
 async def change_password(
     password: Annotated[str, Form()],
+    # TO DO validate confirm_password
     confirm_password: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)]
 ):
@@ -301,7 +302,10 @@ async def update_user_profile(user: Annotated[UserUpdate, Depends(update_user)],
     
     return curr_user
 
-async def change_user_password(user: Annotated[UserPasswordUpdate, Depends()], curr_user: Annotated[User, Depends(get_current_active_user)]):
+async def change_user_password(
+        user: Annotated[UserPasswordUpdate, Depends()], 
+        curr_user: Annotated[User, Depends(get_current_active_user)]
+):
     with Session(engine) as session:
         valid_user = UserPasswordUpdate.model_validate(user)
 
@@ -315,16 +319,26 @@ async def change_user_password(user: Annotated[UserPasswordUpdate, Depends()], c
 
 
 @app.post("/")
-async def alt_text(text: Annotated[str, Form()], img: UploadFile = File(...)):
+async def alt_text(
+    text: Annotated[str, Form()], 
+    token: Annotated[str, Cookie(...)] = None,
+    img: UploadFile = File(...)
+):
+    user = await get_current_user(token=token, allow=True)
+    if user == None:
+        response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
+        return response
+         
     img_content = await img.read()
     img_path = f"images/{img.filename}"
     with open(img_path, "wb") as f:
         f.write(img_content)
 
-    alt_text = create_alttext(text, img_path)
+    generator_output = create_alttext(text, img_path)
 
     return JSONResponse(content={
-        "Generated Alt-Text": alt_text, 
+        "Generated Alt-Text": generator_output["alt-text"],
+        "Generated Image-Caption": generator_output["image-caption"],
     }) 
 
 if __name__ == "__main__":

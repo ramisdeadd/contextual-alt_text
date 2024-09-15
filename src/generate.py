@@ -47,4 +47,4 @@ def create_alttext(text: str, img_path: Path):
 
     print(f"Generated Alt-Text: {completion.choices[0].message.content}")
 
-    return completion.choices[0].message.content
+    return {"alt-text": completion.choices[0].message.content, "image-caption": caption}
