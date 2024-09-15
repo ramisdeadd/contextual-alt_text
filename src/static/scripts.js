@@ -15,12 +15,12 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     if (response.redirected) {
         window.location.href = response.url;
-    } else {
-        const result = await response.json();
-        console.log(result);
-    }
+    } 
 
-    document.getElementById("getresult").innerText = result['Generated Alt-Text'];
+    const result = await response.json();
+    
+    document.getElementById("getresult").textContent = result['generated-alt-text'];
+    document.getElementById("getcaption").textContent = result['generated-image-caption'];
 });
 
 

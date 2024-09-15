@@ -337,8 +337,8 @@ async def alt_text(
     generator_output = create_alttext(text, img_path)
 
     return JSONResponse(content={
-        "Generated Alt-Text": generator_output["alt-text"],
-        "Generated Image-Caption": generator_output["image-caption"],
+        "generated-alt-text": generator_output["alt-text"],
+        "generated-image-caption": generator_output["image-caption"],
     }) 
 
 if __name__ == "__main__":
