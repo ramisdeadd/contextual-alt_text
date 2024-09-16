@@ -37,7 +37,7 @@ def create_alttext(text: str, img_path: Path):
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Create an alt-text from these two inputs. Max character limit is 125 characters."},
+            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Create an alt-text from these two inputs. Take note that the image caption might not be accurate. Find correlations between the two inputs. Max character limit is 125 characters."},
             {
                 "role": "user",
                 "content": f"SUMMARY CONTEXT: {summary}. IMAGE CAPTION: {caption}"
