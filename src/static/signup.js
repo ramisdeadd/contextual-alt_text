@@ -140,7 +140,7 @@ CustomValidation.prototype = {
 
     var element = document.querySelector('label[for="email_input"] li:nth-child(1)');
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    var input = document.getElementById('email_input');
     if (emailPattern.test(input.value)) {
       element.classList.add('valid');
       element.classList.remove('invalid');
@@ -150,7 +150,6 @@ CustomValidation.prototype = {
       element.classList.add('invalid');
       element.classList.remove('valid');
       element.style.color = 'red';
-
       element.textContent = 'Does not contain a valid Email';
     }
 
@@ -187,7 +186,7 @@ CustomValidation.prototype = {
       element.classList.remove('valid');
     } else {
       // confirm_password.setCustomValidity('');
-      element.textContent = 'Passwords must match';
+      element.textContent = 'Passwords match';
       element.style.color = 'green'; 
       element.classList.add('valid');
       element.classList.remove('invalid');
