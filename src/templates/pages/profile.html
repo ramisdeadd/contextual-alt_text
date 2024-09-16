@@ -1,22 +1,141 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 
-<h2 id="profile-username">{{user.username}}</h2>
+<div class="main-profile">
 
-<form id="profile-form" name="user-profile" method="POST">
-    <label for="username">Username</label>
-    <input type="text" value={{user.username}} name="username">
-    <input type="text" value={{user.first_name}} name="first_name">
-    <input type="text" value={{user.last_name}} name="last_name">
-    <input type="email" value={{user.email}} name="email">
-    <button type="submit">Submit Changes</button>
-</form>
+    <div class="profile-logo">
+        <img src="../../static/images/profile.png" height="35px">
+    </div>
 
-<form id="password-form" name="password-profile" method="POST">
-    <input type="text" name="password">
-    <input type="text" name="confirm_password">
-    <button type="submit">Change Password</button>
-</form>
+    <div class="whitebg">
+        <div class="profile-editor">
+            <!-- <h2 id="profile-username">{{user.username}}</h2> -->
+            <form id="profile-form" name="user-profile" method="POST">
+                <div class="groupa">
+                    <div class="groupa1">
+                        <div class="signuser">
+                            <label for="username_input">Username:<br>
+                                <input type="text" id="username_input" value={{user.username}} name="username">
+                                    <div class="requirements">
+                                        <ul>
+                                            <li>At least 6-13 characters long.</li>
+                                            <li>No special characters.</li>
+                                            <li>No spaces.</li>
+                                        </ul>
+                                    </div>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="groupa2">
+                        <div class="signuser">
+                            <label for="first_name_input">First name:<br>
+                            <input type="text" id="first_name_input" value={{user.first_name}} name="first_name">
+                                <div class="requirements">
+                                    <ul>
+                                        <li>Atleast 2-40 characters</li>
+                                        <li>No special characters</li>
+                                        <li>No Numbers</li>
+                                        <li>Must not have leading or trailing spaces.</li>
+                                    </ul>
+                                </div>   
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+    
+                <div class="groupb">
+                    <div class="groupb1">
+                        <div class="signuser">
+                            <label for="last_name_input">Last name:<br>    
+                                <input type="text" id="last_name_input" value={{user.last_name}} name="last_name">
+                                <div class="requirements">
+                                    <ul>
+                                        <li>At least 2-40 characters long.</li>
+                                        <li>No special characters.</li>
+                                        <li>No spaces.</li>
+                                    </ul>
+                                </div>
+                            </label> 
+                        </div>
+
+                    </div>
+
+                    <div class="groupb2">
+                        <div class="signuser">
+                            <label for="email_input">Email:<br>
+                                <input type="email" id="email_input" value={{user.email}} name="email">
+                                    <div class="requirements">
+                                        <ul>
+                                            <li>Must be in order of: characters@characters.domain</li>
+                                        </ul>
+                                    </div>  
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+    
+                <div>
+                    <button type="submit">Submit Changes</button>
+                </div>
+
+            </form>
+        </div>
+    
+        <div class="password-editor">
+    
+            <form id="password-form" name="password-profile" method="POST">
+                <div class="groupa1">
+                    <div class="signuser">
+                        <label for="password_input">Password:<br>
+                        <input type="text" id="password_input" name="password">
+                            <div class="requirements">
+                                <ul>
+                                    <li>At least 8 characters</li>
+                                    <li>Must contain at least one number</li>
+                                    <li>Must contain at least one uppercase character</li>
+                                    <li>Must contain at least one lowercase</li>
+                                    <li>Must not contain spaces</li>
+                                </ul>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="groupb3">
+                        <div class="signuser">
+                            <label for="conf_password">
+                                <input type="text" id="conf_password" name="confirm_password">
+                                <div class="requirements">
+                                    <ul>
+                                        <li>Passwords must match</li>
+                                    </ul>
+                                </div>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="submit">Change Password</button>
+
+
+            </form>
+        </div>
+        <div class="returnhome2">
+            <a href="/">Return to home</a>
+        </div>
+    </div>
+    
+</div>
+
+
+
 
 <script src="{{ url_for('static', path='profile.js') }}" defer></script>
 {% endblock %}
