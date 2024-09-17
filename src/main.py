@@ -50,6 +50,24 @@ class UserCreate(UserBase):
 class UserPublic(UserBase):
     id: int
 
+class ImageBase(SQLModel):  
+    user_id: int | None = Field(default=None, foreign_key="user.id")
+    url: str
+    caption: str 
+    caption_edit: str
+
+class Image(ImageBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    hash: str = Field(unique=True)
+
+class AltTextBase(SQLModel):
+    image_id: int | None = Field(default=None, foreign_key="image.id")
+    generated_alt: str
+    edited_alt: str
+
+class AltText(AltTextBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting Server ....")
