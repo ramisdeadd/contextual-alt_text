@@ -1,6 +1,3 @@
-const text_input = document.getElementById("gettext");
-const sumbit_btn = document.getElementById("generate");
-
 document.getElementById("upload-article").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("upload-article")
@@ -19,8 +16,8 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     const result = await response.json();
     
-    document.getElementById("getresult").textContent = result['generated-alt-text'];
-    document.getElementById("getcaption").textContent = result['generated-image-caption'];
+    document.getElementById("getalttext").value = result['generated-alt-text'];
+    document.getElementById("getcaption").value = result['generated-image-caption'];
 });
 
 
