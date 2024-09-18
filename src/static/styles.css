@@ -650,3 +650,26 @@ body{
     margin-bottom: 50px;
 }
 
+/* TEMPORARY CSS - JOSH ADDONS */
+
+#getalttext {
+    border-width: 0px 0px 1px 0px;
+    font-size: large;
+    width: 700px;
+    height: 50px;
+}
+
+#getcaption {
+    border-width: 0px 0px 1px 0px;
+    font-size: medium;
+    width: 700px;
+    height: 50px;
+}
+
+#getalttext:focus {
+    outline: none
+}
+
+#getcaption:focus {
+    outline: none
+}

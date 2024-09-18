@@ -24,7 +24,7 @@ from generate import create_alttext
 
 SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 
 class UserBase(SQLModel):
     username: str = Field(index=True)
@@ -346,12 +346,13 @@ async def generate_image_hash(
 
         return readable_hash
 
-@app.post("/generate-alttext")
+@app.post("/")
 async def generate_alt_text(
     text: Annotated[str, Form()], 
     token: Annotated[str, Cookie(...)] = None,
     img: UploadFile = File(...)
 ):
+    print(img)
     size = (1920, 1080)
 
     user = await get_current_user(token=token, allow=True)
