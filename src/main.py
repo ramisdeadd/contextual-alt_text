@@ -5,7 +5,10 @@ from typing import Union, Annotated
 
 import jwt
 import uvicorn
+import hashlib
+import PIL.Image
 from pydantic import BaseModel
+from pathlib import Path
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
@@ -52,9 +55,8 @@ class UserPublic(UserBase):
 
 class ImageBase(SQLModel):  
     user_id: int | None = Field(default=None, foreign_key="user.id")
-    url: str
     caption: str 
-    caption_edit: str
+    caption_edit: str | None = None
 
 class Image(ImageBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -63,7 +65,7 @@ class Image(ImageBase, table=True):
 class AltTextBase(SQLModel):
     image_id: int | None = Field(default=None, foreign_key="image.id")
     generated_alt: str
-    edited_alt: str
+    edited_alt: str | None = None
 
 class AltText(AltTextBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -335,29 +337,84 @@ async def change_user_password(
         print("PASSWORD UPDATED")
     return curr_user
 
+async def generate_image_hash(
+        img_path: Path
+):
+        with open(img_path, "rb") as f:
+            bytes = f.read()
+            readable_hash = hashlib.md5(bytes).hexdigest()
 
-@app.post("/")
-async def alt_text(
+        return readable_hash
+
+@app.post("/generate-alttext")
+async def generate_alt_text(
     text: Annotated[str, Form()], 
     token: Annotated[str, Cookie(...)] = None,
     img: UploadFile = File(...)
 ):
+    size = (1920, 1080)
+
     user = await get_current_user(token=token, allow=True)
     if user == None:
         response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
         return response
-         
+    
     img_content = await img.read()
-    img_path = f"images/{img.filename}"
+    img_path = Path(f"images/{img.filename}")
     with open(img_path, "wb") as f:
         f.write(img_content)
 
     generator_output = create_alttext(text, img_path)
 
+    with PIL.Image.open(img_path) as image:
+        image.save(img_path, dpi=size)
+        image_hash = await generate_image_hash(img_path)
+    
+    image_db = await save_image_gen(user, image_hash, generator_output["image-caption"])
+    alttext_db = await save_alt_gen(image_db, generator_output["alt-text"])
+
+    # Remove image after use
+    img_path.unlink()
+
     return JSONResponse(content={
         "generated-alt-text": generator_output["alt-text"],
         "generated-image-caption": generator_output["image-caption"],
     }) 
+
+async def save_alt_gen(
+        image: Annotated[Image, Depends(generate_alt_text)],
+        generated_alt: str,
+):
+    with Session(engine) as session:
+        alt_text = AltText(
+            image_id = image.id,
+            generated_alt = generated_alt,
+        )
+
+        session.add(alt_text)
+        session.commit()
+        session.refresh(alt_text)
+    
+    return alt_text
+
+async def save_image_gen(
+        user: Annotated[User, Depends(generate_alt_text)],
+        image_hash: str,
+        caption: str,
+):
+    with Session(engine) as session:
+        image = Image(
+            caption = caption,
+            hash = image_hash,
+            user_id = user.id
+        )
+
+        session.add(image)
+        session.commit()
+        session.refresh(image)
+
+    return image
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
