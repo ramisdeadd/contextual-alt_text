@@ -78,7 +78,7 @@ class AltText(AltTextBase, table=True):
 async def lifespan(app: FastAPI):
     print("Starting Server ....")
     create_db_and_tables()
-
+    create_admin_user()
     yield
     print("Stopping Server ....")
 
@@ -98,6 +98,22 @@ engine = create_engine(sqlite_url, echo=True)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
+
+def create_admin_user():
+    user = UserCreate(
+        username = "admin_user",
+        first_name = "admin_josh",
+        last_name = "admin_lego",
+        email = "admin@gmail.com",
+        hashed_password = get_password_hash("1Adminsecret"),
+        disabled = False,
+)
+
+    with Session(engine) as session:
+        db_user = User.model_validate(user)
+        session.add(db_user)
+        session.commit()
+        session.refresh(db_user)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
