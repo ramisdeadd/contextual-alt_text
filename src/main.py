@@ -9,7 +9,7 @@ import hashlib
 import PIL.Image
 from pydantic import BaseModel
 from pathlib import Path
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from sqlmodel import Field, Session, SQLModel, create_engine, select, UniqueConstraint
 from sqlalchemy import Column, Integer
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, UploadFile, File, Form, HTTPException, status, Cookie, Response
@@ -60,7 +60,7 @@ class ImageBase(SQLModel):
 
 class Image(ImageBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    hash: str = Field(unique=True)
+    hash: str = Field(unique=True, )
 
 class AltTextBase(SQLModel):
     image_id: int | None = Field(default=None, foreign_key="image.id")
@@ -70,10 +70,15 @@ class AltTextBase(SQLModel):
 class AltText(AltTextBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
+    __table_args__ = (
+        UniqueConstraint("user_id", "hash"),
+    )
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting Server ....")
     create_db_and_tables()
+
     yield
     print("Stopping Server ....")
 
@@ -365,7 +370,8 @@ async def generate_alt_text(
     with open(img_path, "wb") as f:
         f.write(img_content)
 
-    generator_output = create_alttext(text, img_path)
+    image_exist = await check_image_exist(user, image_hash)        
+    generator_output = create_alttext(text, img_path, image_exist)
 
     with PIL.Image.open(img_path) as image:
         image.save(img_path, dpi=size)
@@ -398,6 +404,25 @@ async def save_alt_gen(
     
     return alt_text
 
+async def check_image_exist(
+        user: Annotated[User, Depends(generate_alt_text)],
+        image_hash: str
+):
+     with Session(engine) as session:
+        # Check if image hash already exists
+        statement = select(Image).where(
+            Image.hash == image_hash,
+            Image.user_id == user.id
+        )
+        results = session.exec(statement)
+        image = results.first()
+
+        # Returns already existing image
+        if image is not None: 
+            return image
+        else:
+            return None
+
 async def save_image_gen(
         user: Annotated[User, Depends(generate_alt_text)],
         image_hash: str,
@@ -415,7 +440,6 @@ async def save_image_gen(
         session.refresh(image)
 
     return image
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

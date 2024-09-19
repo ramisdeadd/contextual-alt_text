@@ -27,9 +27,13 @@ def create_caption(img_path: Path) -> str:
     return image_caption
 
 
-def create_alttext(text: str, img_path: Path):
+def create_alttext(text: str, img_path: Path, image: bool):
     summary = create_summary(text)
-    caption = create_caption(img_path)
+
+    if image is True:
+        caption = image.caption
+    else:
+        caption = create_caption(img_path)
 
     client = OpenAI(
             api_key = "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"
