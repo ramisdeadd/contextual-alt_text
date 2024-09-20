@@ -35,10 +35,8 @@ curr_dir = Path(__file__).parent.absolute()
 WEIGHTS_PATHS = {
     "coco": f"{curr_dir}/pretrained_models/coco_weights.pt",
 }
-
 D = torch.device
 CPU = torch.device("cpu")
-
 
 class GenerateClipCap():
     def __init__(self):

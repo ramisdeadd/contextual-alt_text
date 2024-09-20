@@ -1,8 +1,7 @@
 import torch
 import os
 from clipcap import GenerateClipCap
-from blip import GenerateBLIP
-
+from models import GenerateBLIP2, GenerateBART, GeneratePEGASUS
 from pathlib import Path
 from openai import OpenAI
 from transformers import pipeline
@@ -10,9 +9,14 @@ from transformers import pipeline
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 curr_path = Path(__file__).parent.absolute()
 
-def create_summary(text: str) -> str:
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn", device=device)
-    summarized_text = summarizer(text, max_length=100, min_length=50)[0]['summary_text']
+def create_summary(text: str, model: str) -> str:
+    if model == "BART":
+        summarizer = GenerateBART()
+        summarized_text = summarizer.predict(text)
+    elif model == "PEGASUS":
+        summarizer = GeneratePEGASUS()
+        summarized_text = summarizer.predict(text)
+    
     print(f"Summarized Text: {summarized_text}")
 
     del summarizer
@@ -21,7 +25,7 @@ def create_summary(text: str) -> str:
 
 def create_caption(img_path: Path, model: str) -> str:
     if model == "BLIP":
-        vision_transformer = GenerateBLIP()
+        vision_transformer = GenerateBLIP2()
         image_caption = vision_transformer.predict(img_path)
     elif model == "CLIPCAP":
         vision_transformer = GenerateClipCap()
@@ -34,8 +38,8 @@ def create_caption(img_path: Path, model: str) -> str:
     return image_caption
 
 
-def create_alttext(text: str, img_path: Path, image: bool, vision_model: str):
-    summary = create_summary(text)
+def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nlp_model: str):
+    summary = create_summary(text, nlp_model)
 
     if image is True:
         caption = image.caption
