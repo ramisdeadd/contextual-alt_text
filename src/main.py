@@ -57,6 +57,7 @@ class ImageBase(SQLModel):
     user_id: int | None = Field(default=None, foreign_key="user.id")
     caption: str 
     caption_edit: str | None = None
+    caption_gen: str
 
 class Image(ImageBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -64,10 +65,11 @@ class Image(ImageBase, table=True):
 
 class AltTextBase(SQLModel):
     image_id: int | None = Field(default=None, foreign_key="image.id")
-    generated_alt: str
-    edited_alt: str | None = None
-
-class AltText(AltTextBase, table=False):
+    alt: str 
+    alt_edit: str | None = None
+    alt_gen: str
+    
+class AltText(AltTextBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
 @asynccontextmanager
@@ -374,6 +376,12 @@ async def generate_alt_text(
 ):
     size = (1920, 1080)
 
+    vision_models_dict = {"CLIPCAP": "CLIPCAP", "BLIP": "BLIP"}
+    nlp_models_dict =  {"BART": "BART", "PEGASUS": "PEGASUS"}
+
+    vision_model = vision_models_dict["CLIPCAP"]
+    nlp_model = nlp_models_dict["BART"]
+
     user = await get_current_user(token=token, allow=True)
     if user == None:
         response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
@@ -389,10 +397,10 @@ async def generate_alt_text(
         image_hash = await generate_image_hash(img_path)
 
     image_exist = await check_image_exist(user, image_hash)        
-    generator_output = create_alttext(text, img_path, image_exist, vision_model="BLIP", nlp_model="PEGASUS")
+    generator_output = create_alttext(text, img_path, image_exist, vision_model=vision_model, nlp_model=nlp_model)
     
-    image_db = await save_image_gen(user, image_hash, generator_output["image-caption"])
-    alttext_db = await save_alt_gen(image_db, generator_output["alt-text"])
+    image_db = await save_image_gen(user, image_hash, generator_output["image-caption"], vision_model)
+    alttext_db = await save_alt_gen(image_db, generator_output["alt-text"], nlp_model)
 
     # Remove image after use
     img_path.unlink()
@@ -404,12 +412,15 @@ async def generate_alt_text(
 
 async def save_alt_gen(
         image: Annotated[Image, Depends(generate_alt_text)],
-        generated_alt: str,
+        alt: str,
+        alt_gen: str
+
 ):
     with Session(engine) as session:
         alt_text = AltText(
             image_id = image.id,
-            generated_alt = generated_alt,
+            alt = alt,
+            alt_gen = alt_gen
         )
 
         session.add(alt_text)
@@ -441,10 +452,12 @@ async def save_image_gen(
         user: Annotated[User, Depends(generate_alt_text)],
         image_hash: str,
         caption: str,
+        caption_gen: str,
 ):
     with Session(engine) as session:
         image = Image(
             caption = caption,
+            caption_gen = caption_gen,
             hash = image_hash,
             user_id = user.id
         )
