@@ -39,12 +39,9 @@ def create_caption(img_path: Path, model: str) -> str:
 
 
 def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nlp_model: str):
+    ## TEMP Image removal check
     summary = create_summary(text, nlp_model)
-
-    if image is True:
-        caption = image.caption
-    else:
-        caption = create_caption(img_path, vision_model)
+    caption = create_caption(img_path, vision_model)
 
     client = OpenAI(
             api_key = "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"

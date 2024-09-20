@@ -60,18 +60,14 @@ class ImageBase(SQLModel):
 
 class Image(ImageBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    hash: str = Field(unique=True, )
-
-    __table_args__ = (
-        UniqueConstraint("user_id", "hash"),
-    )
+    hash: str
 
 class AltTextBase(SQLModel):
     image_id: int | None = Field(default=None, foreign_key="image.id")
     generated_alt: str
     edited_alt: str | None = None
 
-class AltText(AltTextBase, table=True):
+class AltText(AltTextBase, table=False):
     id: int | None = Field(default=None, primary_key=True)
 
 @asynccontextmanager
