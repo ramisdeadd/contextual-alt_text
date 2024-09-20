@@ -394,7 +394,7 @@ async def generate_alt_text(
         image_hash = await generate_image_hash(img_path)
 
     image_exist = await check_image_exist(user, image_hash)        
-    generator_output = create_alttext(text, img_path, image_exist)
+    generator_output = create_alttext(text, img_path, image_exist, vision_model="BLIP")
     
     image_db = await save_image_gen(user, image_hash, generator_output["image-caption"])
     alttext_db = await save_alt_gen(image_db, generator_output["alt-text"])

@@ -19,9 +19,14 @@ def create_summary(text: str) -> str:
     torch.cuda.empty_cache()
     return summarized_text
 
-def create_caption(img_path: Path) -> str:
-    vision_transformer = GenerateBLIP()
-    image_caption = vision_transformer.predict(img_path, 'coco', False)
+def create_caption(img_path: Path, model: str) -> str:
+    if model == "BLIP":
+        vision_transformer = GenerateBLIP()
+        image_caption = vision_transformer.predict(img_path)
+    elif model == "CLIPCAP":
+        vision_transformer = GenerateClipCap()
+        image_caption = vision_transformer.predict(img_path, 'coco', False)
+
     print(f"Image Caption: {image_caption}")
 
     del vision_transformer
@@ -29,13 +34,13 @@ def create_caption(img_path: Path) -> str:
     return image_caption
 
 
-def create_alttext(text: str, img_path: Path, image: bool):
+def create_alttext(text: str, img_path: Path, image: bool, vision_model: str):
     summary = create_summary(text)
 
     if image is True:
         caption = image.caption
     else:
-        caption = create_caption(img_path)
+        caption = create_caption(img_path, vision_model)
 
     client = OpenAI(
             api_key = "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"
