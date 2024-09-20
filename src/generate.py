@@ -1,6 +1,8 @@
 import torch
 import os
 from clipcap import GenerateClipCap
+from blip import GenerateBLIP
+
 from pathlib import Path
 from openai import OpenAI
 from transformers import pipeline
@@ -18,7 +20,7 @@ def create_summary(text: str) -> str:
     return summarized_text
 
 def create_caption(img_path: Path) -> str:
-    vision_transformer = GenerateClipCap()
+    vision_transformer = GenerateBLIP()
     image_caption = vision_transformer.predict(img_path, 'coco', False)
     print(f"Image Caption: {image_caption}")
 

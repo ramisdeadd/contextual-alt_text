@@ -12,12 +12,53 @@ from transformers import BertTokenizer, BertConfig, BertModel, BertLMHeadModel
 from transformers import ViTModel as VisionTransformer
 from transformers import ViTConfig
 
+from pathlib import Path
+
+from PIL import Image
+import torch
+from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
+
 import torch
 from torch import nn
 import torch.nn.functional as F
 
 import os
 from urllib.parse import urlparse
+
+
+class GenerateBLIP():
+    def __init__(self):
+        self.device = torch.device("cuda")
+        self.model = blip_decoder(
+            pretrained='checkpoints/model*_base_caption.pth',
+            image_size=384, 
+            vit='base'
+        )
+
+    def predict(self: str, image: Path):
+        im = load_image(image, image_size=480, device=self.device)
+        model = self.model
+        model.eval()
+        model = model.to(self.device)
+        print("CHECK")
+        with torch.no_grad():
+            caption = model.generate(im, sample=False, num_beams=3, max_length=20, min_length=5)
+            return 'Caption: ' + caption[0]
+
+def load_image(image, image_size, device):
+    raw_image = Image.open(str(image)).convert('RGB')
+
+    w, h = raw_image.size
+
+    transform = transforms.Compose([
+        transforms.Resize((image_size, image_size), interpolation=InterpolationMode.BICUBIC),
+        transforms.ToTensor(),
+        transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
+    ])
+    image = transform(raw_image).unsqueeze(0).to(device)
+    return image
+
 
 # Custom function inherited from models - vit.py
 def interpolate_pos_embed(pos_embed_checkpoint, visual_encoder):        
@@ -222,16 +263,19 @@ def create_vit(vit, image_size, use_grad_checkpointing=False, ckpt_layer=0, drop
     assert vit in ['base', 'large'], "vit parameter must be base or large"
     if vit=='base':
         vision_width = 768
-        visual_encoder = VisionTransformer(img_size=image_size, patch_size=16, embed_dim=vision_width, depth=12, 
-                                           num_heads=12, use_grad_checkpointing=use_grad_checkpointing, ckpt_layer=ckpt_layer,
-                                           drop_path_rate=0 or drop_path_rate
-                                          )   
-    elif vit=='large':
-        vision_width = 1024
-        visual_encoder = VisionTransformer(img_size=image_size, patch_size=16, embed_dim=vision_width, depth=24, 
-                                           num_heads=16, use_grad_checkpointing=use_grad_checkpointing, ckpt_layer=ckpt_layer,
-                                           drop_path_rate=0.1 or drop_path_rate
-                                          )   
+        vit_config = ViTConfig(
+        image_size=image_size, 
+        patch_size=16, 
+        hidden_size=vision_width,
+        num_hidden_layers=12, 
+        num_attention_heads=12, 
+        use_grad_checkpointing=use_grad_checkpointing, 
+        ckpt_layer=ckpt_layer,
+        drop_path_rate=0 or drop_path_rate
+        )
+
+        visual_encoder = VisionTransformer(config = vit_config)
+                                           
     return visual_encoder, vision_width
 
 def is_url(url_or_filename):
