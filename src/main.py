@@ -62,6 +62,10 @@ class Image(ImageBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hash: str = Field(unique=True, )
 
+    __table_args__ = (
+        UniqueConstraint("user_id", "hash"),
+    )
+
 class AltTextBase(SQLModel):
     image_id: int | None = Field(default=None, foreign_key="image.id")
     generated_alt: str
@@ -69,10 +73,6 @@ class AltTextBase(SQLModel):
 
 class AltText(AltTextBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-
-    __table_args__ = (
-        UniqueConstraint("user_id", "hash"),
-    )
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -100,20 +100,23 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 def create_admin_user():
-    user = UserCreate(
-        username = "admin_user",
-        first_name = "admin_josh",
-        last_name = "admin_lego",
-        email = "admin@gmail.com",
-        hashed_password = get_password_hash("1Adminsecret"),
-        disabled = False,
+    exist_ok = get_user("admin_user")
+    
+    if exist_ok is None:
+        user = UserCreate(
+            username = "admin_user",
+            first_name = "admin_josh",
+            last_name = "admin_lego",
+            email = "admin@gmail.com",
+            hashed_password = get_password_hash("1Adminsecret"),
+            disabled = False,
 )
 
-    with Session(engine) as session:
-        db_user = User.model_validate(user)
-        session.add(db_user)
-        session.commit()
-        session.refresh(db_user)
+        with Session(engine) as session:
+            db_user = User.model_validate(user)
+            session.add(db_user)
+            session.commit()
+            session.refresh(db_user)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -386,12 +389,12 @@ async def generate_alt_text(
     with open(img_path, "wb") as f:
         f.write(img_content)
 
-    image_exist = await check_image_exist(user, image_hash)        
-    generator_output = create_alttext(text, img_path, image_exist)
-
     with PIL.Image.open(img_path) as image:
         image.save(img_path, dpi=size)
         image_hash = await generate_image_hash(img_path)
+
+    image_exist = await check_image_exist(user, image_hash)        
+    generator_output = create_alttext(text, img_path, image_exist)
     
     image_db = await save_image_gen(user, image_hash, generator_output["image-caption"])
     alttext_db = await save_alt_gen(image_db, generator_output["alt-text"])
