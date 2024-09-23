@@ -183,11 +183,6 @@ body{
     align-items: center;
 }
 
-.upimage {
-    margin-top: 20px;
-    margin-right: 750px;
-}
-
 .uploadimage {
     border: 2px dashed rgb(73, 73, 73);
     border-radius: 5px;
@@ -301,7 +296,20 @@ body{
 }
 
 .uploadbutton {
-    margin-left: 300px;
+    display: grid;
+    gap: 250px;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 25px;
+}
+
+.uploadbutton input {
+    width: 250px;
+}
+
+.model-options{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .mainlog-container {

@@ -26,6 +26,9 @@ SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 
+vision_models_dict = {"CLIPCAP": "CLIPCAP", "BLIP": "BLIP"}
+nlp_models_dict =  {"BART": "BART", "PEGASUS": "PEGASUS"}
+
 class UserBase(SQLModel):
     username: str = Field(index=True)
     first_name: str
@@ -202,8 +205,8 @@ async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
     try:
         user = await get_current_user(token=token, allow=True)
         if user == None:
-            return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None})
-        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user})
+            return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None, "nlp": nlp_models_dict, "cv": vision_models_dict})
+        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user, "nlp": nlp_models_dict, "cv": vision_models_dict})
     except HTTPException as error: 
         if error.status_code == status.HTTP_401_UNAUTHORIZED:
             response = RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
@@ -371,16 +374,15 @@ async def generate_image_hash(
 @app.post("/")
 async def generate_alt_text(
     text: Annotated[str, Form()], 
+    nlp: Annotated[str, Form()],
+    cv: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)] = None,
     img: UploadFile = File(...)
 ):
     size = (1920, 1080)
 
-    vision_models_dict = {"CLIPCAP": "CLIPCAP", "BLIP": "BLIP"}
-    nlp_models_dict =  {"BART": "BART", "PEGASUS": "PEGASUS"}
-
-    vision_model = vision_models_dict["CLIPCAP"]
-    nlp_model = nlp_models_dict["BART"]
+    vision_model = vision_models_dict[cv]
+    nlp_model = nlp_models_dict[nlp]
 
     user = await get_current_user(token=token, allow=True)
     if user == None:

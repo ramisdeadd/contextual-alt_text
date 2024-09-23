@@ -96,9 +96,23 @@
     
                     </div>
                     <div class="uploadbutton">
-                        <input type="file" id="getimage" name="img" accept="image/*" class="upimage" onchange="loadFile(event)">
+                        <div>
+                            <input type="file" id="getimage" name="img" accept="image/*" class="upimage" onchange="loadFile(event)">
+                        </div>
+                        <div class="model-options">
+                            <select id="nlp" name="nlp">
+                                {% for model in nlp.values() %}
+                                    <option value="{{model}}">{{model}}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="cv" name="cv">
+                                {% for model in cv.values() %}
+                                    <option value="{{model}}">{{model}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-    
+
     
                     <div class="results-container">
                         <div class="alt-title">
