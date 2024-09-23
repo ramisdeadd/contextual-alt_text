@@ -221,7 +221,7 @@ body{
     field-sizing: content;
 }
 
-.center_form form {
+.generator-container {
     display: flex;
     justify-content: center;
     align-items: center;
