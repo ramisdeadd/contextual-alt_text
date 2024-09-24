@@ -2,18 +2,29 @@
     font-family: Archivo;
     src: url(../../static/fonts/Archivo.ttf);
 }
+
 body{
     font-family: Archivo;
     height: auto;
     margin: 0;
     color: white;
 }
+
 .header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin: 0px 200px 50px;
     padding-top: 80px;
+}
+
+.generated-list-container {
+    color: black
+}
+
+.wspacer a {
+    color: white;
+    text-decoration: none;
 }
 
 .hgroup1{
