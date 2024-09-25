@@ -1,7 +1,7 @@
 import torch
 import os
 from clipcap import GenerateClipCap
-from models import GenerateBLIP2, GenerateBART, GeneratePEGASUS
+from models import GenerateBLIP, GenerateBLIP2, GenerateBART, GeneratePEGASUS, GenerateGPT2
 from pathlib import Path
 from openai import OpenAI
 from transformers import pipeline
@@ -25,7 +25,10 @@ def create_summary(text: str, model: str) -> str:
 
 def create_caption(img_path: Path, model: str) -> str:
     if model == "BLIP":
-        vision_transformer = GenerateBLIP2()
+        vision_transformer = GenerateBLIP()
+        image_caption = vision_transformer.predict(img_path)
+    elif model == "GPT2":
+        vision_transformer = GenerateGPT2()
         image_caption = vision_transformer.predict(img_path)
     elif model == "CLIPCAP":
         vision_transformer = GenerateClipCap()
