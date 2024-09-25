@@ -107,3 +107,29 @@ async def change_user_password(
         session.refresh(curr_user)
         print("PASSWORD UPDATED")
     return curr_user
+
+async def create_user(user: UserCreate):
+    with Session(engine) as session:
+        db_user = User.model_validate(user)
+        session.add(db_user)
+        session.commit()
+        session.refresh(db_user)
+    print(f"Succesful Signup")
+    return db_user
+
+async def update_user_profile(user: UserUpdate, 
+                              curr_user: User):
+    with Session(engine) as session:
+        valid_user = UserUpdate.model_validate(user)
+
+        curr_user.username = valid_user.username
+        curr_user.first_name = valid_user.first_name
+        curr_user.last_name = valid_user.last_name
+        curr_user.email = valid_user.email
+        curr_user.disabled = valid_user.disabled
+
+        session.add(curr_user)
+        session.commit()
+        session.refresh(curr_user)
+    
+    return curr_user

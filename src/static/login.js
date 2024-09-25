@@ -5,7 +5,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 
     console.log(formData)
 
-    const response = await fetch('/login', {
+    const response = await fetch('/auth/login', {
         method: 'POST',
         body: formData
     });

@@ -349,18 +349,21 @@ confpass.addEventListener('keyup', function() {
 
 // password.onchange = validatePassword;
 // confirm_password.onkeyup = validatePassword;
- 
 
 
 document.getElementById("signup-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("signup-form")
     const formData = new FormData(form);
+    
+    console.log(formData)
 
-    const response = await fetch('/signup', {
+    const response = await fetch('/auth/signup', {
         method: 'POST', 
         body: formData
     });
+
+    console.log(response)
 
     if (response.redirected) {
         window.location.href = response.url;

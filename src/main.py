@@ -32,11 +32,11 @@ async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
     try:
         user = await get_current_user(token=token, allow=True)
         if user == None:
-            return templates.TemplateResponse("/pages/index.html", {"request": request, "user": None, "nlp": nlp_models_dict, "cv": vision_models_dict})
-        return templates.TemplateResponse("/pages/index.html", {"request": request, "user": user, "nlp": nlp_models_dict, "cv": vision_models_dict})
+            return templates.TemplateResponse("pages/index.html", {"request": request, "user": None, "nlp": nlp_models_dict, "cv": vision_models_dict})
+        return templates.TemplateResponse("pages/index.html", {"request": request, "user": user, "nlp": nlp_models_dict, "cv": vision_models_dict})
     except HTTPException as error: 
         if error.status_code == status.HTTP_401_UNAUTHORIZED:
-            response = RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
+            response = RedirectResponse(url="auth/login", status_code=status.HTTP_302_FOUND)
             response.delete_cookie("token")
             return response
         raise error

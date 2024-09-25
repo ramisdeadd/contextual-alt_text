@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="wspacer">
-                        <a href="/dashboard">Dashboard</a>
+                        <a href="auth/dashboard">Dashboard</a>
                     </div>
                 </div>
                 
@@ -41,15 +41,15 @@
                     <div class="hsub2">
                         {% if user and user.username %}
                         <div class="login">
-                            <a href="/logout">Logout</a>
+                            <a href="auth/logout">Logout</a>
                         </div>
                         {% else %}
                         <div class="login">
-                            <a href="/login">Login</a>
+                            <a href="auth/login">Login</a>
                         </div>
                         {% endif %}
                         <div>
-                            <a href="/profile"><img src="../../static/images/profile.png" height="35px"></a>
+                            <a href="auth/profile"><img src="../../static/images/profile.png" height="35px"></a>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 
             <div class="container">
                 <div class="getstarted">
-                    <a href="/signup">Sign up!</a>
+                    <a href="auth/signup">Sign up!</a>
                 </div>
                 <div class="remarks">
                     Enhancing contextuality of alt-text, <br>

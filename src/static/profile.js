@@ -306,7 +306,7 @@ document.getElementById("profile-form").addEventListener("submit", async (e) => 
 
     console.log(formData)
 
-    const response = await fetch(`/profile/update-profile`, {
+    const response = await fetch(`/auth/profile/update-profile`, {
         method: 'POST',
         body: formData
     });
@@ -326,7 +326,7 @@ document.getElementById("password-form").addEventListener("submit", async (e) =>
 
     console.log([...formData.entries()]);
 
-    const response = await fetch(`/profile/change-password`, {
+    const response = await fetch(`/auth/profile/change-password`, {
         method: 'POST',
         body: formData
     });

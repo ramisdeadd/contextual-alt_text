@@ -5,7 +5,7 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     console.log(formData)
 
-    const response = await fetch('/', {
+    const response = await fetch('/post/', {
         method: 'POST',
         body: formData
     });

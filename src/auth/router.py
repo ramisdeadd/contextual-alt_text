@@ -4,13 +4,15 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from configs import templates
-from auth.models import UserPasswordUpdate
+from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
 from auth.dependencies import (
     get_current_active_user, 
     get_current_user, 
     get_password_hash, 
     create_access_token,
     change_user_password,
+    update_user_profile,
+    create_user,
     authenticate_user,
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
@@ -28,6 +30,7 @@ async def user_dashboard(request: Request, current_user: Annotated[str, Depends(
         
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
+    print("CHECK-ROUTER")
     return templates.TemplateResponse("/pages/login.html", {"request": request})
 
 @router.get("/signup", response_class=HTMLResponse)
@@ -82,3 +85,57 @@ async def login_for_access_token(
     response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
 
     return response
+
+@router.post("/signup", response_class=HTMLResponse)
+async def signup_user(username: Annotated[str, Form()],
+                      first_name: Annotated[str, Form()],
+                      last_name: Annotated[str, Form()], 
+                      email: Annotated[str, Form()], 
+                      plain_password: Annotated[str, Form()]):
+    hashed_password = get_password_hash(plain_password)
+    user = UserCreate(
+        username = username,
+        first_name = first_name,
+        last_name = last_name,
+        email = email,
+        hashed_password = hashed_password,
+        disabled = False,
+    )
+    user = await create_user(user)
+    response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
+    return response 
+
+
+
+@router.post("/profile/update-profile", response_class=HTMLResponse)
+async def update_user(
+    username: Annotated[str, Form()],
+    first_name: Annotated[str, Form()],
+    last_name: Annotated[str, Form()], 
+    email: Annotated[str, Form()], 
+    token: Annotated[str, Cookie(...)],
+    disabled: Annotated[bool, Form()] = 0,
+):
+    user = UserUpdate(
+        username = username,
+        first_name = first_name,
+        last_name = last_name,
+        email = email,
+        disabled = disabled,
+    )
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+    user = await update_user_profile(user, curr_user)
+    print(f"Updated User {user.username}")
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data = {"sub": user.username}, 
+        expires_delta = access_token_expires
+    )
+
+    print(f"access token {access_token}")
+
+    response = RedirectResponse("/profile", status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
+    return response
+
