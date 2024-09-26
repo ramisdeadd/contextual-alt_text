@@ -22,6 +22,30 @@ body{
     color: black
 }
 
+.generated-list-container * {
+    border: 1px solid black
+}
+
+.generated-list-container th {
+    padding: 10px 20px 10px 20px;
+}
+
+.generated-list-container td {
+    text-align: center
+}
+
+.generated-list-container td{
+    padding: 10px;
+}
+
+.alt-table {
+    width: 550px
+}
+
+.caption-table {
+    width: 250px
+}
+
 .wspacer a {
     color: white;
     text-decoration: none;

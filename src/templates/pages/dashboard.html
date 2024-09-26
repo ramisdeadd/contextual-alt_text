@@ -1,7 +1,51 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 <div class="generated-list-container">
-    <h1>CHECK HELLO!</h1>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">#</th>
+                <th colspan="2">Model Output</th>
+                <th colspan="2">User Edits</th>
+                <th colspan="2">Generators</th>
+            </tr>
+            <tr>
+                <th>Image Caption</th>
+                <th>Alt-Text</th>
+                <th>Image Caption</th>
+                <th>Alt-Text</th>
+                <th>Image Generator</th>
+                <th>Text Generator</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for img, alt in generation_history %}
+            <tr>
+                <td>
+                    {{img.id}}
+                </td>
+                <td class="caption-table">
+                    {{img.caption}}
+                </td>
+                <td class="alt-table">
+                    {{alt.alt}}
+                </td>
+                <td>
+                    {{img.caption_edit}}
+                </td>
+                <td>
+                    {{alt.alt_edit}}
+                </td>
+                <td>
+                    {{img.caption_gen}}
+                </td>
+                <td>
+                    {{alt.alt_gen}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <script src="{{ url_for('static', path='dashboard.js') }}" defer></script>

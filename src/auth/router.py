@@ -14,6 +14,8 @@ from auth.dependencies import (
     update_user_profile,
     create_user,
     authenticate_user,
+    get_user_generated_history,
+    get_image_alt_text,
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
 
@@ -26,11 +28,18 @@ async def read_users_me(request: Request, current_user: Annotated[str, Depends(g
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def user_dashboard(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
-    return templates.TemplateResponse("/pages/dashboard.html", {"request": request, "user": current_user})
+    img_history = get_user_generated_history(current_user)
+    alt_history = []
+    for image in img_history:
+        alttext = get_image_alt_text(image)
+        alt_history.append(alttext)
+    
+    generated_history = list(zip(img_history, alt_history))
+            
+    return templates.TemplateResponse("pages/dashboard.html", {"request": request, "user": current_user, "generation_history": generated_history})
         
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
-    print("CHECK-ROUTER")
     return templates.TemplateResponse("/pages/login.html", {"request": request})
 
 @router.get("/signup", response_class=HTMLResponse)
@@ -59,7 +68,7 @@ async def change_password(
     curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
     user = await change_user_password(user, curr_user)
 
-    response = RedirectResponse("/profile", status_code=status.HTTP_302_FOUND)
+    response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
 
 @router.post("/login", response_class=HTMLResponse)
@@ -102,7 +111,7 @@ async def signup_user(username: Annotated[str, Form()],
         disabled = False,
     )
     user = await create_user(user)
-    response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
+    response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
     return response 
 
 
@@ -135,7 +144,7 @@ async def update_user(
 
     print(f"access token {access_token}")
 
-    response = RedirectResponse("/profile", status_code=status.HTTP_302_FOUND)
+    response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
     return response
 

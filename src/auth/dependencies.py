@@ -8,6 +8,7 @@ from sqlmodel import Session, select
 from database import engine
 from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
 from auth.schemas import User
+from post.schemas import Image, AltText
 import jwt
 
 SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
@@ -36,7 +37,7 @@ def authenticate_user(username: str, plain_password: str):
         return False
     if not verify_password(plain_password, user.hashed_password):
         return False
-    return user
+    return user    
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
@@ -133,3 +134,17 @@ async def update_user_profile(user: UserUpdate,
         session.refresh(curr_user)
     
     return curr_user
+
+def get_user_generated_history(curr_user: User):
+    with Session(engine) as session:
+        statement = select(Image).where(Image.user_id == curr_user.id)
+        result = session.exec(statement)
+        history = result.all()
+    return history
+
+def get_image_alt_text(curr_image: Image):
+    with Session(engine) as session:
+        statement = select(AltText).where(AltText.image_id == curr_image.id)
+        result = session.exec(statement)
+        history = result.one()
+    return history

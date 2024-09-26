@@ -1,9 +1,7 @@
 import hashlib
-
-from PIL import Image
 from pathlib import Path
 from sqlmodel import Session, select
-from post.schemas import AltText
+from post.schemas import AltText, Image
 from auth.schemas import User
 from database import engine
 

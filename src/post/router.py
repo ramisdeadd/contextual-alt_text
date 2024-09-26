@@ -12,7 +12,7 @@ from post.dependencies import (
 );
 from generate import create_alttext
 from auth.dependencies import get_current_user
-from PIL import Image
+import PIL.Image
 
 router = APIRouter()
 
@@ -31,7 +31,7 @@ async def generate_alt_text(
 
     user = await get_current_user(token=token, allow=True)
     if user == None:
-        response = RedirectResponse("/login", status_code=status.HTTP_302_FOUND)
+        response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
         return response
     
     img_content = await img.read()
@@ -39,13 +39,15 @@ async def generate_alt_text(
     with open(img_path, "wb") as f:
         f.write(img_content)
 
-    with Image.open(img_path) as image:
+    with PIL.Image.open(img_path) as image:
         image.save(img_path, dpi=size)
         image_hash = await generate_image_hash(img_path)
 
-    image_exist = await check_image_exist(user, image_hash)        
+    print("CHECK")
+    image_exist = await check_image_exist(user, image_hash)  
+    print("CHECK-1")      
     generator_output = create_alttext(text, img_path, image_exist, vision_model=vision_model, nlp_model=nlp_model)
-    
+    print("CHECK-3")
     image_db = await save_image_gen(user, image_hash, generator_output["image-caption"], vision_model)
     alttext_db = await save_alt_gen(image_db, generator_output["alt-text"], nlp_model)
 
