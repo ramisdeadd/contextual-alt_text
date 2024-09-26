@@ -13,7 +13,7 @@
                     
                     <div class="hsub3">
                         <div class="greet">
-                            {% if user%}
+                            {% if user %}
                                 <span>Hi {{user.first_name | capitalize}}</span>
                             {% else %}
                                 <span>Greetings!</span>
@@ -32,7 +32,11 @@
                     </div>
 
                     <div class="wspacer">
-                        <a href="auth/dashboard">Dashboard</a>
+                        {% if user %}
+                            <a href="auth/dashboard">Dashboard</a>
+                        {% else %}
+                            <span>About</span>
+                        {% endif %}
                     </div>
                 </div>
                 
