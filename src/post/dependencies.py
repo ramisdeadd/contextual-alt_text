@@ -6,7 +6,7 @@ from auth.schemas import User
 from database import engine
 
 vision_models_dict = {"CLIPCAP": "CLIPCAP", "BLIP": "BLIP", "GPT2": "GPT2"}
-nlp_models_dict =  {"BART": "BART", "PEGASUS": "PEGASUS"}
+nlp_models_dict =  {"BART": "BART", "PEGASUS": "PEGASUS", "T5": "T5"}
 
 async def save_alt_gen(
         image: Image,
