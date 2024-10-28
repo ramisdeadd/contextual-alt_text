@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: Archivo;
     src: url(../../static/fonts/Archivo.ttf);
@@ -51,11 +52,23 @@ body{
     text-decoration: none;
 }
 
+.wspacer {
+    transition: transform .3s ease-in-out, color .3s ease-in-out;
+    color: #cfcaca;
+    cursor: pointer;
+}
+
 .hgroup1{
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+}
+
+.wspacer:hover {
+    transform: scale(1.2);
+    color: white;
 }
 
 .hgroup2{
@@ -84,13 +97,27 @@ body{
     margin-right: 10px;
 }
 
+.login{
+    transition: transform .5s ease-in-out, color .5s ease-in-out;
+}
+.login:hover{
+    transform: scale(1.1);
+    color:rgb(245, 191, 91);
+}
+
 .maintitle {
     display: block;
     text-align: center;
-    font-size: 60px;
+    font-size: 85px;
     margin-right: 40px;
     margin-top: 150px;
-    letter-spacing: -7px;
+    letter-spacing: -10px;
+    line-height: .7;
+    color: #c4ff76;
+}
+
+.letC {
+    font-size: 150px;
 }
 
 .bg {
@@ -98,17 +125,39 @@ body{
     background-size: cover;
     height: 900px;
     position:relative;
+
+    opacity: 0;                         
+    transform: translateY(-1000px);        
+    animation: slideTopDown .75s ease-in-out forwards;
+    transition: transform 1.5s;
+}
+
+@keyframes slideTopDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-1000px); 
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
 }
 
 .getstarted {
     font-size: 30px;
     margin-right: 50px;
-    background-color: rgb(255, 248, 156);
+    background-color: rgb(240, 233, 139);
     padding: 20px 40px 20px;
     border-radius: 40px;
     color: black;
+    transition: transform 0.4s, background-color 0.5s;
 }
 
+
+.getstarted:hover{
+    background-color: rgb(247, 236, 90);
+    transform: scale(1.1);  
+}
 .remarks {
     margin-left: 50px;
 }
@@ -117,6 +166,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.container a{
+    text-decoration: none;
 }
 
 .mouse{
@@ -130,30 +183,14 @@ body{
     height: 100px;
 }
 
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-.mouse img {
-    animation: blink 1.5s;
-    animation-iteration-count: infinite;
-}
-
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 20px;
-  background: rgb(255, 255, 255) ;
+  background: rgb(63, 63, 63) ;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -568,7 +605,9 @@ body{
     justify-content: center;
     align-items: center;
 }
-
+.getstarted {
+    color: rgb(71, 68, 68);
+}
 .getstarted a{
     text-decoration: none;
     color: #575252;
