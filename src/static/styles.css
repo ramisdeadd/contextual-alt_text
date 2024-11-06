@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: Archivo;
     src: url(../../static/fonts/Archivo.ttf);
@@ -51,11 +52,23 @@ body{
     text-decoration: none;
 }
 
+.wspacer {
+    transition: transform .3s ease-in-out, color .3s ease-in-out;
+    color: #cfcaca;
+    cursor: pointer;
+}
+
 .hgroup1{
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+}
+
+.wspacer:hover {
+    transform: scale(1.2);
+    color: white;
 }
 
 .hgroup2{
@@ -84,13 +97,27 @@ body{
     margin-right: 10px;
 }
 
+.login{
+    transition: transform .5s ease-in-out, color .5s ease-in-out;
+}
+.login:hover{
+    transform: scale(1.1);
+    color:rgb(245, 191, 91);
+}
+
 .maintitle {
     display: block;
     text-align: center;
-    font-size: 60px;
+    font-size: 85px;
     margin-right: 40px;
     margin-top: 150px;
-    letter-spacing: -7px;
+    letter-spacing: -10px;
+    line-height: .7;
+    color: #c4ff76;
+}
+
+.letC {
+    font-size: 150px;
 }
 
 .bg {
@@ -98,17 +125,39 @@ body{
     background-size: cover;
     height: 900px;
     position:relative;
+
+    opacity: 0;                         
+    transform: translateY(-1000px);        
+    animation: slideTopDown .75s ease-in-out forwards;
+    transition: transform 1.5s;
+}
+
+@keyframes slideTopDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-1000px); 
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
 }
 
 .getstarted {
     font-size: 30px;
     margin-right: 50px;
-    background-color: rgb(255, 248, 156);
+    background-color: rgb(240, 233, 139);
     padding: 20px 40px 20px;
     border-radius: 40px;
     color: black;
+    transition: transform 0.4s, background-color 0.5s;
 }
 
+
+.getstarted:hover{
+    background-color: rgb(247, 236, 90);
+    transform: scale(1.1);  
+}
 .remarks {
     margin-left: 50px;
 }
@@ -117,6 +166,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.container a{
+    text-decoration: none;
 }
 
 .mouse{
@@ -130,30 +183,14 @@ body{
     height: 100px;
 }
 
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-.mouse img {
-    animation: blink 1.5s;
-    animation-iteration-count: infinite;
-}
-
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 20px;
-  background: rgb(255, 255, 255) ;
+  background: rgb(63, 63, 63) ;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -217,9 +254,82 @@ body{
     justify-content: center;
     align-items: center;
 }
+.upimgcover {
+    background-color: rgb(239, 241, 250);
+    width: 704px;
+    padding: 30px;
+    border-radius: 15px;
+
+    margin-left: 5px;
+    margin-bottom: 50px;
+}
+
+.upimage {
+    display: none;
+}
+.file-input-label {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid #b3b3b3;
+    border-radius: 5px;
+    color: #535353;
+    background-color: rgb(236, 236, 236);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 12px;
+}
+
+.file-input-label:hover {
+    background-color: rgb(216, 216, 216);
+    color: #535353;
+}
+
+.imgcap_alt button{
+    width: 170px;
+    height: 25px;
+    font-family: Archivo;
+    display: inline-block; 
+    background-color: rgb(239, 241, 250);
+    padding: 3px 10px; 
+    border: 0px; 
+    border-radius: 5px;
+    color: #707070;
+    cursor: pointer;
+    font-size: 12px; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.model-options select {
+    width: 108px;
+    height: 25px;
+    font-family: Archivo;
+    display: inline-block; 
+    padding: 3px 10px; 
+    border: 1px solid #b3b3b3; 
+    border-radius: 5px;
+    color: #707070;
+    background-color: rgb(236, 236, 236); 
+    cursor: pointer;
+    font-size: 12px; 
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.model-options select:hover {
+    background-color: rgb(216, 216, 216);
+    color: #535353; 
+}
+
+
+.model-options select:focus {
+    outline: none;
+    border-color: #b3b3b3; 
+    background-color: rgb(216, 216, 216);
+}
+
 
 .uploadimage {
-    border: 2px dashed rgb(73, 73, 73);
+    border: 2px dashed rgb(179, 165, 165);
     border-radius: 5px;
 
     width: 700px;
@@ -237,9 +347,7 @@ body{
     height: 400px;
 }
 
-/* .uploadimage>input {
-    display: none;
-} */
+
 
 .uploadtext textarea{
     border: 1px solid rgb(236, 236, 236);
@@ -263,6 +371,11 @@ body{
     flex-direction: column;
 }
 
+.button_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .alt-button {
     padding: 10px 20px 10px;
     border-radius: 10px;
@@ -272,9 +385,16 @@ body{
     font-size: 15px;
     font-family: Archivo;
     color: rgb(55, 55, 55);
+    transition: transform .6s, background-color .6s;
+    cursor: pointer;
+    
 }
 
 
+.alt-button:hover {
+    transform: scale(1.1);
+    background-color: #fdec88e0;
+}
 
 
 
@@ -292,6 +412,8 @@ body{
     font-size: 18px;
     padding-left: 0px;
     padding-top: 40px;
+
+    margin-left: 20px;
 }
 
 .imagecap-container {
@@ -303,6 +425,8 @@ body{
     font-size: 18px;
     padding-left: 0px;
     padding-top: 0px;
+
+    margin-left: 20px;
 }
 
 .alt-title {
@@ -328,6 +452,29 @@ body{
     margin-top: 25px;
     font-family: serif;
     font-size: 17px;
+}
+
+.results textarea{
+    text-decoration: none;
+    outline: none; 
+    border: none;
+    background-color: rgb(239, 241, 250);
+}
+
+.results input {
+    text-decoration: none;
+    outline: none; 
+    border: none;
+    background-color: rgb(239, 241, 250);
+}
+
+.imgcap_alt {
+    background-color: rgb(239, 241, 250);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0px 0px 0px;
+    border-radius: 15px;
+
 }
 
 .uploadbutton {
@@ -568,7 +715,9 @@ body{
     justify-content: center;
     align-items: center;
 }
-
+.getstarted {
+    color: rgb(71, 68, 68);
+}
 .getstarted a{
     text-decoration: none;
     color: #575252;

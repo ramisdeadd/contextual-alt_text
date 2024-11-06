@@ -60,13 +60,15 @@
 
 
             <div class="maintitle">
-                <h1>Contextual Alt-Text</h1>
+                <h1><span class="letC">C</span>ONTEXTUA<span class="letC">L</span><br><span class="letA">A</span>LT-TEX<span class="letA">T</span></h1>
             </div>
 
             <div class="container">
-                <div class="getstarted">
-                    <a href="auth/signup">Sign up!</a>
-                </div>
+                <a href="auth/signup">
+                    <div class="getstarted">
+                    Sign up!
+                    </div>
+                </a>
                 <div class="remarks">
                     Enhancing contextuality of alt-text, <br>
                     Better context is better quality.
@@ -86,54 +88,65 @@
             <div class="center_form">
                 <div class="generator-container">
                     <form id="upload-article">
-                        <div class="uploadimage" id="imagebox">
-                            <img id="output">
+                        <div class="upimgcover">
+                            <div class="uploadimage" id="imagebox">
+                                <img id="output">
+                            </div>
                         </div>
+                        
 
                         <div class="uploadbutton">
                             <div>
+                                <label for="getimage" class="file-input-label">Upload Image</label>
                                 <input type="file" id="getimage" name="img" accept="image/*" class="upimage" onchange="loadFile(event)">
                             </div>
                             <div class="model-options">
-                                <select id="nlp" name="nlp">
+                                <select id="nlp" name="nlp" class="nlp">
                                     {% for model in nlp.values() %}
                                         <option value="{{model}}">{{model}}</option>
                                     {% endfor %}
                                 </select>
-                                <select id="cv" name="cv">
+                                <select id="cv" name="cv" class="cv">
                                     {% for model in cv.values() %}
                                         <option value="{{model}}">{{model}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                         </div>    
-                        <div class="results-container">
-                            <div class="alt-title">
-                                Generated Alt-Text: 
-                                <button>Save Alt-text</button>
+
+                        <div class="imgcap_alt">
+                            <div class="results-container">
+                                <div class="alt-title">
+                                    Generated Alt-Text: 
+                                    <button>Save Alt-text</button>
+                                </div>
+                                <div class="results">
+                                    <textarea id="getalttext"></textarea>
+                                </div>
                             </div>
-                            <div class="results">
-                                <textarea id="getalttext"></textarea>
+    
+                            <div class="imagecap-container">
+                                <div class="imagecap-title">
+                                    Image Caption:
+                                    <button>Save Image-Caption</button>
+                                </div>
+    
+                                <div class="results">
+                                    <input type="text" id="getcaption">
+                                </div>
                             </div>
                         </div>
-
-                        <div class="imagecap-container">
-                            <div class="imagecap-title">
-                                Image Caption:
-                                <button>Save Image-Caption</button>
-                            </div>
-
-                            <div class="results">
-                                <input type="text" id="getcaption">
-                            </div>
-                        </div>
+                        
         
                         <div class="uploadtext">
                             <label for="gettext"></label>
                             <textarea id="gettext" name="text" placeholder="Enter Article Here"></textarea>
                         </div>
-        
-                        <button class="alt-button" type="submit" id="generate_btn">Generate Alt-Text</button>
+                        
+                        <div class="button_center">
+                            <button class="alt-button" type="submit" id="generate_btn">Generate Alt-Text</button>
+                        </div>
+
                     </form>
                 </div>   
             </div>
