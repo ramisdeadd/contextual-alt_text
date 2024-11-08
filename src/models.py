@@ -80,11 +80,24 @@ class GeneratePEGASUS():
     
 class GenerateT5():
     def __init__(self):
-           self.model = T5ForConditionalGeneration.from_pretrained("t5-base")
-           self.tokenizer = AutoTokenizer.from_pretrained("t5-base")  
+           self.model = T5ForConditionalGeneration.from_pretrained("google/t5-base").to(device)
+           self.tokenizer = AutoTokenizer.from_pretrained("google/t5-base", device_map="auto")  
 
     def predict(self, text: str):
-           inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt").input_ids
+           inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt", truncation=True).input_ids.to("cuda")
            summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
            return summary
+    
+class GenerateFlanT5():
+    def __init__(self):
+           self.model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-large").to(device)
+           self.tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large", device_map="auto")  
+
+    def predict(self, text: str):
+           inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt", truncation=True).input_ids.to("cuda")
+           summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
+           summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+           return summary
+    
+    
