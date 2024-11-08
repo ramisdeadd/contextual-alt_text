@@ -47,9 +47,10 @@ body{
     width: 250px
 }
 
-.wspacer a {
-    color: white;
+.wspacer a{
+    color: #cfcaca;
     text-decoration: none;
+    transition: transform .3s ease-in-out, color .3s ease-in-out;
 }
 
 .wspacer {
@@ -67,6 +68,11 @@ body{
 }
 
 .wspacer:hover {
+    transform: scale(1.2);
+    color: white;
+}
+
+.wspacer a:hover {
     transform: scale(1.2);
     color: white;
 }
@@ -108,12 +114,12 @@ body{
 .maintitle {
     display: block;
     text-align: center;
-    font-size: 85px;
+    font-size: 60px;
     margin-right: 40px;
-    margin-top: 150px;
-    letter-spacing: -10px;
-    line-height: .7;
-    color: #c4ff76;
+    margin-top: 200px;
+    letter-spacing: -5px;
+    line-height: 0.8;
+    color: #ffffff;
 }
 
 .letC {
@@ -130,6 +136,13 @@ body{
     transform: translateY(-1000px);        
     animation: slideTopDown .75s ease-in-out forwards;
     transition: transform 1.5s;
+}
+
+.bg2 {
+    background: url(../../static/images/bg5.jpg) no-repeat;
+    background-size: cover;
+    height: 200px;
+    position:relative;
 }
 
 @keyframes slideTopDown {
@@ -776,12 +789,11 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    background: url(../../static/images/bg5.jpg) no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    height: 100vh; 
+    height: 600px; 
     overflow: hidden;
+    padding-bottom: 100px;
 }
 
 .main-profile input {
@@ -813,9 +825,11 @@ body{
 }
 
 .whitebg {
-    background-color: rgb(255, 255, 255);
-    padding: 30px 60px 30px;
+    background-color: rgb(239, 241, 250);
+    padding: 50px 150px 50px;
     border-radius: 10px;
+    margin: 120px 0px 0px;
+    border-radius: 15px;
 }
 
 .groupa, .groupb {
