@@ -1,7 +1,7 @@
 import torch
 import os
 from clipcap import GenerateClipCap
-from models import GenerateBLIP, GenerateT5, GenerateBART, GeneratePEGASUS, GenerateGPT2
+from models import GenerateBLIP, GenerateT5, GenerateBART, GeneratePEGASUS, GenerateGPT2, GenerateFlanT5
 from pathlib import Path
 from openai import OpenAI
 from transformers import pipeline
@@ -18,6 +18,9 @@ def create_summary(text: str, model: str) -> str:
         summarized_text = summarizer.predict(text)
     elif model == "T5":
         summarizer = GenerateT5()
+        summarized_text = summarizer.predict(text)
+    elif model == "FlanT5":
+        summarizer = GenerateFlanT5()
         summarized_text = summarizer.predict(text)
     
     print(f"Summarized Text: {summarized_text}")
@@ -45,7 +48,6 @@ def create_caption(img_path: Path, model: str) -> str:
 
 
 def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nlp_model: str):
-    ## TEMP Image removal check
     summary = create_summary(text, nlp_model)
     caption = create_caption(img_path, vision_model)
     
@@ -54,7 +56,7 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
     if not api_key:
         raise ValueError("API Key Missing!")
     client = OpenAI(
-            api_key = api_key
+            api_key = "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"
     )
 
     completion = client.chat.completions.create(

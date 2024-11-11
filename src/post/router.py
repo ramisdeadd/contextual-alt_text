@@ -43,11 +43,8 @@ async def generate_alt_text(
         image.save(img_path, dpi=size)
         image_hash = await generate_image_hash(img_path)
 
-    print("CHECK")
     image_exist = await check_image_exist(user, image_hash)  
-    print("CHECK-1")      
     generator_output = create_alttext(text, img_path, image_exist, vision_model=vision_model, nlp_model=nlp_model)
-    print("CHECK-3")
     image_db = await save_image_gen(user, image_hash, generator_output["image-caption"], vision_model)
     alttext_db = await save_alt_gen(image_db, generator_output["alt-text"], nlp_model)
 
