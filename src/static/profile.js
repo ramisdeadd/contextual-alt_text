@@ -55,7 +55,7 @@ function CustomValidation() {
         firstNameValidationElements[0].style.color = 'green';
       }
   
-      if (/[^a-zA-Z]/.test(firstName.value)) {
+      if (/[^a-zA-Z ]/.test(firstName.value)) {
         firstNameValidationElements[1].textContent = 'First name must contain only letters.';
         firstNameValidationElements[1].classList.add('invalid');
         firstNameValidationElements[1].style.color = 'red';

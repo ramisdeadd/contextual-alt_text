@@ -1,14 +1,62 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
+<div class="bg2">
 
-<div class="main-profile">
+    <div class="header">
+        <div class="titlecont">
+            <div class="cobalt">Cobalt</div>
+            <div class="hsub3">
+                <div class="greet">
+                    {% if user %}
+                        <span>Hi {{user.first_name | capitalize}}</span>
+                    {% else %}
+                        <span>Greetings!</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="hgroup1">
+            <div class="wspacer">
+                <a href="/">Home</a>
+            </div>
+    
+            <div class="wspacer">
+                <a>Profile</a>
+            </div>
 
-    <div class="profile-logo">
-        <img src="../../static/images/profile.png" height="35px">
+            <div class="wspacer">
+                {% if user %}
+                    <a href="auth/dashboard">Dashboard</a>
+                {% else %}
+                    <span>About</span>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="hgroup2">
+
+            <div class="hsub2">
+                {% if user and user.username %}
+                <div class="login">
+                    <a href="auth/logout">Logout</a>
+                </div>
+                {% else %}
+                <div class="login">
+                    <a href="auth/login">Login</a>
+                </div>
+                {% endif %}
+                <div>
+                   <img src="../../static/images/profile.png" height="35px">
+                </div>
+            </div>
+        </div>
+
     </div>
-
+</div>
+<div class="main-profile">
     <div class="whitebg">
         <div class="profile-editor">
+            <h2>Account Settings</h2>
             <!-- <h2 id="profile-username">{{user.username}}</h2> -->
             <form id="profile-form" name="user-profile" method="POST">
                 <div class="groupa">
@@ -81,7 +129,7 @@
                 </div>
     
                 <div>
-                    <button type="submit">Submit Changes</button>
+                    <button class="alt-button" type="submit">Submit Changes</button>
                 </div>
 
             </form>
@@ -122,13 +170,10 @@
 
                     </div>
                 </div>
-                <button type="submit">Change Password</button>
+                <button class="alt-button" type="submit">Change Password</button>
 
 
             </form>
-        </div>
-        <div class="returnhome2">
-            <a href="/">Return to home</a>
         </div>
     </div>
     
