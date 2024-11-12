@@ -149,6 +149,9 @@ def get_image_alt_text(curr_image: Image):
         history = result.one()
     return history
 
-def get_all_users(curr_user: User):
+def get_all_users():
     with Session(engine) as session:
-        statement = select(User).where()
+        statement = select(User).where(User.role == 'user')
+        result = session.exec(statement)
+        users = result.all()
+        return users
