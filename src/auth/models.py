@@ -6,6 +6,7 @@ class UserBase(SQLModel):
     last_name: str
     email: str = Field(unique=True)
     disabled: bool = Field(default=False)
+    role: str = Field(default="user")
 
 class UserUpdate(SQLModel):
     username: str | None = None

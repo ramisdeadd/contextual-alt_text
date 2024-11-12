@@ -15,6 +15,7 @@ def create_admin_user():
             email = "admin@gmail.com",
             hashed_password = get_password_hash("1Adminsecret"),
             disabled = False,
+            role = "admin",
 )
 
         with Session(engine) as session:
