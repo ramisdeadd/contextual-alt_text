@@ -438,7 +438,7 @@ body{
     font-size: 18px;
     padding-left: 0px;
     padding-top: 0px;
-
+    padding-bottom: 30px;
     margin-left: 20px;
 }
 
@@ -462,7 +462,7 @@ body{
 
 .results {
     margin-left: 40px;
-    margin-top: 25px;
+    margin-top: 5px;
     font-family: serif;
     font-size: 17px;
 }
@@ -479,6 +479,9 @@ body{
     outline: none; 
     border: none;
     background-color: rgb(239, 241, 250);
+
+    font-family: serif;
+    font-size: 17px;
 }
 
 .imgcap_alt {
@@ -860,14 +863,12 @@ body{
 
 #getalttext {
     border-width: 0px 0px 1px 0px;
-    font-size: large;
     width: 700px;
     height: 50px;
 }
 
 #getcaption {
     border-width: 0px 0px 1px 0px;
-    font-size: medium;
     width: 700px;
     height: 50px;
 }
@@ -878,4 +879,18 @@ body{
 
 #getcaption:focus {
     outline: none
+}
+
+.savecopy-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon2 {
+    margin-right: 30px;
+}
+
+.icon1 {
+    margin-right: 15px;
 }

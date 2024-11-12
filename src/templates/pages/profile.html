@@ -8,7 +8,7 @@
             <div class="hsub3">
                 <div class="greet">
                     {% if user %}
-                        <span>Hi {{user.first_name | capitalize}}</span>
+                        <span>Hi {{first_name_display}}</span>
                     {% else %}
                         <span>Greetings!</span>
                     {% endif %}
@@ -63,7 +63,7 @@
                     <div class="groupa1">
                         <div class="signuser">
                             <label for="username_input">Username:<br>
-                                <input type="text" id="username_input" value={{user.username}} name="username">
+                                <input type="text" id="username_input" value="{{user.username}}" name="username">
                                     <div class="requirements">
                                         <ul>
                                             <li>At least 6-13 characters long.</li>
@@ -79,7 +79,7 @@
                     <div class="groupa2">
                         <div class="signuser">
                             <label for="first_name_input">First name:<br>
-                            <input type="text" id="first_name_input" value={{user.first_name}} name="first_name">
+                            <input type="text" id="first_name_input" value="{{first_name_display}}" name="first_name">
                                 <div class="requirements">
                                     <ul>
                                         <li>Atleast 2-40 characters</li>
@@ -99,7 +99,7 @@
                     <div class="groupb1">
                         <div class="signuser">
                             <label for="last_name_input">Last name:<br>    
-                                <input type="text" id="last_name_input" value={{user.last_name}} name="last_name">
+                                <input type="text" id="last_name_input" value="{{user.last_name}}" name="last_name">
                                 <div class="requirements">
                                     <ul>
                                         <li>At least 2-40 characters long.</li>
@@ -115,7 +115,7 @@
                     <div class="groupb2">
                         <div class="signuser">
                             <label for="email_input">Email:<br>
-                                <input type="email" id="email_input" value={{user.email}} name="email">
+                                <input type="email" id="email_input" value="{{user.email}}" name="email">
                                     <div class="requirements">
                                         <ul>
                                             <li>Must be in order of: characters@characters.domain</li>

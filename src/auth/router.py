@@ -24,7 +24,9 @@ router = APIRouter()
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
 @router.get("/profile", response_class=HTMLResponse)
 async def read_users_me(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
-    return templates.TemplateResponse("/pages/profile.html", {"request": request, "user": current_user})
+    first_name_display = current_user.first_name.title()
+    print(first_name_display)
+    return templates.TemplateResponse("/pages/profile.html", {"request": request, "first_name_display": first_name_display, "user": current_user})
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def user_dashboard(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
@@ -33,7 +35,7 @@ async def user_dashboard(request: Request, current_user: Annotated[str, Depends(
     for image in img_history:
         alttext = get_image_alt_text(image)
         alt_history.append(alttext)
-    
+
     generated_history = list(zip(img_history, alt_history))
             
     return templates.TemplateResponse("pages/dashboard.html", {"request": request, "user": current_user, "generation_history": generated_history})

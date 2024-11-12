@@ -1,5 +1,6 @@
 import torch
 import os
+from dotenv import load_dotenv
 from clipcap import GenerateClipCap
 from models import GenerateBLIP, GenerateT5, GenerateBART, GeneratePEGASUS, GenerateGPT2, GenerateFlanT5
 from pathlib import Path
@@ -50,8 +51,11 @@ def create_caption(img_path: Path, model: str) -> str:
 def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nlp_model: str):
     summary = create_summary(text, nlp_model)
     caption = create_caption(img_path, vision_model)
-    
+
+    load_dotenv()
     api_key = os.getenv("OPENAI_API_KEY")
+
+    print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
     
     client = OpenAI(
             api_key = "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"
@@ -60,7 +64,7 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Create an alt-text from these two inputs. Take note that the image caption might not be accurate. Find correlations between the two inputs. Max character limit is 125 characters."},
+            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Create an alt-text from these two inputs. Take note that the image caption might not be accurate. Use only straightforward descriptive language. Avoid terms that imply symbolism. Find correlations between the two inputs. Max character limit is 125 characters."},
             {
                 "role": "user",
                 "content": f"SUMMARY CONTEXT: {summary}. IMAGE CAPTION: {caption}"
