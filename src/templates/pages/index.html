@@ -24,7 +24,16 @@
                     </div>
             
                     <div class="wspacer">
-                        <a href="auth/profile">Profile</a>
+
+                        {% if user and user.username %}
+                        <div>
+                            <a href="auth/profile">Profile</a>
+                        </div>
+                        {% else %}
+                        <div>
+                            <a href="auth/signup">Generate</a>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <div class="wspacer">
@@ -121,7 +130,7 @@
                                     <button>Save Alt-text</button>
                                 </div>
                                 <div class="results">
-                                    <textarea id="getalttext"></textarea>
+                                    <input textarea id="getalttext"></input>
                                 </div>
                             </div>
     
@@ -132,7 +141,7 @@
                                 </div>
     
                                 <div class="results">
-                                    <input type="text" id="getcaption">
+                                    <input id="getcaption"></input>
                                 </div>
                             </div>
                         </div>
