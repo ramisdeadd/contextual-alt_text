@@ -57,10 +57,8 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
 
     print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
     
-    if not api_key:
-        raise ValueError("API Key Missing!")
     client = OpenAI(
-            api_key = api_key
+            api_key = "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"
     )
 
     completion = client.chat.completions.create(
