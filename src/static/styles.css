@@ -53,6 +53,12 @@ body{
     transition: transform .3s ease-in-out, color .3s ease-in-out;
 }
 
+.wspacer2 a{
+    color: #918f8f;
+    text-decoration: none;
+    transition: transform .3s ease-in-out, color .3s ease-in-out;
+}
+
 .wspacer {
     transition: transform .3s ease-in-out, color .3s ease-in-out;
     color: #cfcaca;
@@ -96,17 +102,35 @@ body{
     letter-spacing: 0px;
 }
 
-.login, .signup{
+.wspacer2 {
+    margin-right: 40px;
+    margin-left: 40px;
+    font-size: 20px;
+    letter-spacing: 0px;
+}
+
+.login, .signup, .login2 a{
     letter-spacing: 0px;
     font-size: 35px;
     padding: 10px 10px 10px;
     margin-right: 10px;
 }
 
+
 .login{
     transition: transform .5s ease-in-out, color .5s ease-in-out;
 }
+
+.login2 a{
+    color: #383737;
+    transition: transform .5s ease-in-out, color .5s ease-in-out;
+}
 .login:hover{
+    transform: scale(1.1);
+    color:rgb(245, 191, 91);
+}
+
+.login2 a:hover{
     transform: scale(1.1);
     color:rgb(245, 191, 91);
 }
@@ -139,10 +163,11 @@ body{
 }
 
 .bg2 {
-    background: url(../../static/images/bg5.jpg) no-repeat;
+    /* background: url(../../static/images/bg5.jpg) no-repeat; */
     background-size: cover;
     height: 200px;
     position:relative;
+    color: #383737;
 }
 
 @keyframes slideTopDown {
@@ -402,7 +427,9 @@ body{
     cursor: pointer;
     
 }
-
+.acctset h2{
+    color: #383737;
+}
 
 .alt-button:hover {
     transform: scale(1.1);
@@ -448,6 +475,8 @@ body{
     flex-direction: row;
     color: #aaaaaa;
     font-size: 13px;
+
+    margin-left: 10px;
 }
 
 
@@ -458,6 +487,8 @@ body{
     flex-direction: row;
     color: #aaaaaa;
     font-size: 13px;
+
+    margin-left: 10px;
 }
 
 .results {
@@ -577,6 +608,11 @@ body{
     border: 3px solid #ccc;
 }
 
+.password-editor{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
 .logpass {
     display: flex;
     flex-direction: column;
@@ -717,6 +753,17 @@ body{
     align-items: center;
 }
 
+.greet2 span{
+    margin-left: 40px;
+    margin-right: 50px;
+    color: #d3a629;
+    font-family: sans-serif;
+    font-size: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .hsub2 {
     display: flex;
     flex-direction: row;
@@ -791,7 +838,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     background-size: cover;
     background-attachment: fixed;
     height: 600px; 
@@ -829,7 +876,16 @@ body{
 
 .whitebg {
     background-color: rgb(239, 241, 250);
-    padding: 20px 150px 50px;
+    padding: 20px 20px 20px;
+    border-radius: 10px;
+    margin: 120px 0px 0px;
+    border-radius: 15px;
+    margin-right: 50px;
+}
+
+.whitebg2 {
+    background-color: rgb(239, 241, 250);
+    padding: 100px 20px 100px;
     border-radius: 10px;
     margin: 120px 0px 0px;
     border-radius: 15px;
