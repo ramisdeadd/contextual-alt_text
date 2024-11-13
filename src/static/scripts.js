@@ -6,6 +6,12 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
     const form = document.getElementById("upload-article")
     const formData = new FormData(form);
 
+    /* 
+    
+    validation needed on image and text 
+
+    */
+
     console.log(formData)
 
     const response = await fetch('/post/', {
@@ -22,6 +28,30 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
     alt_text_output.value = result['generated-alt-text'];
     image_caption_output.getElementById("getcaption").value = result['generated-image-caption'];
 });
+
+document.getElementById("save-alt").addEventListener("click", async (e) => {
+    e.preventDefault()
+    
+    let alt_text_content = alt_text_output.value
+
+    const response = await fetch('/post/save-alt-text/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({alt_text: alt_text_content})
+    });
+
+    if (response.status == 401 ) {
+        window.location.href = '/auth/login';
+    } 
+
+    if (response.ok) {
+        console.log("Alt-Text Saved Successfully")
+    } else {
+        console.log("Saving Error")
+    }
+})
 
 
 let loadFile = function(event) {
@@ -43,6 +73,8 @@ document.getElementById("copy-alt").addEventListener("click", async (e) => {
 
     navigator.clipboard.writeText(alt_text_output.value);
     console.log("Alt-Text Copied to Clipboard")
+
+    alt_text_output.blur();
 });
 
 document.getElementById("copy-caption").addEventListener("click", async (e) => {
@@ -52,4 +84,6 @@ document.getElementById("copy-caption").addEventListener("click", async (e) => {
 
     navigator.clipboard.writeText(image_caption_output.value);
     console.log("Image Caption Copied to Clipboard")
+
+    image_caption_output.blur();
 });

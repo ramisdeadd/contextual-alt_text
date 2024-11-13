@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Annotated
-from fastapi import File, Form, UploadFile, status, Cookie, APIRouter
+from fastapi import File, Form, Depends, UploadFile, status, Cookie, APIRouter, Request
 from fastapi.responses import JSONResponse, RedirectResponse
 from post.dependencies import (
     vision_models_dict, 
@@ -8,8 +8,13 @@ from post.dependencies import (
     generate_image_hash,
     save_alt_gen,
     save_image_gen,
+    save_alt_user,
     check_image_exist,
 );
+from auth.dependencies import (
+    get_current_active_user
+)
+
 from generate import create_alttext
 from auth.dependencies import get_current_user
 import PIL.Image
@@ -55,3 +60,12 @@ async def generate_alt_text(
         "generated-alt-text": generator_output["alt-text"],
         "generated-image-caption": generator_output["image-caption"],
     }) 
+
+
+@router.post("/save-alt-text/", response_class=JSONResponse)
+async def save_alt_text(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+    data = await request.json()
+    alt_text = data.get("alt_text")
+    save_alt_user(current_user, alt_text)
+    
+    return JSONResponse(content={"message": "Alt-text saved successfully!"}, status_code=status.HTTP_200_OK)

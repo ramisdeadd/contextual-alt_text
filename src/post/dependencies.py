@@ -1,6 +1,7 @@
 import hashlib
 from pathlib import Path
 from sqlmodel import Session, select
+from post.models import AltTextEdit
 from post.schemas import AltText, Image
 from auth.schemas import User
 from database import engine
@@ -74,3 +75,31 @@ async def generate_image_hash(
             readable_hash = hashlib.md5(bytes).hexdigest()
 
         return readable_hash
+
+def save_alt_user(
+        user: User,
+        alt_edit: str
+):
+    with Session(engine) as session:
+        user_query = select(User).where(User.id == user.id)
+        user_result = session.exec(user_query)
+        user = user_result.first()
+
+        image_query = select(Image).where(Image.user_id == user.id).order_by(Image.id.desc())
+        image_result = session.exec(image_query)
+        image = image_result.first()
+
+        if image:
+            # Get the most recent alt-text for the image
+            alt_text_query = select(AltText).where(AltText.image_id == image.id).order_by(AltText.id.desc())
+            alt_text_result = session.exec(alt_text_query)
+            db_alt = alt_text_result.first()
+
+            if db_alt:
+                # Update the alt-text
+                db_alt.alt_edit = alt_edit
+                session.add(db_alt)
+                session.commit()
+                session.refresh(db_alt)
+                return db_alt
+    return None
