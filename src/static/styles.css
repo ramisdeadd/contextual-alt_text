@@ -446,17 +446,16 @@ body{
     justify-content: space-between;
     display: flex;
     flex-direction: row;
-    color: #aaaaaa;
+    color: #000000;
     font-size: 13px;
 }
-
 
 
 .imagecap-title {
     justify-content: space-between;
     display: flex;
     flex-direction: row;
-    color: #aaaaaa;
+    color: #000000;
     font-size: 13px;
 }
 
@@ -893,4 +892,22 @@ body{
 
 .icon1 {
     margin-right: 15px;
+}
+
+.alt-title {
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid black;
+}
+
+.alt-title button {
+    width: 50px;
+}
+
+.imagecap-title {
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid black;
+}
+
+.imagecap-title button {
+    width: 50px;
 }
