@@ -1,4 +1,9 @@
 {% extends 'layouts/base.html' %}
+
+{% block navbar%}
+{% include 'layouts/navbar.html' %} 
+{% endblock %}
+
 {% block body %}
 <div class="bg2">
 
@@ -26,7 +31,7 @@
 
             <div class="wspacer">
                 {% if user %}
-                    <a href="auth/dashboard">Dashboard</a>
+                    <a href="/auth/dashboard">Dashboard</a>
                 {% else %}
                     <span>About</span>
                 {% endif %}

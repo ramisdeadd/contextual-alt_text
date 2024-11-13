@@ -1,4 +1,9 @@
 {% extends 'layouts/base.html' %}
+
+{% block navbar%}
+{% include 'layouts/navbar.html' %} 
+{% endblock %}
+
 {% block body %}
 <div class="generated-list-container">
     <table>
@@ -84,7 +89,11 @@
                         {{user.role}}
                     </td>
                     <td>
-                        {{user.disabled}}
+                        {% if user.disabled == False %} 
+                            Active
+                        {% else %}
+                            Deactivated
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

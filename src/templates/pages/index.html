@@ -5,68 +5,9 @@
     <section id="home">
         <div class="bg">
 
-            <div class="header">
-                <div class="titlecont">
-                    <div class="cobalt">Cobalt</div>
-                    <div class="hsub3">
-                        <div class="greet">
-                            {% if user %}
-                                <span>Hi {{user.first_name | capitalize}}</span>
-                            {% else %}
-                                <span>Greetings!</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="hgroup1">
-                    <div class="wspacer">
-                        Home
-                    </div>
-            
-                    <div class="wspacer">
-
-                        {% if user and user.username %}
-                        <div>
-                            <a href="auth/profile">Profile</a>
-                        </div>
-                        {% else %}
-                        <div>
-                            <a href="auth/signup">Generate</a>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="wspacer">
-                        {% if user %}
-                            <a href="auth/dashboard">Dashboard</a>
-                        {% else %}
-                            <span>About</span>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <div class="hgroup2">
-
-                    <div class="hsub2">
-                        {% if user and user.username %}
-                        <div class="login">
-                            <a href="auth/logout">Logout</a>
-                        </div>
-                        {% else %}
-                        <div class="login">
-                            <a href="auth/login">Login</a>
-                        </div>
-                        {% endif %}
-                        <div>
-                           <img src="../../static/images/profile.png" height="35px">
-                        </div>
-                    </div>
-                </div>
-        
-            </div>
-
-
-
+            {% block navbar%}
+            {% include 'layouts/navbar.html' %} 
+            {% endblock %}
 
             <div class="maintitle">
                 <h1>Contextual Alt-Text</h1>
