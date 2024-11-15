@@ -34,6 +34,7 @@ function enableGenerate() {
 
     /* Generate Inputs Enabled */
     context_input.disabled = false
+    file_upload_input.disabled = false
 
     /* Save Functions Disabled */
     save_alt_button.disabled = true
@@ -46,6 +47,7 @@ function disableGenerate() {
     /* Generate Inputs Disabled */
     context_input.disabled = true
     generate_btn.disabled = true
+    file_upload_input.disabled = true
 
     /* Save Functions Enabled */
     save_alt_button.disabled = false
@@ -114,9 +116,14 @@ file_upload_input.addEventListener("change", async (e) => {
 });
 
 select_cv.addEventListener("change", async (e) => {
-
+    resetOutputs() 
+    validGeneration()
 });
 
+select_nlp.addEventListener("change", async (e) => {
+    resetOutputs() 
+    validGeneration()
+});
 
 /* Save Output Functionalities */
 
