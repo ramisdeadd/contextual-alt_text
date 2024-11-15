@@ -14,12 +14,19 @@ function isContext() {
     return context_input.value.trim() !== '';
 }
 
+function validGeneration() {
+    if (isContext() && isFile()) {
+        generate_btn.disabled = false
+    } else {
+        generate_btn.disabled = true
+    }   
+}
+
 function enableGenerate() {
 
     /* Generate Inputs Enabled */
     context_input.disabled = false
-    generate_btn.disabled = false
-
+    
     context_input.value = ''
     alt_text_output.value = ''
     image_caption_output.value = ''
@@ -41,9 +48,12 @@ function disableGenerate() {
     save_cap_button.disabled = false
 }
 
+
 async function generateAlt() {
     const form = document.getElementById("upload-article")
     const formData = new FormData(form);
+
+    disableGenerate()
 
     const response = await fetch('/post/', {
         method: 'POST',
@@ -57,8 +67,6 @@ async function generateAlt() {
         alt_text_output.value = result['generated-alt-text'];
         image_caption_output.value = result['generated-image-caption'];
     }
-
-    disableGenerate()
 }
 
 document.getElementById("upload-article").addEventListener("submit", async (e) => {
@@ -74,6 +82,11 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     generateAlt()
 });
+
+context_input.addEventListener("input", async (e) => {
+    e.preventDefault();
+    validGeneration()
+})
 
 save_alt_button.addEventListener("click", async (e) => {
     e.preventDefault()
