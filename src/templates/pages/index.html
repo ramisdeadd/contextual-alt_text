@@ -47,7 +47,7 @@
                         <div class="uploadbutton">
                             <div>
                                 <label for="getimage" class="file-input-label">Upload Image</label>
-                                <input type="file" id="getimage" name="img" accept="image/*" class="upimage" onchange="loadFile(event)">
+                                <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
                             </div>
                             <div class="model-options">
                                 <select id="nlp" name="nlp" class="nlp">
@@ -86,7 +86,8 @@
 
                                 </div>
                                 <div class="results">
-                                    <textarea id="getalttext"></textarea>
+                                    <div contentEditable id="getalttext" aria-labelledby="alternate-textarea-label" role="textbox" aria-multiline="true">
+                                    </div>
                                 </div>
                             </div>
                         </div>

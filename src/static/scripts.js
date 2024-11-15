@@ -112,20 +112,20 @@ save_alt_button.addEventListener("click", async (e) => {
     }
 })
 
-
-const loadFile = function(event) {
+file_upload_input.addEventListener("change", async (e) => {
+    console.log(e);
     let output = document.getElementById('output');
     const border = document.querySelector('.uploadimage');
-    const border2 = document.getElementById('imagebox')
+    const border2 = document.getElementById('imagebox');
 
-    output.src = URL.createObjectURL(event.target.files[0]);
+    output.src = URL.createObjectURL(e.target.files[0]);
     output.onload = function() {
-      URL.revokeObjectURL(output.src) 
-    }
+        URL.revokeObjectURL(output.src);
+    };
 
     border.style.border = "unset";
-    enableGenerate()
-};  
+    enableGenerate();
+});
 
 document.getElementById("copy-alt").addEventListener("click", async (e) => {
     e.preventDefault()
