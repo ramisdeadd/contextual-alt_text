@@ -5,6 +5,9 @@ const save_cap_button = document.getElementById("save-caption");
 const file_upload_input = document.getElementById("getimage");
 const context_input = document.getElementById('gettext');
 const generate_btn = document.getElementById('generate_btn');
+const select_nlp = document.getElementById('nlp');
+const select_cv = document.getElementById('cv');
+const upload_btn = document.getElementById("upload-article")
 
 function isFile() {
     return file_upload_input.files.length !== 0;
@@ -22,14 +25,15 @@ function validGeneration() {
     }   
 }
 
+function resetOutputs() {
+    alt_text_output.textContent = ''
+    image_caption_output.value = ''
+}
+
 function enableGenerate() {
 
     /* Generate Inputs Enabled */
     context_input.disabled = false
-    
-    context_input.value = ''
-    alt_text_output.value = ''
-    image_caption_output.value = ''
 
     /* Save Functions Disabled */
     save_alt_button.disabled = true
@@ -64,12 +68,14 @@ async function generateAlt() {
         window.location.href = response.url;
     } else {
         const result = await response.json();
-        alt_text_output.value = result['generated-alt-text'];
+        alt_text_output.textContent = result['generated-alt-text'];
         image_caption_output.value = result['generated-image-caption'];
     }
+
+    enableGenerate()
 }
 
-document.getElementById("upload-article").addEventListener("submit", async (e) => {
+upload_btn.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     let file_uploaded = isFile()
@@ -83,15 +89,40 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
     generateAlt()
 });
 
+/* Extra Validation for File & Context */
+
 context_input.addEventListener("input", async (e) => {
-    e.preventDefault();
+    resetOutputs() 
     validGeneration()
 })
 
+/* File Upload Functionality */
+
+file_upload_input.addEventListener("change", async (e) => {
+    let output = document.getElementById('output');
+    const border = document.querySelector('.uploadimage');
+    const border2 = document.getElementById('imagebox');
+
+    output.src = URL.createObjectURL(e.target.files[0]);
+    output.onload = function() {
+        URL.revokeObjectURL(output.src);
+    };
+
+    border.style.border = "unset";
+    resetOutputs() 
+    validGeneration()
+});
+
+select_cv.addEventListener("change", async (e) => {
+
+});
+
+
+/* Save Output Functionalities */
+
 save_alt_button.addEventListener("click", async (e) => {
-    e.preventDefault()
     
-    let alt_text_content = alt_text_output.value
+    let alt_text_content = alt_text_output.textContent
 
     const response = await fetch('/post/save-alt-text/', {
         method: 'POST',
@@ -112,27 +143,11 @@ save_alt_button.addEventListener("click", async (e) => {
     }
 })
 
-file_upload_input.addEventListener("change", async (e) => {
-    console.log(e);
-    let output = document.getElementById('output');
-    const border = document.querySelector('.uploadimage');
-    const border2 = document.getElementById('imagebox');
-
-    output.src = URL.createObjectURL(e.target.files[0]);
-    output.onload = function() {
-        URL.revokeObjectURL(output.src);
-    };
-
-    border.style.border = "unset";
-    enableGenerate();
-});
+/* Copy Output Functionalities */
 
 document.getElementById("copy-alt").addEventListener("click", async (e) => {
-    e.preventDefault()
-    alt_text_output.select();
-    alt_text_output.setSelectionRange(0, 9999);
 
-    navigator.clipboard.writeText(alt_text_output.value);
+    navigator.clipboard.writeText(alt_text_output.textContent);
     console.log("Alt-Text Copied to Clipboard")
 
     alt_text_output.blur();
