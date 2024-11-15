@@ -25,24 +25,6 @@ function validGeneration() {
     }   
 }
 
-function resetOutputs() {
-    alt_text_output.textContent = ''
-    image_caption_output.value = ''
-}
-
-function enableGenerate() {
-    /* Generate Inputs Enabled */
-    context_input.disabled = false
-    file_upload_input.disabled = false
-}
-
-function disableGenerate() {
-    /* Generate Inputs Disabled */
-    context_input.disabled = true
-    generate_btn.disabled = true
-    file_upload_input.disabled = true
-}
-
 function enableEditing() {
     if (alt_text_output.textContent == '' && image_caption_output.value == '') {
         console.log('CHECK-1')
@@ -61,6 +43,24 @@ function enableEditing() {
     }
 }
 
+function resetOutputs() {
+    alt_text_output.textContent = ''
+    image_caption_output.value = ''
+}
+
+function enableGenerate() {
+    /* Generate Inputs Enabled */
+    context_input.disabled = false
+    file_upload_input.disabled = false
+}
+
+function disableGenerate() {
+
+    /* Generate Inputs Disabled */
+    context_input.disabled = true
+    generate_btn.disabled = true
+    file_upload_input.disabled = true
+}
 
 async function generateAlt() {
     const form = document.getElementById("upload-article")
