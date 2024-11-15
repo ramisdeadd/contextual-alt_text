@@ -10,6 +10,7 @@ from post.dependencies import (
     save_image_gen,
     save_alt_user,
     check_image_exist,
+    rename_file_with_hash
 );
 from auth.dependencies import (
     get_current_active_user
@@ -46,15 +47,14 @@ async def generate_alt_text(
 
     with PIL.Image.open(img_path) as image:
         image.save(img_path, dpi=size)
-        image_hash = await generate_image_hash(img_path)
+        img_hash = await generate_image_hash(img_path)
 
-    image_exist = await check_image_exist(user, image_hash)  
-    generator_output = create_alttext(text, img_path, image_exist, vision_model=vision_model, nlp_model=nlp_model)
-    image_db = await save_image_gen(user, image_hash, generator_output["image-caption"], vision_model)
+    hash_img_path = rename_file_with_hash(img_path, img_hash)
+
+    image_exist = await check_image_exist(user, img_hash)  
+    generator_output = create_alttext(text, hash_img_path, image_exist, vision_model=vision_model, nlp_model=nlp_model)
+    image_db = await save_image_gen(user, img_hash, generator_output["image-caption"], vision_model)
     alttext_db = await save_alt_gen(image_db, generator_output["alt-text"], nlp_model)
-
-    # Remove image after use
-    img_path.unlink()
 
     return JSONResponse(content={
         "generated-alt-text": generator_output["alt-text"],
@@ -63,7 +63,11 @@ async def generate_alt_text(
 
 
 @router.post("/save-alt-text/", response_class=JSONResponse)
-async def save_alt_text(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+async def save_alt_text(request: Request,
+                        current_user: Annotated[str, Depends(get_current_active_user)],
+                        
+                        
+                        ):
     data = await request.json()
     alt_text = data.get("alt_text")
     save_alt_user(current_user, alt_text)

@@ -76,6 +76,11 @@ async def generate_image_hash(
 
         return readable_hash
 
+def rename_file_with_hash(original_path: Path, hash_value: str) -> Path:
+    new_path = original_path.with_name(f"{hash_value}{original_path.suffix}")
+    original_path.rename(new_path)
+    return new_path
+
 def save_alt_user(
         user: User,
         alt_edit: str

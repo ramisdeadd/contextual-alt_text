@@ -1,18 +1,20 @@
-alt_text_output = document.getElementById("getalttext")
-image_caption_output = document.getElementById("getcaption")
+const alt_text_output = document.getElementById("getalttext")
+const image_caption_output = document.getElementById("getcaption")
+const save_alt_button = document.getElementById("save-alt")
 
-document.getElementById("upload-article").addEventListener("submit", async (e) => {
-    e.preventDefault();
+function isFile() {
+    let file_upload = document.getElementById('getimage');
+    return file_upload.files.length !== 0;
+}
+
+function isContext() {
+    let text_area = document.getElementById('gettext');
+    return text_area.value.trim() !== '';
+}
+
+async function generateAlt() {
     const form = document.getElementById("upload-article")
     const formData = new FormData(form);
-
-    /* 
-    
-    validation needed on image and text 
-
-    */
-
-    console.log(formData)
 
     const response = await fetch('/post/', {
         method: 'POST',
@@ -21,15 +23,30 @@ document.getElementById("upload-article").addEventListener("submit", async (e) =
 
     if (response.redirected) {
         window.location.href = response.url;
+    } else {
+        const result = await response.json();
+        alt_text_output.value = result['generated-alt-text'];
+        image_caption_output.value = result['generated-image-caption'];
+    }
+
+    save_alt_button.disabled = false
+}
+
+document.getElementById("upload-article").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let file_uploaded = isFile()
+    let text_uploaded = isContext()
+
+    if (file_uploaded == false || text_uploaded == false) {
+        console.log("Image File or Article Content is Missing")
+        return 
     } 
 
-    const result = await response.json();
-    
-    alt_text_output.value = result['generated-alt-text'];
-    image_caption_output.getElementById("getcaption").value = result['generated-image-caption'];
+    generateAlt()
 });
 
-document.getElementById("save-alt").addEventListener("click", async (e) => {
+save_alt_button.addEventListener("click", async (e) => {
     e.preventDefault()
     
     let alt_text_content = alt_text_output.value
