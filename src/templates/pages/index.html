@@ -4,7 +4,6 @@
     <!-- Homepage -->
     <section id="home">
         <div class="bg">
-
             {% block navbar%}
             {% include 'layouts/navbar.html' %} 
             {% endblock %}
@@ -65,18 +64,18 @@
                         </div>    
 
                         <div class="imgcap_alt">
-                            <div class="results-container">
+                            <div class="results-container-alt">
                                 <div class="alt-title">
-                                    <div>
+                                    <div class="results-title-alt">
                                         Generated Alt-Text: 
                                     </div>
 
-                                    <div class="savecopy-btn">
-                                        <div class="icon1">
+                                    <div class="savecopy-btn-alt">
+                                        <div class="icon1-alt">
                                             <img src="../../static/images/save.png" width="20px" height="auto">
                                         </div>
 
-                                        <div class="icon2">
+                                        <div class="icon2-alt">
                                             <img src="../../static/images/copy.png" width="25px" height="auto">
                                         </div>
                                     </div>
@@ -86,30 +85,34 @@
                                     <input textarea id="getalttext"></input>
                                 </div>
                             </div>
-    
-                            <div class="imagecap-container">
-                                <div class="imagecap-title">
-                                    <div>
-                                        Image Caption:
-                                    </div>
-
-                                    <div class="savecopy-btn">
-                                        <div class="icon1">
-                                            <img src="../../static/images/save.png" width="20px" height="auto">
+                        </div>
+                        
+                        <div class="imgcap_alt">   
+                            <div class="results-container-imgcap">
+                                <div class="imagecap-container">
+                                    <div class="imagecap-title">
+                                        <div>
+                                            Image Caption:
                                         </div>
-
-                                        <div class="icon2">
-                                            <img src="../../static/images/copy.png" width="25px" height="auto">
+    
+                                        <div class="savecopy-btn-imgcap">
+                                            <div class="icon1-imgcap">
+                                                <img src="../../static/images/save.png" width="20px" height="auto">
+                                            </div>
+    
+                                            <div class="icon2-imgcap">
+                                                <img src="../../static/images/copy.png" width="25px" height="auto">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-    
-                                <div class="results">
-                                    <input id="getcaption"></input>
+        
+                                    <div class="results">
+                                        <input class="imgcap-results" id="getcaption"></input>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        
+                       
         
                         <div class="uploadtext">
                             <label for="gettext"></label>

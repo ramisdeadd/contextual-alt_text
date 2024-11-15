@@ -58,6 +58,9 @@ body{
     text-decoration: none;
     transition: transform .3s ease-in-out, color .3s ease-in-out;
 }
+.wspacer2 {
+    transition: transform .3s ease-in-out, color .3s ease-in-out;
+}
 
 .wspacer {
     transition: transform .3s ease-in-out, color .3s ease-in-out;
@@ -78,11 +81,18 @@ body{
     color: white;
 }
 
+.wspacer2:hover {
+    transform: scale(1.2);
+
+}
+
 .wspacer a:hover {
     transform: scale(1.2);
     color: white;
 }
-
+.wspacer2 a:hover {
+    color: rgb(29, 29, 29);
+}
 .hgroup2{
     display: flex;
     flex-direction: column;
@@ -122,17 +132,20 @@ body{
 }
 
 .login2 a{
+    text-decoration: none;
     color: #383737;
-    transition: transform .5s ease-in-out, color .5s ease-in-out;
 }
 .login:hover{
     transform: scale(1.1);
     color:rgb(245, 191, 91);
 }
 
-.login2 a:hover{
+.login2:hover{
     transform: scale(1.1);
-    color:rgb(245, 191, 91);
+}
+
+.login2 {
+    transition: transform .5s ease-in-out, color .5s ease-in-out;
 }
 
 .maintitle {
@@ -322,6 +335,10 @@ body{
     color: #535353;
 }
 
+.imgcap-results{
+    margin-left: -20px;
+}
+
 .imgcap_alt button{
     width: 170px;
     height: 25px;
@@ -443,7 +460,20 @@ body{
     color: white;
 }
 
-.results-container {
+.results-container-alt {
+    resize: none;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    width: 750px;
+    height: auto;
+    font-size: 18px;
+    padding-left: 0px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+    margin-left: 20px;
+}
+
+.results-container-imgcap {
     resize: none;
     margin-bottom: 30px;
     border-radius: 5px;
@@ -467,15 +497,29 @@ body{
     padding-top: 0px;
     padding-bottom: 30px;
     margin-left: 20px;
+
+
 }
 
 .alt-title {
     justify-content: space-between;
     display: flex;
     flex-direction: row;
-    color: #aaaaaa;
+    color: #4d4d4d;
     font-size: 13px;
+    position: relative; 
+    margin-left: 10px;
+}
 
+.alt-title::after {
+    margin-bottom: -5px;
+    content: ""; 
+    position: absolute;
+    bottom: 0;
+    left: 9px;
+    width: calc(93% - 0px); 
+    height: 2px;
+    background-color: rgb(167, 167, 167); 
     margin-left: 10px;
 }
 
@@ -485,11 +529,25 @@ body{
     justify-content: space-between;
     display: flex;
     flex-direction: row;
-    color: #aaaaaa;
+    color: #4d4d4d;
     font-size: 13px;
-
     margin-left: 10px;
+    position: relative; 
+
 }
+
+.imagecap-title::after {
+    margin-bottom: -5px;
+    content: ""; 
+    position: absolute;
+    bottom: 0;
+    left: -10px;
+    width: calc(93% - 0px); 
+    height: 2px; 
+    background-color: rgb(167, 167, 167); 
+    margin-left: 10px; 
+}
+
 
 .results {
     margin-left: 40px;
@@ -612,7 +670,16 @@ body{
     display: flex;
     align-items: center;
     justify-items: center;
+    flex-direction: column;
+    text-align: left;
 }
+
+.pass-set {
+    text-align: left;
+    margin-left: -210px;
+    color: #383737;
+}
+
 .logpass {
     display: flex;
     flex-direction: column;
@@ -714,7 +781,7 @@ body{
 } */
 
 .signuser label {
-    font-size: 15px;
+    font-size: 14px;
     margin: 5px;
     color: #383737;
 }
@@ -724,6 +791,9 @@ body{
     width: 255px;
     border-radius: 5px;
     border: 3px solid #ccc;
+    font-family: Archivo;
+    color: #616060;
+    padding-left: 8px;
 }
 
 .signup-container {
@@ -885,7 +955,7 @@ body{
 
 .whitebg2 {
     background-color: rgb(239, 241, 250);
-    padding: 100px 20px 100px;
+    padding: 30px 20px 100px;
     border-radius: 10px;
     margin: 120px 0px 0px;
     border-radius: 15px;
@@ -937,16 +1007,34 @@ body{
     outline: none
 }
 
-.savecopy-btn {
+.savecopy-btn-alt {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.icon2 {
+.savecopy-btn-imgcap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon2-alt {
     margin-right: 30px;
 }
 
-.icon1 {
+.icon1-alt {
     margin-right: 15px;
+}
+
+.icon2-imgcap {
+    margin-right: 50px;
+}
+
+.icon1-imgcap {
+    margin-right: 15px;
+}
+
+.results-title-alt {
+    margin-left: 20px;
 }

@@ -26,7 +26,7 @@
             </div>
     
             <div class="wspacer2">
-                <a>Profile</a>
+                <a href="/auth/profile">Profile</a>
             </div>
 
             <div class="wspacer2">
@@ -43,11 +43,11 @@
             <div class="hsub2">
                 {% if user and user.username %}
                 <div class="login2">
-                    <a href="auth/logout">Logout</a>
+                    <a href="/auth/logout">Logout</a>
                 </div>
                 {% else %}
                 <div class="login2">
-                    <a href="auth/login">Login</a>
+                    <a href="/auth/login">Login</a>
                 </div>
                 {% endif %}
                 <div>
@@ -146,7 +146,9 @@
         
         <div class="whitebg2">
             <div class="password-editor">
-    
+                <div class="pass-set">
+                    <h2>Password</h2>
+                </div>
                 <form id="password-form" name="password-profile" method="POST">
                     <div class="groupa1">
                         <div class="signuser">
