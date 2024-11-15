@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import Request, Depends, Form, HTTPException, status, Cookie, APIRouter
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from configs import templates
@@ -123,7 +123,6 @@ async def signup_user(username: Annotated[str, Form()],
     return response 
 
 
-
 @router.post("/profile/update-profile", response_class=HTMLResponse)
 async def update_user(
     username: Annotated[str, Form()],
@@ -142,15 +141,12 @@ async def update_user(
     )
     curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
     user = await update_user_profile(user, curr_user)
-    print(f"Updated User {user.username}")
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
         data = {"sub": user.username}, 
         expires_delta = access_token_expires
     )
-
-    print(f"access token {access_token}")
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)

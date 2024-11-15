@@ -42,8 +42,7 @@
                                 <img id="output">
                             </div>
                         </div>
-                        
-
+                    
                         <div class="uploadbutton">
                             <div>
                                 <label for="getimage" class="file-input-label">Upload Image</label>
@@ -72,11 +71,15 @@
 
                                     <div class="savecopy-btn-alt">
                                         <div class="icon1-alt">
+                                            <button id="save-alt" type="button" disabled>
                                             <img src="../../static/images/save.png" width="20px" height="auto">
+                                            </button>
                                         </div>
 
-                                        <div class="icon2-alt">
+                                        <div class="icon2">
+                                            <button id="copy-alt" type="button">
                                             <img src="../../static/images/copy.png" width="25px" height="auto">
+                                            </button>
                                         </div>
                                     </div>
 
@@ -85,24 +88,24 @@
                                     <input textarea id="getalttext"></input>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="imgcap_alt">   
-                            <div class="results-container-imgcap">
-                                <div class="imagecap-container">
-                                    <div class="imagecap-title">
-                                        <div>
-                                            Image Caption:
+    
+                            <div class="imagecap-container">
+                                <div class="imagecap-title">
+                                    <div>
+                                        Image Caption:
+                                    </div>
+
+                                    <div class="savecopy-btn">
+                                        <div class="icon1">
+                                            <button id="save-caption" type="button" disabled>
+                                            <img src="../../static/images/save.png" width="20px" height="auto">
+                                            </button>
                                         </div>
-    
-                                        <div class="savecopy-btn-imgcap">
-                                            <div class="icon1-imgcap">
-                                                <img src="../../static/images/save.png" width="20px" height="auto">
-                                            </div>
-    
-                                            <div class="icon2-imgcap">
-                                                <img src="../../static/images/copy.png" width="25px" height="auto">
-                                            </div>
+
+                                        <div class="icon2">
+                                            <button id="copy-caption" type="button">
+                                            <img src="../../static/images/copy.png" width="25px" height="auto">
+                                            </button>
                                         </div>
                                     </div>
         
@@ -116,13 +119,12 @@
         
                         <div class="uploadtext">
                             <label for="gettext"></label>
-                            <textarea id="gettext" name="text" placeholder="Enter Article Here"></textarea>
+                            <textarea id="gettext" name="text" disabled placeholder="Enter Article Here"></textarea>
                         </div>
                         
                         <div class="button_center">
-                            <button class="alt-button" type="submit" id="generate_btn">Generate Alt-Text</button>
+                            <button class="alt-button" type="submit" disabled id="generate_btn">Generate Alt-Text</button>
                         </div>
-
                     </form>
                 </div>   
             </div>

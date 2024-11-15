@@ -12,3 +12,5 @@ class AltTextBase(SQLModel):
     alt_edit: str | None = None
     alt_gen: str
     
+class AltTextEdit(SQLModel):
+    alt_edit: str
