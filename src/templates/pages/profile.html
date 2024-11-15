@@ -1,63 +1,12 @@
 {% extends 'layouts/base.html' %}
 
-{% block navbar%}
-{% include 'layouts/navbar.html' %} 
-{% endblock %}
+
 
 {% block body %}
-<div class="bg2">
 
-    <div class="header">
-        <div class="titlecont">
-            <div class="cobalt">Cobalt</div>
-            <div class="hsub3">
-                <div class="greet2">
-                    {% if user %}
-                        <span>Hi {{first_name_display}}</span>
-                    {% else %}
-                        <span>Greetings!</span>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="hgroup1">
-            <div class="wspacer2">
-                <a href="/">Home</a>
-            </div>
-    
-            <div class="wspacer2">
-                <a href="/auth/profile">Profile</a>
-            </div>
-
-            <div class="wspacer2">
-                {% if user %}
-                    <a href="/auth/dashboard">Dashboard</a>
-                {% else %}
-                    <span>About</span>
-                {% endif %}
-            </div>
-        </div>
-        
-        <div class="hgroup2">
-
-            <div class="hsub2">
-                {% if user and user.username %}
-                <div class="login2">
-                    <a href="/auth/logout">Logout</a>
-                </div>
-                {% else %}
-                <div class="login2">
-                    <a href="/auth/login">Login</a>
-                </div>
-                {% endif %}
-                <div>
-                   <img src="../../static/images/profile.png" height="35px">
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+{% block navbar2%}
+{% include 'layouts/navbar2.html' %} 
+{% endblock %}
 <div class="main-profile">
         <div class="whitebg">
             <div class="profile-editor">
