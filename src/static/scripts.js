@@ -31,27 +31,34 @@ function resetOutputs() {
 }
 
 function enableGenerate() {
-
     /* Generate Inputs Enabled */
     context_input.disabled = false
     file_upload_input.disabled = false
-
-    /* Save Functions Disabled */
-    save_alt_button.disabled = true
-    save_cap_button.disabled = true
-
 }
 
 function disableGenerate() {
-
     /* Generate Inputs Disabled */
     context_input.disabled = true
     generate_btn.disabled = true
     file_upload_input.disabled = true
+}
 
-    /* Save Functions Enabled */
-    save_alt_button.disabled = false
-    save_cap_button.disabled = false
+function enableEditing() {
+    if (alt_text_output.textContent == '' && image_caption_output.value == '') {
+        console.log('CHECK-1')
+        alt_text_output.contentEditable = false
+        image_caption_output.disabled = true
+
+        save_alt_button.disabled = true
+        save_cap_button.disabled = true
+    } else {
+        console.log('CHECK-2')
+        alt_text_output.contentEditable = true
+        image_caption_output.disabled = false
+
+        save_alt_button.disabled = false
+        save_cap_button.disabled = false
+    }
 }
 
 
@@ -75,6 +82,7 @@ async function generateAlt() {
     }
 
     enableGenerate()
+    enableEditing()
 }
 
 upload_btn.addEventListener("submit", async (e) => {
@@ -96,6 +104,7 @@ upload_btn.addEventListener("submit", async (e) => {
 context_input.addEventListener("input", async (e) => {
     resetOutputs() 
     validGeneration()
+    enableEditing()
 })
 
 /* File Upload Functionality */
@@ -113,16 +122,19 @@ file_upload_input.addEventListener("change", async (e) => {
     border.style.border = "unset";
     resetOutputs() 
     validGeneration()
+    enableEditing()
 });
 
 select_cv.addEventListener("change", async (e) => {
     resetOutputs() 
     validGeneration()
+    enableEditing()
 });
 
 select_nlp.addEventListener("change", async (e) => {
     resetOutputs() 
     validGeneration()
+    enableEditing()
 });
 
 /* Save Output Functionalities */
