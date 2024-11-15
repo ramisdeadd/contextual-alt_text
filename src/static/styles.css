@@ -911,3 +911,7 @@ body{
 .imagecap-title button {
     width: 50px;
 }
+
+.alt-button:disabled {
+    background-color: grey;
+}

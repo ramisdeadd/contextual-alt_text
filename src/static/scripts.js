@@ -1,15 +1,44 @@
-const alt_text_output = document.getElementById("getalttext")
-const image_caption_output = document.getElementById("getcaption")
-const save_alt_button = document.getElementById("save-alt")
+const alt_text_output = document.getElementById("getalttext");
+const image_caption_output = document.getElementById("getcaption");
+const save_alt_button = document.getElementById("save-alt");
+const save_cap_button = document.getElementById("save-caption");
+const file_upload_input = document.getElementById("getimage");
+const context_input = document.getElementById('gettext');
+const generate_btn = document.getElementById('generate_btn');
 
 function isFile() {
-    let file_upload = document.getElementById('getimage');
-    return file_upload.files.length !== 0;
+    return file_upload_input.files.length !== 0;
 }
 
 function isContext() {
-    let text_area = document.getElementById('gettext');
-    return text_area.value.trim() !== '';
+    return context_input.value.trim() !== '';
+}
+
+function enableGenerate() {
+
+    /* Generate Inputs Enabled */
+    context_input.disabled = false
+    generate_btn.disabled = false
+
+    context_input.value = ''
+    alt_text_output.value = ''
+    image_caption_output.value = ''
+
+    /* Save Functions Disabled */
+    save_alt_button.disabled = true
+    save_cap_button.disabled = true
+
+}
+
+function disableGenerate() {
+
+    /* Generate Inputs Disabled */
+    context_input.disabled = true
+    generate_btn.disabled = true
+
+    /* Save Functions Enabled */
+    save_alt_button.disabled = false
+    save_cap_button.disabled = false
 }
 
 async function generateAlt() {
@@ -29,7 +58,7 @@ async function generateAlt() {
         image_caption_output.value = result['generated-image-caption'];
     }
 
-    save_alt_button.disabled = false
+    disableGenerate()
 }
 
 document.getElementById("upload-article").addEventListener("submit", async (e) => {
@@ -71,16 +100,18 @@ save_alt_button.addEventListener("click", async (e) => {
 })
 
 
-let loadFile = function(event) {
+const loadFile = function(event) {
     let output = document.getElementById('output');
     const border = document.querySelector('.uploadimage');
     const border2 = document.getElementById('imagebox')
+
     output.src = URL.createObjectURL(event.target.files[0]);
     output.onload = function() {
       URL.revokeObjectURL(output.src) 
     }
 
     border.style.border = "unset";
+    enableGenerate()
 };  
 
 document.getElementById("copy-alt").addEventListener("click", async (e) => {
@@ -104,3 +135,4 @@ document.getElementById("copy-caption").addEventListener("click", async (e) => {
 
     image_caption_output.blur();
 });
+
