@@ -30,6 +30,7 @@ async def read_users_me(request: Request, current_user: Annotated[str, Depends(g
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def user_dashboard(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+    first_name_display = current_user.first_name.title()
     img_history = get_user_generated_history(current_user)
     alt_history = []
     for image in img_history:
@@ -38,13 +39,21 @@ async def user_dashboard(request: Request, current_user: Annotated[str, Depends(
     
     generated_history = list(zip(img_history, alt_history))
             
-    print(current_user.role)
     if current_user.role == 'admin':
         users = get_all_users()
         print(users)
-        return templates.TemplateResponse("pages/dashboard.html", {"request": request, "user": current_user, "role": current_user.role, "users": users, "generation_history": generated_history})
+        return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
+                                                                   "user": current_user, 
+                                                                   "first_name_display": first_name_display, 
+                                                                   "role": current_user.role, 
+                                                                   "users": users, 
+                                                                   "generation_history": generated_history})
 
-    return templates.TemplateResponse("pages/dashboard.html", {"request": request, "user": current_user, "role": current_user.role, "generation_history": generated_history})
+    return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
+                                                               "user": current_user, 
+                                                               "first_name_display": first_name_display,  
+                                                               "role": current_user.role, 
+                                                               "generation_history": generated_history})
         
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
