@@ -55,7 +55,6 @@ function enableGenerate() {
 }
 
 function disableGenerate() {
-
     /* Generate Inputs Disabled */
     context_input.disabled = true
     generate_btn.disabled = true
