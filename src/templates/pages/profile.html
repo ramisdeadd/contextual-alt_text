@@ -4,17 +4,179 @@
 
 {% block body %}
 
-{% block navbar_dashboard_profile%}
+{% block navbar_sample%}
 {% include 'layouts/navbar_dashboard_profile.html' %} 
 {% endblock %}
 <div class="main-profile">
-        <div class="whitebg">
+    
+        <div class="username-profile">
+            <div>
+                <div class="username-title">
+                    <h2>Username</h2>
+                </div>
+                <div class="username-subtitle">
+                    Change your username with at least 6 characters <br> long, no special characters and no spaces
+                </div>
+
+            </div>
+
+            <form id="profile-form" name="user-profile" method="POST">
+                <div class="white-profile-box-username">
+                    <div class="white-profile-content">
+
+                            <div class="signuser">
+                                <label for="username_input">Username:<br>
+                                    <input type="text" id="username_input" value="{{user.username}}" name="username">
+                                        <div class="requirements">
+                                            <ul>
+                                                <li>At least 6-13 characters long.</li>
+                                                <li>No special characters.</li>
+                                                <li>No spaces.</li>
+                                            </ul>
+                                        </div>
+                                </label>
+                            </div>
+
+
+                    </div>
+                </div>
+                <button class="alt-button-profile" type="submit">Save</button>
+            </form>
+            </div>
+
+
+
+
+        <div class="username-profile">
+            <div>
+                <div class="username-title">
+                    <h2>User Info</h2>
+                </div>
+                <div class="username-subtitle">
+                    Change your firstname, last name and email here.
+                </div>
+
+            </div>
+
+            <form id="profile-form" name="user-profile" method="POST">
+                <div class="white-profile-box-userinfo">
+                    <div class="white-profile-content">
+
+                            <div class="signuser">
+                                <label for="first_name_input">First name:<br>
+                                <input type="text" id="first_name_input" value="{{first_name_display}}" name="first_name">
+                                    <div class="requirements">
+                                        <ul>
+                                            <li>Atleast 2-40 characters</li>
+                                            <li>No special characters</li>
+                                            <li>No Numbers</li>
+                                            <li>Must not have leading or trailing spaces.</li>
+                                        </ul>
+                                    </div>   
+                                </label>
+                            </div>
+
+                            <div class="signuser">
+                                <label for="last_name_input">Last name:<br>    
+                                    <input type="text" id="last_name_input" value="{{user.last_name}}" name="last_name">
+                                    <div class="requirements">
+                                        <ul>
+                                            <li>At least 2-40 characters long.</li>
+                                            <li>No special characters.</li>
+                                            <li>No spaces.</li>
+                                        </ul>
+                                    </div>
+                                </label> 
+                            </div>
+
+
+                            <div class="signuser">
+                                <label for="email_input">Email:<br>
+                                    <input type="email" id="email_input" value="{{user.email}}" name="email">
+                                        <div class="requirements">
+                                            <ul>
+                                                <li>Must be in order of: characters@characters.domain</li>
+                                            </ul>
+                                        </div>  
+                                </label>
+                            </div>
+                            
+
+                    </div>
+
+                </div>
+                <button class="alt-button-profile" type="submit">Save</button>
+            </form>
+        </div>
+
+        <div class="username-profile">
+            <div>
+                <div class="username-title">
+                    <h2>Password</h2>
+                </div>
+                <div class="username-subtitle">
+                    Change your password here
+                </div>
+
+            </div>
+
+            <form id="password-form" name="password-profile" method="POST">
+            <div class="white-profile-box-username">
+                <div class="white-profile-content">
+
+
+                        <div class="signuser">
+                            <label for="conf_password">Current Password:<br>
+                                <input type="text">
+                                <div class="requirements">
+
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="signuser">
+                            <label for="password_input">New Password:<br>
+                            <input type="text" id="password_input" name="password">
+                                <div class="requirements">
+                                    <ul>
+                                        <li>At least 8 characters</li>
+                                        <li>Must contain at least one number</li>
+                                        <li>Must contain at least one uppercase character</li>
+                                        <li>Must contain at least one lowercase</li>
+                                        <li>Must not contain spaces</li>
+                                    </ul>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="signuser">
+                            <label for="conf_password">Confirm Password:<br>
+                                <input type="text" id="conf_password" name="confirm_password">
+                                <div class="requirements">
+                                    <ul>
+                                        <li>Passwords must match</li>
+                                    </ul>
+                                </div>
+                            </label>
+                        </div>
+
+                </div>
+
+            </div>
+            <button class="alt-button-profile" type="submit">Save</button>
+            </form>
+        </div>
+
+    
+
+        <!-- <div class="whitebg">
             <div class="profile-editor">
                 <div class="acctset">
                     <h2>Account Settings</h2>
                 </div>
 
-                <!-- <h2 id="profile-username">{{user.username}}</h2> -->
+
+                <h2 id="profile-username">{{user.username}}</h2>
                 <form id="profile-form" name="user-profile" method="POST">
                     <div class="groupa">
                         <div class="groupa1">
@@ -33,6 +195,10 @@
     
                         </div>
     
+
+
+
+
                         <div class="groupa2">
                             <div class="signuser">
                                 <label for="first_name_input">First name:<br>
@@ -137,7 +303,7 @@
                 </form>
             </div>
     
-        </div>
+        </div> -->
         
     
 </div>
