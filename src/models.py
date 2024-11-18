@@ -41,16 +41,14 @@ class GenerateGPT2():
              
              return predictions[0]
 
-### UNUSED - NOT ENOUGH VRAM TO RUN MODEL
-
 class GenerateBLIP2():
      def __init__(self):
              self.processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
-             self.model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b").to(device)
+             self.model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", load_in_8bit=True, device_map="auto")
                 
      def predict(self, image_path: Path):
              raw_image = Image.open(image_path).convert('RGB')
-             inputs = self.processor(raw_image, return_tensors="pt").to(device, torch.int8)
+             inputs = self.processor(raw_image, return_tensors="pt").to(device, torch.float16)
              out = self.model.generate(**inputs)
              return self.processor.decode(out[0], skip_special_tokens=True).strip()
      
@@ -80,8 +78,8 @@ class GeneratePEGASUS():
     
 class GenerateT5():
     def __init__(self):
-           self.model = T5ForConditionalGeneration.from_pretrained("google/t5-base").to(device)
-           self.tokenizer = AutoTokenizer.from_pretrained("google/t5-base", device_map="auto")  
+           self.model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-base").to(device)
+           self.tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-base", device_map="auto")  
 
     def predict(self, text: str):
            inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt", truncation=True).input_ids.to("cuda")
