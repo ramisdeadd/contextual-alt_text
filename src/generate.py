@@ -1,8 +1,9 @@
 import torch
+import gc
 import os
 from dotenv import load_dotenv
 from clipcap import GenerateClipCap
-from models import GenerateBLIP, GenerateT5, GenerateBART, GeneratePEGASUS, GenerateGPT2, GenerateFlanT5
+from models import GenerateBLIP, GenerateT5, GenerateBART, GeneratePEGASUS, GenerateGPT2, GenerateFlanT5, GenerateBLIP2
 from pathlib import Path
 from openai import OpenAI
 from transformers import pipeline
@@ -27,12 +28,16 @@ def create_summary(text: str, model: str) -> str:
     print(f"Summarized Text: {summarized_text}")
 
     del summarizer
+    gc.collect()
     torch.cuda.empty_cache()
     return summarized_text
 
 def create_caption(img_path: Path, model: str) -> str:
     if model == "BLIP":
         vision_transformer = GenerateBLIP()
+        image_caption = vision_transformer.predict(img_path)
+    elif model == "BLIP2":
+        vision_transformer = GenerateBLIP2()
         image_caption = vision_transformer.predict(img_path)
     elif model == "GPT2":
         vision_transformer = GenerateGPT2()
@@ -44,6 +49,7 @@ def create_caption(img_path: Path, model: str) -> str:
     print(f"Image Caption: {image_caption}")
 
     del vision_transformer
+    gc.collect()
     torch.cuda.empty_cache()
     return image_caption
 
@@ -54,17 +60,15 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
 
     load_dotenv()
     api_key = os.getenv("OPENAI_API_KEY")
-
-    print(f"OPENAI_API_KEY: {os.getenv('OPENAI_API_KEY')}")
     
     client = OpenAI(
-            api_key = "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"
+            api_key = api_key
     )
 
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Create an alt-text from these two inputs. Take note that the image caption might not be accurate. Use only straightforward descriptive language. Avoid terms that imply symbolism. Find correlations between the two inputs. Max character limit is 125 characters."},
+            {"role": "system", "content": "You have two inputs - Summary Context and Image Caption. Image caption can be innacurate and wrong. Create an alt-text from these two inputs. Use important contextual information from the summary and focus on highlighting key visual elements from the image caption. Do not use narrative and interpratative words such as 'symbolizing', 'highlighting', 'portraying', 'representing', and any other synonyms of such. Max character limit is 125 characters and less is better."},
             {
                 "role": "user",
                 "content": f"SUMMARY CONTEXT: {summary}. IMAGE CAPTION: {caption}"
