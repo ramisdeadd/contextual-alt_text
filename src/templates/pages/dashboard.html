@@ -14,25 +14,45 @@
             <table>
                 <thead>
                     <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>   
+                        <th>
+                            <div  class="delete-button">
+                                <button>Delete</button>
+                            </div>
+                        </th>
+                    </tr>
+                    <!-- <tr>
                         <th rowspan="2">#</th>
                         <th colspan="2">Model Output</th>
                         <th colspan="2">User Edits</th>
                         <th colspan="2">Generators</th>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <tr class="lower-th">
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
                         <th>Image Generator</th>
-                        <th>Text Generator</th>
+                        <th colspan="2">Text Generator</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for img, alt in generation_history %}
                     <tr>
-                        <td>
-                            {{img.id}}
+                        <td class="label-checkbox">
+                            <div class="dashboard-id">
+                                {{img.id}}
+                            </div>
+                            <div class="dashboard-checkbox">
+                                <input type="checkbox" name="option1" value="Option1">
+                            </div>
                         </td>
                         <td class="caption-table">
                             {{img.caption}}
@@ -51,6 +71,19 @@
                         </td>
                         <td>
                             {{alt.alt_gen}}
+                        </td>
+                        <td  class="dashboard-buttons">
+                                    <div class="icon1-alt-dashboard">
+                                        <button id="save-alt" type="button" disabled>
+                                            <img src="../../static/images/save.png" width="20px" height="auto">
+                                        </button>
+                                    </div>
+    
+                                    <div class="icon2-alt-dashboard">
+                                        <button id="copy-alt" type="button">
+                                            <img src="../../static/images/copy.png" width="25px" height="auto">
+                                        </button>
+                                    </div> 
                         </td>
                     </tr>
                     {% endfor %}
