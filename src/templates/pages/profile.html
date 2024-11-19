@@ -20,7 +20,7 @@
 
             </div>
 
-            <form id="profile-form" name="user-profile" method="POST">
+            <form id="username-form" name="user-profile" method="POST">
                 <div class="white-profile-box-username">
                     <div class="white-profile-content">
 
@@ -126,17 +126,16 @@
 
 
                         <div class="signuser">
-                            <label for="conf_password">Current Password:<br>
-                                <input type="text">
+                            <label for="curr_password">Current Password:<br>
+                                <input type="password" id="curr_password" name="curr_password">
                                 <div class="requirements">
-
                                 </div>
                             </label>
                         </div>
 
                         <div class="signuser">
-                            <label for="password_input">New Password:<br>
-                            <input type="password" id="password_input" name="password">
+                            <label for="change_password">New Password:<br>
+                            <input type="password" id="change_password" name="change_password">
                                 <div class="requirements">
                                     <ul>
                                         <li>At least 8 characters</li>
@@ -150,8 +149,8 @@
                         </div>
 
                         <div class="signuser">
-                            <label for="conf_password">Confirm Password:<br>
-                                <input type="password" id="conf_password" name="confirm_password">
+                            <label for="confirm_password">Confirm Password:<br>
+                                <input type="password" id="confirm_password" name="confirm_password">
                                 <div class="requirements">
                                     <ul>
                                         <li>Passwords must match</li>

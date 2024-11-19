@@ -138,132 +138,74 @@ function CustomValidation() {
         emailValidationElement.style.color = 'red';
       }
 
-              // Password validation
-        var password = document.getElementById('password_input');
-        var passwordValidationElements = document.querySelectorAll('label[for="password_input"] li');
+      // Password validation
+      var password = document.getElementById('change_password');
+      var passwordValidationElements = document.querySelectorAll('label[for="change_password"] li');
 
-        if (password.value.length < 8) {
-            passwordValidationElements[0].textContent = 'Password must be at least 8 characters long.';
-            passwordValidationElements[0].classList.add('invalid');
-            passwordValidationElements[0].style.color = 'red';
+      if (password.value.length < 8) {
+          passwordValidationElements[0].textContent = 'Password must be at least 8 characters long.';
+          passwordValidationElements[0].classList.add('invalid');
+          passwordValidationElements[0].style.color = 'red';
+      } else {
+          passwordValidationElements[0].textContent = 'Password has valid length.';
+          passwordValidationElements[0].classList.add('valid');
+          passwordValidationElements[0].style.color = 'green';
+      }
+
+      if (!/\d/.test(password.value)) {
+          passwordValidationElements[1].textContent = 'Password must contain at least one number.';
+          passwordValidationElements[1].classList.add('invalid');
+          passwordValidationElements[1].style.color = 'red';
+      } else {
+          passwordValidationElements[1].textContent = 'Password contains a number.';
+          passwordValidationElements[1].classList.add('valid');
+          passwordValidationElements[1].style.color = 'green';
+      }
+
+      if (!/[A-Z]/.test(password.value)) {
+          passwordValidationElements[2].textContent = 'Password must contain at least one uppercase character.';
+          passwordValidationElements[2].classList.add('invalid');
+          passwordValidationElements[2].style.color = 'red';
+      } else {
+          passwordValidationElements[2].textContent = 'Password contains an uppercase character.';
+          passwordValidationElements[2].classList.add('valid');
+          passwordValidationElements[2].style.color = 'green';
+      }
+
+      if (!/[a-z]/.test(password.value)) {
+          passwordValidationElements[3].textContent = 'Password must contain at least one lowercase character.';
+          passwordValidationElements[3].classList.add('invalid');
+          passwordValidationElements[3].style.color = 'red';
+      } else {
+          passwordValidationElements[3].textContent = 'Password contains a lowercase character.';
+          passwordValidationElements[3].classList.add('valid');
+          passwordValidationElements[3].style.color = 'green';
+      }
+
+      if (/\s/.test(password.value)) {
+          passwordValidationElements[4].textContent = 'Password must not contain spaces.';
+          passwordValidationElements[4].classList.add('invalid');
+          passwordValidationElements[4].style.color = 'red';
         } else {
-            passwordValidationElements[0].textContent = 'Password has valid length.';
-            passwordValidationElements[0].classList.add('valid');
-            passwordValidationElements[0].style.color = 'green';
+          passwordValidationElements[4].textContent = 'Password contains no spaces.';
+          passwordValidationElements[4].classList.add('valid');
+          passwordValidationElements[4].style.color = 'green';
         }
+    
 
-        if (!/\d/.test(password.value)) {
-            passwordValidationElements[1].textContent = 'Password must contain at least one number.';
-            passwordValidationElements[1].classList.add('invalid');
-            passwordValidationElements[1].style.color = 'red';
-        } else {
-            passwordValidationElements[1].textContent = 'Password contains a number.';
-            passwordValidationElements[1].classList.add('valid');
-            passwordValidationElements[1].style.color = 'green';
-        }
+      // Confirm password validation
+      var confirmPassword = document.getElementById('confirm_password');
+      var confirmPasswordValidationElements = document.querySelectorAll('label[for="confirm_password"] li');
 
-        if (!/[A-Z]/.test(password.value)) {
-            passwordValidationElements[2].textContent = 'Password must contain at least one uppercase character.';
-            passwordValidationElements[2].classList.add('invalid');
-            passwordValidationElements[2].style.color = 'red';
-        } else {
-            passwordValidationElements[2].textContent = 'Password contains an uppercase character.';
-            passwordValidationElements[2].classList.add('valid');
-            passwordValidationElements[2].style.color = 'green';
-        }
-
-        if (!/[a-z]/.test(password.value)) {
-            passwordValidationElements[3].textContent = 'Password must contain at least one lowercase character.';
-            passwordValidationElements[3].classList.add('invalid');
-            passwordValidationElements[3].style.color = 'red';
-        } else {
-            passwordValidationElements[3].textContent = 'Password contains a lowercase character.';
-            passwordValidationElements[3].classList.add('valid');
-            passwordValidationElements[3].style.color = 'green';
-        }
-
-        // Confirm password validation
-        var confirmPassword = document.getElementById('conf_password');
-        var confirmPasswordValidationElements = document.querySelectorAll('label[for="conf_password"] li');
-
-        if (password.value !== confirmPassword.value) {
-            confirmPasswordValidationElements[0].textContent = 'Passwords do not match.';
-            confirmPasswordValidationElements[0].classList.add('invalid');
-            confirmPasswordValidationElements[0].style.color = 'red';
-        } else {
-            confirmPasswordValidationElements[0].textContent = 'Passwords match.';
-            confirmPasswordValidationElements[0].classList.add('valid');
-            confirmPasswordValidationElements[0].style.color = 'green';
-        }
-
-        // Password validation
-        var password = document.getElementById('password_input');
-        var passwordValidationElements = document.querySelectorAll('label[for="password_input"] li');
-
-        if (password.value.length < 8) {
-            passwordValidationElements[0].textContent = 'Password must be at least 8 characters long.';
-            passwordValidationElements[0].classList.add('invalid');
-            passwordValidationElements[0].style.color = 'red';
-        } else {
-            passwordValidationElements[0].textContent = 'Password has valid length.';
-            passwordValidationElements[0].classList.add('valid');
-            passwordValidationElements[0].style.color = 'green';
-        }
-
-        if (!/\d/.test(password.value)) {
-            passwordValidationElements[1].textContent = 'Password must contain at least one number.';
-            passwordValidationElements[1].classList.add('invalid');
-            passwordValidationElements[1].style.color = 'red';
-        } else {
-            passwordValidationElements[1].textContent = 'Password contains a number.';
-            passwordValidationElements[1].classList.add('valid');
-            passwordValidationElements[1].style.color = 'green';
-        }
-
-        if (!/[A-Z]/.test(password.value)) {
-            passwordValidationElements[2].textContent = 'Password must contain at least one uppercase character.';
-            passwordValidationElements[2].classList.add('invalid');
-            passwordValidationElements[2].style.color = 'red';
-        } else {
-            passwordValidationElements[2].textContent = 'Password contains an uppercase character.';
-            passwordValidationElements[2].classList.add('valid');
-            passwordValidationElements[2].style.color = 'green';
-        }
-
-        if (!/[a-z]/.test(password.value)) {
-            passwordValidationElements[3].textContent = 'Password must contain at least one lowercase character.';
-            passwordValidationElements[3].classList.add('invalid');
-            passwordValidationElements[3].style.color = 'red';
-        } else {
-            passwordValidationElements[3].textContent = 'Password contains a lowercase character.';
-            passwordValidationElements[3].classList.add('valid');
-            passwordValidationElements[3].style.color = 'green';
-        }
-
-        if (/\s/.test(password.value)) {
-            passwordValidationElements[4].textContent = 'Password must not contain spaces.';
-            passwordValidationElements[4].classList.add('invalid');
-            passwordValidationElements[4].style.color = 'red';
-          } else {
-            passwordValidationElements[4].textContent = 'Password contains no spaces.';
-            passwordValidationElements[4].classList.add('valid');
-            passwordValidationElements[4].style.color = 'green';
-          }
-      
-
-        // Confirm password validation
-        var confirmPassword = document.getElementById('conf_password');
-        var confirmPasswordValidationElements = document.querySelectorAll('label[for="conf_password"] li');
-
-        if (password.value !== confirmPassword.value) {
-            confirmPasswordValidationElements[0].textContent = 'Passwords do not match.';
-            confirmPasswordValidationElements[0].classList.add('invalid');
-            confirmPasswordValidationElements[0].style.color = 'red';
-        } else {
-            confirmPasswordValidationElements[0].textContent = 'Passwords match.';
-            confirmPasswordValidationElements[0].classList.add('valid');
-            confirmPasswordValidationElements[0].style.color = 'green';
-        }
+      if (password.value !== confirmPassword.value) {
+          confirmPasswordValidationElements[0].textContent = 'Passwords do not match.';
+          confirmPasswordValidationElements[0].classList.add('invalid');
+          confirmPasswordValidationElements[0].style.color = 'red';
+      } else {
+          confirmPasswordValidationElements[0].textContent = 'Passwords match.';
+          confirmPasswordValidationElements[0].classList.add('valid');
+          confirmPasswordValidationElements[0].style.color = 'green';
+      }
     }
   };
   
@@ -288,13 +230,13 @@ function CustomValidation() {
     this.CustomValidation.checkInvalidity(this);
   });
 
-  document.getElementById('password_input').CustomValidation = new CustomValidation();
-  document.getElementById('password_input').addEventListener('keyup', function() {
+  document.getElementById('change_password').CustomValidation = new CustomValidation();
+  document.getElementById('change_password').addEventListener('keyup', function() {
     this.CustomValidation.checkInvalidity(this);
   });
 
-  document.getElementById('conf_password').CustomValidation = new CustomValidation();
-  document.getElementById('conf_password').addEventListener('keyup', function() {
+  document.getElementById('confirm_password').CustomValidation = new CustomValidation();
+  document.getElementById('confirm_password').addEventListener('keyup', function() {
     this.CustomValidation.checkInvalidity(this);
   });
   

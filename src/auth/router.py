@@ -8,7 +8,8 @@ from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
 from auth.dependencies import (
     get_current_active_user, 
     get_current_user, 
-    get_password_hash, 
+    get_password_hash,
+    verify_password,
     create_access_token,
     change_user_password,
     update_user_profile,
@@ -71,18 +72,36 @@ async def logout(request: Request):
 
 @router.post("/profile/change-password", response_class=HTMLResponse)
 async def change_password(
-    password: Annotated[str, Form()],
-    # TO DO validate confirm_password
+    curr_password: Annotated[str, Form()],
+    change_password: Annotated[str, Form()],
     confirm_password: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)]
 ):
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+
+    if not verify_password(curr_password, curr_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid curent password",
+        )
     
-    hashed_password = get_password_hash(password)
+    if verify_password(change_password, curr_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password cannot be the same as old password",
+        )
+
+    if change_password != confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password and confirm password does not match",
+        )
+    
+    hashed_password = get_password_hash(change_password)
     user = UserPasswordUpdate(
         hashed_password=hashed_password
     )
 
-    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
     user = await change_user_password(user, curr_user)
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
