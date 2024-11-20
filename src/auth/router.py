@@ -1,3 +1,5 @@
+import re
+
 from typing import Annotated
 from fastapi import Request, Depends, Form, HTTPException, status, Cookie, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
@@ -15,6 +17,11 @@ from auth.dependencies import (
     update_user_profile,
     update_user_username,
     create_user,
+    verify_first_name,
+    verify_email,
+    verify_last_name,
+    verify_username,
+    verify_password_strength,
     authenticate_user,
     get_user_generated_history,
     get_image_alt_text,
@@ -120,6 +127,8 @@ async def update_username(
     username: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)],
 ):
+    verify_username(username)
+
     user = UserUpdate(
         username = username
     )
@@ -137,7 +146,11 @@ async def update_user(
     email: Annotated[str, Form()], 
     token: Annotated[str, Cookie(...)],
     disabled: Annotated[bool, Form()] = 0,
-):
+):  
+    verify_first_name(first_name)
+    verify_last_name(last_name)
+    verify_email(email)
+    
     user = UserUpdate(
         first_name = first_name,
         last_name = last_name,
@@ -158,6 +171,8 @@ async def change_password(
     token: Annotated[str, Cookie(...)]
 ):
     curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+
+    verify_password_strength(change_password)
 
     if not verify_password(curr_password, curr_user.hashed_password):
         raise HTTPException(

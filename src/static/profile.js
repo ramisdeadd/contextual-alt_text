@@ -8,6 +8,8 @@ function CustomValidation() {
     },
     checkInvalidity: function(input) {
       this.invalidities = [];
+
+      // Username validation
       var username = document.getElementById('username_input');
       var usernameValidationElements = document.querySelectorAll('label[for="username_input"] li');
   
@@ -87,9 +89,6 @@ function CustomValidation() {
         firstNameValidationElements[3].style.color = 'green';
       }
 
-
-
-      
   
       // Last name validation
       var lastName = document.getElementById('last_name_input');

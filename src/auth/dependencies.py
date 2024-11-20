@@ -10,6 +10,7 @@ from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
 from auth.schemas import User
 from post.schemas import Image, AltText
 import jwt
+import re
 
 SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
@@ -167,3 +168,112 @@ def get_all_users():
         result = session.exec(statement)
         users = result.all()
         return users
+    
+def verify_username(username):
+    regex = r"[^a-zA-Z0-9]"
+
+    if len(username) < 6 or len(username) > 13:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - username length",
+        )
+
+    if re.search(regex, username):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - username regex",
+        )
+
+def verify_first_name(first_name):
+    regex = r"^[a-zA-Z ]+$"
+
+    # Check for white space leading or trailing
+    if first_name != first_name.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - last name has training / leading spaces",
+        )
+
+    # Check length
+    if len(first_name) < 2 or len(first_name) > 40:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - first name length",
+        )
+    
+    # Check for last name regex
+    if not re.fullmatch(regex, first_name):
+          raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - first name regex",
+        )
+    
+def verify_last_name(last_name):
+    regex = r"^[a-zA-Z]+$"
+
+    # Check for white space leading or trailing
+    if last_name != last_name.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - last name has training / leading spaces",
+        )
+    
+    # Check length
+    if len(last_name) < 2 or len(last_name) > 40:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - last name  length",
+        )
+    
+    # Check for last name regex
+    if not re.fullmatch(regex, last_name):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - last name regex",
+        )
+
+def verify_email(email: str):
+    email_pattern = r"^[^\s@]+@[^\s@]+\.[^\s@]+$"
+
+    # Check for email regex
+    if not re.fullmatch(email_pattern, email):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Validation error - invalid email format",
+        )
+    
+def verify_password_strength(password: str):
+    # Check length
+    if len(password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must be at least 8 characters long",
+        )
+    
+    # Check for at least one number
+    if not re.search(r"\d", password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one number",
+        )
+    
+    # Check for at least one uppercase character
+    if not re.search(r"[A-Z]", password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one uppercase character",
+        )
+    
+    # Check for at least one lowercase character
+    if not re.search(r"[a-z]", password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must contain at least one lowercase character",
+        )
+    
+    # Check for spaces
+    if re.search(r"\s", password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password must not contain spaces",
+        )
