@@ -108,7 +108,15 @@ async def signup_user(username: Annotated[str, Form()],
                       last_name: Annotated[str, Form()], 
                       email: Annotated[str, Form()], 
                       plain_password: Annotated[str, Form()]):
+
+    verify_username(username)
+    verify_first_name(first_name)
+    verify_last_name(last_name)
+    verify_email(email)
+    verify_password_strength(plain_password)
+
     hashed_password = get_password_hash(plain_password)
+    
     user = UserCreate(
         username = username,
         first_name = first_name,
