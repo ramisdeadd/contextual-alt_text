@@ -11,36 +11,68 @@
 
     <div>
         <div class="generated-list-container">
-            <table>
+            <div class="searchbar-container">
+                <div>
+
+                </div>
+                <div class="search-button-dashboard">
+                    <div class="searchbar-dashboard">
+                        <input type="text" id="searchInput" placeholder="Search Alt-Text..">
+                    </div>
+                    <div class="searchbutton-dashboard">
+                        <button id="searchButton" onclick="searchTable()">Search</button>
+                    </div>
+                    <div class="refresh-dashboard">
+                        <button onclick="location.reload()">Refresh</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <table id="dataTable">
                 <thead>
                     <tr>
+                        <th>
+                            <div class="selected-dashboard">
+                                Selected: 0
+                            </div>
+                        </th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>   
                         <th>
                             <div  class="delete-button">
                                 <button>Delete</button>
                             </div>
                         </th>
                     </tr>
-                    <!-- <tr>
-                        <th rowspan="2">#</th>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <!-- <th rowspan="2">#</th> -->
                         <th colspan="2">Model Output</th>
                         <th colspan="2">User Edits</th>
                         <th colspan="2">Generators</th>
-                    </tr> -->
+                        <th></th>
+
+                    </tr>
                     <tr class="lower-th">
+                        <th> 
+                            <div class="dashboard-checkbox">
+                                <input type="checkbox" name="option1" value="Option1">
+                            </div>
+                        </th>
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
                         <th>Image Generator</th>
                         <th colspan="2">Text Generator</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,10 +87,35 @@
                             </div>
                         </td>
                         <td class="caption-table">
-                            {{img.caption}}
+                            <div class="dashboard-buttons">
+                                <div>
+                                    {{img.caption}}
+                                </div>
+                                <div>
+                                    <div class="icon2-alt-dashboard">
+                                        <button id="copy-alt" type="button">
+                                            <img src="../../static/images/copy.png" width="20px" height="auto">
+                                        </button>
+                                    </div> 
+                                </div>
+                            </div>
+
                         </td>
                         <td class="alt-table">
-                            {{alt.alt}}
+                            <div class="dashboard-buttons">
+                                <div>
+                                    {{alt.alt}}
+                                </div>
+
+                                <div>
+                                    <div class="icon2-alt-dashboard">
+                                        <button id="copy-alt" type="button">
+                                            <img src="../../static/images/copy.png" width="20px" height="auto">
+                                        </button>
+                                    </div> 
+                                </div>
+                            </div>
+
                         </td>
                         <td>
                             {{img.caption_edit}}
@@ -72,19 +129,6 @@
                         <td>
                             {{alt.alt_gen}}
                         </td>
-                        <td  class="dashboard-buttons">
-                                    <div class="icon1-alt-dashboard">
-                                        <button id="save-alt" type="button" disabled>
-                                            <img src="../../static/images/save.png" width="20px" height="auto">
-                                        </button>
-                                    </div>
-    
-                                    <div class="icon2-alt-dashboard">
-                                        <button id="copy-alt" type="button">
-                                            <img src="../../static/images/copy.png" width="25px" height="auto">
-                                        </button>
-                                    </div> 
-                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -96,6 +140,26 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>
+                                <div class="selected-dashboard">
+                                    Selected: 0
+                                </div>
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>
+                                <div  class="delete-button">
+                                    <button>Delete</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr>
                             <th>#</th>
                             <th>Username</th>
                             <th>Email</th>
@@ -103,13 +167,23 @@
                             <th>Last Name</th>
                             <th>Role</th>
                             <th>Account Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for user in users %}
                         <tr>
                             <td>
-                                {{loop.index}}
+                                <div class="dashboard-id-admin">
+                                    <div>
+                                        {{loop.index}}
+                                    </div>
+                                    
+                                    <div class="dashboard-checkbox-admin">
+                                        <input type="checkbox" name="option1" value="Option1">
+                                    </div>
+                                </div>
+
                             </td>
                             <td>
                                 {{user.username}}
@@ -132,6 +206,12 @@
                                 {% else %}
                                     Deactivated
                                 {% endif %}
+                            </td>
+                            <td>
+                                <div class="edit-admin">
+                                    <a>Edit</a>
+                                </div>
+
                             </td>
                         </tr>
                         {% endfor %}

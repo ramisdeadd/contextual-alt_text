@@ -1072,6 +1072,7 @@ body{
     background-color: none;
     margin-top: -3px;
     cursor: pointer;
+
 }
 .results-title-alt {
     margin-left: 20px;
@@ -1084,15 +1085,17 @@ body{
 
 
 table {
-    width: 1500px;
+    width: auto;
     height: auto;
     border-collapse: collapse;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    margin: 60px auto;
+    margin: 20px auto;
     outline: 2px solid rgb(216, 216, 216);
     font-family: Archivo;
+    margin-left: 190px;
+    margin-right: 190px;
 }
 
 
@@ -1101,23 +1104,20 @@ th {
     background-color: rgb(249, 250, 255);
     color: #4b4b4b;
     text-align: left;
-    font-weight: 500;
-    text-transform: uppercase;
     border-bottom: 1px solid #adadad; 
 
 }
 
 
 td {
-    padding: 35px 15px;
+    padding: 30px 15px;
     background-color: #fff;
-    color: #555;
+    color: #636363;
     /* border-bottom: 1px solid #d3d3d3; */
     font-family: Archivo;
     font-size: 14px;
     letter-spacing: -1px;
 }
-
 
 
 .caption-table, .alt-table {
@@ -1156,27 +1156,25 @@ td {
 }
 thead th {
     background-color: #fffbfb;
-    color: #3a3a3a;
+    color: #4d4d4d;
     font-family: archivo;
     font-size: 16px;
-    text-transform: none;
-    text-decoration: none;
+
 
 }
 
 .dashboard-buttons {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .lower-th {
-    background-color: black; 
+    background-color: rgb(145, 145, 145); 
 }
 
 
-.alt-button:disabled {
-    background-color: grey;
-}
 
 .username-profile {
     display: flex;
@@ -1218,4 +1216,86 @@ thead th {
     margin-bottom: 0px;
     padding-bottom: 0px;
 
+}
+
+.selected-dashboard {
+    font-size: small;
+    color: #777777;
+}
+
+.searchbar-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 190px;
+}
+
+.search-button-dashboard {
+    display: flex;
+    flex-direction: row;
+}
+
+.searchbar-dashboard input{
+    padding: 10px 20px 10px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    outline: none;
+    border: 1px solid rgb(219, 219, 219);
+    font-family: archivo;
+    font-size: 12px;
+    border-right: none;
+
+}
+
+.searchbutton-dashboard button {
+    padding: 10px 10px 8px;
+    border: none;
+    background-color:#f5fab3d7;
+    color: rgb(56, 56, 56);
+    border-top: 1px solid rgb(219, 219, 219);
+    border-bottom: 1px solid rgb(219, 219, 219);
+    border-right: 1px solid rgb(219, 219, 219);
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-family: archivo;
+    cursor: pointer;
+}
+
+.refresh-dashboard button {
+    padding: 10px 10px 8px;
+    border: none;
+    font-family: archivo;
+    color: #ffffff;
+    background-color: rgb(83, 85, 255);
+    margin-left: 20px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.generated-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.highlight-dashboard {
+    background-color: yellow;
+    color: black;
+}
+
+.dashboard-id-admin {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dashboard-checkbox-admin{
+    margin-left: 15px;
+}
+
+.edit-admin {
+    color: rgb(235, 97, 97);
+    cursor: pointer;
 }
