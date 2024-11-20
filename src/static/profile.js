@@ -239,8 +239,31 @@ function CustomValidation() {
   document.getElementById('confirm_password').addEventListener('keyup', function() {
     this.CustomValidation.checkInvalidity(this);
   });
-  
 
+
+document.getElementById("username-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = document.getElementById("username-form");
+    const formData = new FormData(form);
+
+    console.log(formData)
+
+    const response = await fetch(`/auth/profile/update-username`, {
+      method: 'POST',
+      body: formData
+  });
+
+    const result = await response.json();
+    console.log(result);
+    
+    if (response.redirected) {
+      window.location.href = response.url;
+    } else {
+      console.log(response)
+    }
+
+});
+  
 document.getElementById("profile-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("profile-form")
@@ -253,12 +276,14 @@ document.getElementById("profile-form").addEventListener("submit", async (e) => 
         body: formData
     });
 
-    if (response.redirected) {
+      const result = await response.json();
+      console.log(result)
+
+      if (response.redirected) {
         window.location.href = response.url;
-    } else {
-        const result = await response.json();
-        console.log(result)
-    }
+      } else {
+        console.log(response)
+      }
 });
 
 document.getElementById("password-form").addEventListener("submit", async (e) => {
@@ -266,17 +291,19 @@ document.getElementById("password-form").addEventListener("submit", async (e) =>
     const form = document.getElementById("password-form");
     const formData = new FormData(form);
 
-    console.log([...formData.entries()]);
+    console.log([formData.entries()]);
 
     const response = await fetch(`/auth/profile/change-password`, {
         method: 'POST',
         body: formData
     });
 
-    if (response.redirected) {
+      const result = await response.json();
+      console.log(result);
+
+      if (response.redirected) {
         window.location.href = response.url;
-    } else {
-        const result = await response.json();
-        console.log(result);
-    }
+      } else {
+        console.log(response)
+      }
 });

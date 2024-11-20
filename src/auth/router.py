@@ -13,6 +13,7 @@ from auth.dependencies import (
     create_access_token,
     change_user_password,
     update_user_profile,
+    update_user_username,
     create_user,
     authenticate_user,
     get_user_generated_history,
@@ -70,43 +71,6 @@ async def logout(request: Request):
     response.delete_cookie("token")
     return response
 
-@router.post("/profile/change-password", response_class=HTMLResponse)
-async def change_password(
-    curr_password: Annotated[str, Form()],
-    change_password: Annotated[str, Form()],
-    confirm_password: Annotated[str, Form()],
-    token: Annotated[str, Cookie(...)]
-):
-    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
-
-    if not verify_password(curr_password, curr_user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid curent password",
-        )
-    
-    if verify_password(change_password, curr_user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Password cannot be the same as old password",
-        )
-
-    if change_password != confirm_password:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="New password and confirm password does not match",
-        )
-    
-    hashed_password = get_password_hash(change_password)
-    user = UserPasswordUpdate(
-        hashed_password=hashed_password
-    )
-
-    user = await change_user_password(user, curr_user)
-
-    response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
-    return response
-
 @router.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
@@ -151,9 +115,23 @@ async def signup_user(username: Annotated[str, Form()],
     return response 
 
 
+@router.post("/profile/update-username", response_class=HTMLResponse)
+async def update_username(
+    username: Annotated[str, Form()],
+    token: Annotated[str, Cookie(...)],
+):
+    user = UserUpdate(
+        username = username
+    )
+    
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+    user = await update_user_username(user, curr_user)
+    
+    response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
+    return response
+
 @router.post("/profile/update-profile", response_class=HTMLResponse)
 async def update_user(
-    username: Annotated[str, Form()],
     first_name: Annotated[str, Form()],
     last_name: Annotated[str, Form()], 
     email: Annotated[str, Form()], 
@@ -161,7 +139,6 @@ async def update_user(
     disabled: Annotated[bool, Form()] = 0,
 ):
     user = UserUpdate(
-        username = username,
         first_name = first_name,
         last_name = last_name,
         email = email,
@@ -170,13 +147,42 @@ async def update_user(
     curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
     user = await update_user_profile(user, curr_user)
 
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data = {"sub": user.username}, 
-        expires_delta = access_token_expires
-    )
-
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
-    response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
     return response
 
+@router.post("/profile/change-password", response_class=HTMLResponse)
+async def change_password(
+    curr_password: Annotated[str, Form()],
+    change_password: Annotated[str, Form()],
+    confirm_password: Annotated[str, Form()],
+    token: Annotated[str, Cookie(...)]
+):
+    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+
+    if not verify_password(curr_password, curr_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid curent password",
+        )
+    
+    if verify_password(change_password, curr_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Password cannot be the same as old password",
+        )
+
+    if change_password != confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password and confirm password does not match",
+        )
+    
+    hashed_password = get_password_hash(change_password)
+    user = UserPasswordUpdate(
+        hashed_password=hashed_password
+    )
+
+    user = await change_user_password(user, curr_user)
+
+    response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
+    return response

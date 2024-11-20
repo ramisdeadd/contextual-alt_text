@@ -118,12 +118,24 @@ async def create_user(user: UserCreate):
     print(f"Succesful Signup")
     return db_user
 
-async def update_user_profile(user: UserUpdate, 
-                              curr_user: User):
+async def update_user_username(user: UserUpdate,
+                               curr_user: User):
     with Session(engine) as session:
         valid_user = UserUpdate.model_validate(user)
 
         curr_user.username = valid_user.username
+        
+        session.add(curr_user)
+        session.commit()
+        session.refresh(curr_user)
+    
+    return curr_user
+
+async def update_user_profile(user: UserUpdate, 
+                              curr_user: User):
+    with Session(engine) as session:
+        valid_user = UserUpdate.model_validate(user)
+                
         curr_user.first_name = valid_user.first_name
         curr_user.last_name = valid_user.last_name
         curr_user.email = valid_user.email
