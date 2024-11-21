@@ -44,6 +44,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                         <th>
                             <div  class="delete-button">
                                 <button>Delete</button>
@@ -51,14 +52,19 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
 
-                        </th>
-                        <!-- <th rowspan="2">#</th> -->
+                        <th></th>
+                        
+                        <th></th>
                         <th colspan="2">Model Output</th>
+                        
+                        <!-- <th rowspan="2">#</th> -->
+
+
+
+                        <th></th>
                         <th colspan="2">User Edits</th>
                         <th colspan="2">Generators</th>
-                        <th></th>
 
                     </tr>
                     <tr class="lower-th">
@@ -68,7 +74,9 @@
                             </div>
                         </th>
                         <th>Image Caption</th>
+                        <th></th>
                         <th>Alt-Text</th>
+                        <th></th>
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
                         <th>Image Generator</th>
@@ -91,31 +99,38 @@
                                 <div>
                                     {{img.caption}}
                                 </div>
-                                <div>
-                                    <div class="icon2-alt-dashboard">
-                                        <button id="copy-alt" type="button">
-                                            <img src="../../static/images/copy.png" width="20px" height="auto">
-                                        </button>
-                                    </div> 
-                                </div>
+
                             </div>
 
                         </td>
+
+                        <td>
+                            <div>
+                                <div class="icon2-alt-dashboard">
+                                    <button id="copy-alt" type="button">
+                                        <img src="../../static/images/copy.png" width="20px" height="auto">
+                                    </button>
+                                </div> 
+                            </div>
+                        </td>
+
                         <td class="alt-table">
                             <div class="dashboard-buttons">
                                 <div>
                                     {{alt.alt}}
                                 </div>
 
-                                <div>
-                                    <div class="icon2-alt-dashboard">
-                                        <button id="copy-alt" type="button">
-                                            <img src="../../static/images/copy.png" width="20px" height="auto">
-                                        </button>
-                                    </div> 
-                                </div>
                             </div>
-
+                        </td>
+                        <td>
+                            
+                            <div>
+                                <div class="icon2-alt-dashboard">
+                                    <button id="copy-alt" type="button">
+                                        <img src="../../static/images/copy.png" width="20px" height="auto">
+                                    </button>
+                                </div> 
+                            </div>
                         </td>
                         <td>
                             {{img.caption_edit}}
