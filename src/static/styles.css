@@ -1299,3 +1299,16 @@ thead th {
     color: rgb(235, 97, 97);
     cursor: pointer;
 }
+
+.invalid-login {
+    background-color: #ffcccc; 
+    color: #cc0000; 
+    border: 1px solid #cc0000;
+    padding: 3px 10px 3px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 12px;
+
+    display: none;
+}
