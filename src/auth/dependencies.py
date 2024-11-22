@@ -4,13 +4,17 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status, Cookie
 from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
-from sqlmodel import Session, select
+from sqlmodel import Session, select, SQLModel
+from typing import TypeVar
+from sqlmodel.sql.expression import SelectOfScalar
 from database import engine
 from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
 from auth.schemas import User
 from post.schemas import Image, AltText
 import jwt
 import re
+
+T = TypeVar("T", bound=SQLModel)
 
 SECRET_KEY = "aafb48d530ee71c753e64e6830439b026c9405685c19b8829b8065c881ad2876"
 ALGORITHM = "HS256"
@@ -280,3 +284,4 @@ def verify_password_strength(password: str):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Password must not contain spaces",
         )
+    
