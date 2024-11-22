@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from sqlmodel import Session, select, SQLModel
 from typing import TypeVar
 from sqlmodel.sql.expression import SelectOfScalar
-from database import engine
+from database import engine, SessionDep
 from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
 from auth.schemas import User
 from post.schemas import Image, AltText
@@ -29,12 +29,11 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(plain_password):
     return pwd_context.hash(plain_password)
 
-def get_user(username: str):
-    with Session(engine) as session:
-        statement = select(User).where(User.username == username)
-        result = session.exec(statement)
-        user = result.first()
-        return user
+def get_user(username: str, session: SessionDep) -> User:
+    statement = select(User).where(User.username == username)
+    result = session.exec(statement)
+    user = result.first()
+    return user
 
 def authenticate_user(username: str, plain_password: str):
     user = get_user(username)
@@ -104,77 +103,74 @@ async def get_current_active_user(
 
 async def change_user_password(
         user: Annotated[UserPasswordUpdate, Depends()], 
-        curr_user: Annotated[User, Depends(get_current_active_user)]
-):
-    with Session(engine) as session:
-        valid_user = UserPasswordUpdate.model_validate(user)
+        curr_user: Annotated[User, Depends(get_current_active_user)],
+        session: SessionDep
+) -> User:
+    valid_user = UserPasswordUpdate.model_validate(user)
 
-        curr_user.hashed_password = valid_user.hashed_password
+    curr_user.hashed_password = valid_user.hashed_password
 
-        session.add(curr_user)
-        session.commit()
-        session.refresh(curr_user)
-        print("PASSWORD UPDATED")
+    session.add(curr_user)
+    session.commit()
+    session.refresh(curr_user)
+    print("PASSWORD UPDATED")
+
     return curr_user
 
-async def create_user(user: UserCreate):
-    with Session(engine) as session:
-        db_user = User.model_validate(user)
-        session.add(db_user)
-        session.commit()
-        session.refresh(db_user)
+async def create_user(user: UserCreate, session: SessionDep) -> User:
+    db_user = User.model_validate(user)
+    session.add(db_user)
+    session.commit()
+    session.refresh(db_user)
     print(f"Succesful Signup")
     return db_user
 
 async def update_user_username(user: UserUpdate,
-                               curr_user: User):
-    with Session(engine) as session:
-        valid_user = UserUpdate.model_validate(user)
+                               curr_user: User,
+                               session: SessionDep) -> User:
+    valid_user = UserUpdate.model_validate(user)
 
-        curr_user.username = valid_user.username
-        
-        session.add(curr_user)
-        session.commit()
-        session.refresh(curr_user)
+    curr_user.username = valid_user.username
+    
+    session.add(curr_user)
+    session.commit()
+    session.refresh(curr_user)
     
     return curr_user
 
 async def update_user_profile(user: UserUpdate, 
-                              curr_user: User):
-    with Session(engine) as session:
-        valid_user = UserUpdate.model_validate(user)
-                
-        curr_user.first_name = valid_user.first_name
-        curr_user.last_name = valid_user.last_name
-        curr_user.email = valid_user.email
-        curr_user.disabled = valid_user.disabled
+                              curr_user: User,
+                              session: SessionDep) -> User:
+    valid_user = UserUpdate.model_validate(user)
+            
+    curr_user.first_name = valid_user.first_name
+    curr_user.last_name = valid_user.last_name
+    curr_user.email = valid_user.email
+    curr_user.disabled = valid_user.disabled
 
-        session.add(curr_user)
-        session.commit()
-        session.refresh(curr_user)
+    session.add(curr_user)
+    session.commit()
+    session.refresh(curr_user)
     
     return curr_user
 
-def get_user_generated_history(curr_user: User):
-    with Session(engine) as session:
-        statement = select(Image).where(Image.user_id == curr_user.id)
-        result = session.exec(statement)
-        history = result.all()
+def get_user_generated_history(curr_user: User, session: SessionDep):
+    statement = select(Image).where(Image.user_id == curr_user.id)
+    result = session.exec(statement)
+    history = result.all()
     return history
 
-def get_image_alt_text(curr_image: Image):
-    with Session(engine) as session:
-        statement = select(AltText).where(AltText.image_id == curr_image.id)
-        result = session.exec(statement)
-        history = result.one()
+def get_image_alt_text(curr_image: Image, session: SessionDep):
+    statement = select(AltText).where(AltText.image_id == curr_image.id)
+    result = session.exec(statement)
+    history = result.one()
     return history
 
-def get_all_users():
-    with Session(engine) as session:
-        statement = select(User).where(User.role == 'user')
-        result = session.exec(statement)
-        users = result.all()
-        return users
+def get_all_users(session: SessionDep):
+    statement = select(User).where(User.role == 'user')
+    result = session.exec(statement)
+    users = result.all()
+    return users
     
 def verify_username(username):
     regex = r"[^a-zA-Z0-9]"
