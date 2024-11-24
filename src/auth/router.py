@@ -10,7 +10,6 @@ from sqlmodel import select
 from auth.schemas import Page, PaginationInput, User
 from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
 from auth.dependencies import (
-    get_current_active_user, 
     get_current_user, 
     get_password_hash,
     verify_password,
@@ -30,6 +29,7 @@ from auth.dependencies import (
     get_all_users,
     paginate,
     PaginationDep,
+    CurrUserDep,
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
 
@@ -37,23 +37,23 @@ router = APIRouter()
 
 # read_users_me -> get_current_active_user -> get_current_user -> get_user
 @router.get("/profile", response_class=HTMLResponse)
-async def read_users_me(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+async def read_users_me(request: Request, current_user: CurrUserDep):
     first_name_display = current_user.first_name.title()
     return templates.TemplateResponse("/pages/profile.html", {"request": request, "first_name_display": first_name_display, "user": current_user})
 
 @router.get("/dashboard", response_class=HTMLResponse)
-async def user_dashboard(request: Request, current_user: Annotated[str, Depends(get_current_active_user)]):
+async def user_dashboard(request: Request, current_user: CurrUserDep, session: SessionDep):
     first_name_display = current_user.first_name.title()
-    img_history = get_user_generated_history(current_user)
+    img_history = await get_user_generated_history(current_user, session)
     alt_history = []
     for image in img_history:
-        alttext = get_image_alt_text(image)
+        alttext = await get_image_alt_text(image)
         alt_history.append(alttext)
     
     generated_history = list(zip(img_history, alt_history))
             
     if current_user.role == 'admin':
-        users = get_all_users()
+        users = await get_all_users(session)
         print(users)
         return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
                                                                    "user": current_user, 
@@ -114,7 +114,6 @@ async def signup_user(username: Annotated[str, Form()],
                       email: Annotated[str, Form()], 
                       plain_password: Annotated[str, Form()],
                       session: SessionDep):
-    print(f"SIGNUP SESSION: {session}")
 
     verify_username(username)
     verify_first_name(first_name)
@@ -133,7 +132,6 @@ async def signup_user(username: Annotated[str, Form()],
         disabled = False,
     )
     user = await create_user(user, session)
-    print("USER DONE SIGNUP")
     response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
     return response 
 
@@ -142,6 +140,7 @@ async def signup_user(username: Annotated[str, Form()],
 async def update_username(
     username: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)],
+    session: SessionDep
 ):
     verify_username(username)
 
@@ -149,19 +148,33 @@ async def update_username(
         username = username
     )
     
-    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
-    user = await update_user_username(user, curr_user)
+    curr_user = await get_current_user(session=session, token=token, allow=None)
+    user = await update_user_username(user, curr_user, session)
+
+    print(f"CHANGE: {username}")
+    print(f"USER: {user.username}")
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    # create_access_token -> END
+    access_token = create_access_token(
+        data = {"sub": user.username}, 
+        expires_delta = access_token_expires
+    )
     
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="token", value=f"Bearer {access_token}", httponly=True)
+
     return response
 
 @router.post("/profile/update-profile", response_class=HTMLResponse)
 async def update_user(
+    session: SessionDep,
     first_name: Annotated[str, Form()],
     last_name: Annotated[str, Form()], 
     email: Annotated[str, Form()], 
     token: Annotated[str, Cookie(...)],
     disabled: Annotated[bool, Form()] = 0,
+   
 ):  
     verify_first_name(first_name)
     verify_last_name(last_name)
@@ -173,20 +186,22 @@ async def update_user(
         email = email,
         disabled = disabled,
     )
-    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
-    user = await update_user_profile(user, curr_user)
+    curr_user = await get_current_user(session=session, token=token, allow=None)
+    user = await update_user_profile(user, curr_user, session)
+    print(user)
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
 
 @router.post("/profile/change-password", response_class=HTMLResponse)
 async def change_password(
+    session: SessionDep,
     curr_password: Annotated[str, Form()],
     change_password: Annotated[str, Form()],
     confirm_password: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)]
 ):
-    curr_user = await get_current_active_user(await get_current_user(token = token, allow = None))
+    curr_user = await get_current_user(session=session, token=token, allow=None)
 
     verify_password_strength(change_password)
 
@@ -213,7 +228,7 @@ async def change_password(
         hashed_password=hashed_password
     )
 
-    user = await change_user_password(user, curr_user)
+    user = await change_user_password(user, curr_user, session)
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response

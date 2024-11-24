@@ -118,9 +118,8 @@ async def change_user_password(
     curr_user.hashed_password = valid_user.hashed_password
 
     session.add(curr_user)
-    session.commit()
-    session.refresh(curr_user)
-    print("PASSWORD UPDATED")
+    await session.commit()
+    await session.refresh(curr_user)
 
     return curr_user
 
@@ -139,8 +138,8 @@ async def update_user_username(user: UserUpdate,
     curr_user.username = valid_user.username
     
     session.add(curr_user)
-    session.commit()
-    session.refresh(curr_user)
+    await session.commit()
+    await session.refresh(curr_user)
     
     return curr_user
 
@@ -155,26 +154,26 @@ async def update_user_profile(user: UserUpdate,
     curr_user.disabled = valid_user.disabled
 
     session.add(curr_user)
-    session.commit()
-    session.refresh(curr_user)
+    await session.commit()
+    await session.refresh(curr_user)
     
     return curr_user
 
-def get_user_generated_history(curr_user: User, session: SessionDep):
+async def get_user_generated_history(curr_user: User, session: SessionDep):
     statement = select(Image).where(Image.user_id == curr_user.id)
-    result = session.exec(statement)
+    result = await session.execute(statement)
     history = result.all()
     return history
 
-def get_image_alt_text(curr_image: Image, session: SessionDep):
+async def get_image_alt_text(curr_image: Image, session: SessionDep):
     statement = select(AltText).where(AltText.image_id == curr_image.id)
-    result = session.exec(statement)
+    result = await session.execute(statement)
     history = result.one()
     return history
 
-def get_all_users(session: SessionDep):
+async def get_all_users(session: SessionDep):
     statement = select(User).where(User.role == 'user')
-    result = session.exec(statement)
+    result = await session.execute(statement)
     users = result.all()
     return users
     
@@ -344,3 +343,4 @@ async def paginate (
     )
 
 PaginationDep = Annotated[PaginationInput, Depends()]
+CurrUserDep = Annotated[User, Depends(get_current_active_user)]
