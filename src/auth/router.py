@@ -1,11 +1,13 @@
 import re
-
 from typing import Annotated
 from fastapi import Request, Depends, Form, HTTPException, status, Cookie, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from datetime import timedelta
+from database import SessionDep
 from fastapi.security import OAuth2PasswordRequestForm
 from configs import templates
+from sqlmodel import select
+from auth.schemas import Page, PaginationInput, User
 from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
 from auth.dependencies import (
     get_current_active_user, 
@@ -26,6 +28,8 @@ from auth.dependencies import (
     get_user_generated_history,
     get_image_alt_text,
     get_all_users,
+    paginate,
+    PaginationDep,
     ACCESS_TOKEN_EXPIRE_MINUTES,
 )
 
@@ -81,9 +85,10 @@ async def logout(request: Request):
 @router.post("/login", response_class=HTMLResponse)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: SessionDep
 ):
     # login_for_access_token -> authenticate_user -> get_user -> verify_password -> END
-    user = authenticate_user(form_data.username, form_data.password)
+    user = await authenticate_user(form_data.username, form_data.password, session)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -107,7 +112,9 @@ async def signup_user(username: Annotated[str, Form()],
                       first_name: Annotated[str, Form()],
                       last_name: Annotated[str, Form()], 
                       email: Annotated[str, Form()], 
-                      plain_password: Annotated[str, Form()]):
+                      plain_password: Annotated[str, Form()],
+                      session: SessionDep):
+    print(f"SIGNUP SESSION: {session}")
 
     verify_username(username)
     verify_first_name(first_name)
@@ -125,7 +132,8 @@ async def signup_user(username: Annotated[str, Form()],
         hashed_password = hashed_password,
         disabled = False,
     )
-    user = await create_user(user)
+    user = await create_user(user, session)
+    print("USER DONE SIGNUP")
     response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
     return response 
 
@@ -209,3 +217,7 @@ async def change_password(
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
+
+@router.get("/experiment", response_model=Page)
+async def read_users(session: SessionDep, pagination: PaginationInput):
+    return await paginate(select(User), session, pagination)

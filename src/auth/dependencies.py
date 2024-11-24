@@ -6,10 +6,11 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta, timezone
 from sqlmodel import Session, select, SQLModel
 from typing import TypeVar
+from sqlalchemy.sql import func
 from sqlmodel.sql.expression import SelectOfScalar
-from database import engine, SessionDep
+from database import SessionDep
 from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
-from auth.schemas import User
+from auth.schemas import User, PaginationInput, Page
 from post.schemas import Image, AltText
 import jwt
 import re
@@ -29,14 +30,17 @@ def verify_password(plain_password, hashed_password):
 def get_password_hash(plain_password):
     return pwd_context.hash(plain_password)
 
-def get_user(username: str, session: SessionDep) -> User:
+async def get_user(username: str, session: SessionDep) -> User:
+    print(f"USER: {username}")
     statement = select(User).where(User.username == username)
-    result = session.exec(statement)
-    user = result.first()
+    print(f"STATEMENT: {statement}")
+    print(f"SESSION: {session}")
+    result = await session.execute(statement)
+    user = result.scalar_one_or_none()
     return user
 
-def authenticate_user(username: str, plain_password: str):
-    user = get_user(username)
+async def authenticate_user(username: str, plain_password: str, session: SessionDep):
+    user = await get_user(username, session)
     if not user:
         return False
     if user.disabled:
@@ -56,7 +60,10 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: bool = None):
+async def get_current_user(session: SessionDep,
+                           token: Annotated[str, Cookie(...)] = None,
+                           allow: bool = None,
+                           ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid Credentials",
@@ -87,7 +94,7 @@ async def get_current_user(token: Annotated[str, Cookie(...)] = None, allow: boo
         raise credentials_timeout
     
     print(f"Username: {username}")
-    user = get_user(username=username)
+    user = await get_user(username=username, session=session)
     if user is None:
         print("Token Error - User Not Found")
         raise credentials_exception
@@ -120,9 +127,8 @@ async def change_user_password(
 async def create_user(user: UserCreate, session: SessionDep) -> User:
     db_user = User.model_validate(user)
     session.add(db_user)
-    session.commit()
-    session.refresh(db_user)
-    print(f"Succesful Signup")
+    await session.commit()
+    await session.refresh(db_user)
     return db_user
 
 async def update_user_username(user: UserUpdate,
@@ -281,3 +287,60 @@ def verify_password_strength(password: str):
             detail="Password must not contain spaces",
         )
     
+async def paginate (
+        query: SelectOfScalar[T],
+        session: SessionDep,
+        pagination_input: PaginationInput
+) -> Page[T]:
+    # Turn original query into subquery
+    subquery = query.subquery()
+    # Another select statement that counts the rows in the subquery
+    # Merges the subquery and this query into one and ready for execution
+    count_statement = select((func.count()).select_from(subquery))
+    # count_statement is now the entire full statement
+    # Execute counte_statement get the scalar result (total number of items)
+    # Returns a single integer
+    total_items = await session.scalar(count_statement)
+    assert isinstance(total_items, int)
+
+    # Out-of-bounds requests goes directly to last page
+    # Ex: (151 + 50) // 50 = 4
+    # The last extra item is placed alone on 4 due to //
+    total_pages = (total_items + pagination_input.page_size - 1) // pagination_input.page_size
+
+    # Gives at least 1 page even if no items exist from search
+    # max function returns either total_pages or at least 1
+    total_pages = max(total_pages, 1)
+
+    # min function returns either page or total pages
+    # If user enteres a pagination_input.page higher than total pages (out-of-bounds)
+    # will automatically return the highest numbered page
+    current_page = min(pagination_input.page, total_pages)
+
+    # Decides when the number of items start showing. Offset of the starting point
+    # of the items retrieved. Ex: (2 - 1) * 50 | Page 2 will start showing items
+    # starting from item 50
+    offset = (current_page - 1) * pagination_input.page_size
+
+    # Gets the selected number of items to be displayed on the page. Starts from offset
+    # and is limited to the number of items can be displayed on the page (page_size)
+    result = session.exec(query.offset(offset).limit(pagination_input.page_size))
+
+    # Turns all the items from the result into a list 
+    items = list(result.all)
+
+    # No idea
+    start_index = offset + 1 if total_items > 0 else 0
+    end_index = min(offset + pagination_input.page_size, total_items)
+
+    return Page[T](
+        items=items,
+        total_items=total_items,
+        start_index=start_index,
+        end_index=end_index,
+        total_pages=total_pages,
+        current_page_size=len(items),  # can differ from the requested page_size
+        current_page=current_page,  # can differ from the requested page
+    )
+
+PaginationDep = Annotated[PaginationInput, Depends()]

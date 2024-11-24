@@ -1,6 +1,6 @@
 from typing import Annotated
 import uvicorn
-from database import create_db_and_tables
+from database import create_db_and_tables, get_session, SessionDep
 from auth.utilities import create_admin_user
 from auth.dependencies import get_current_user
 from contextlib import asynccontextmanager
@@ -15,8 +15,10 @@ from post.dependencies import nlp_models_dict, vision_models_dict
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting Server ....")
-    create_db_and_tables()
-    create_admin_user()
+    await create_db_and_tables()
+    async for session in get_session():
+        print(f"START SESSION: {session}")
+        await create_admin_user(session)
     yield
     print("Stopping Server ....")
 
@@ -28,9 +30,10 @@ app.include_router(post_router, prefix="/post")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request, token: Annotated[str, Cookie(...)] = None):
+async def home(request: Request, session: SessionDep, token: Annotated[str, Cookie(...)] = None):
+    print(f"MAIN SESSION: {session}")
     try:
-        user = await get_current_user(token=token, allow=True)
+        user = await get_current_user(token=token, allow=True, session=session)
         if user == None:
             return templates.TemplateResponse("pages/index.html", {"request": request, "user": None, "nlp": nlp_models_dict, "cv": vision_models_dict})
         first_name_display = user.first_name.title()
