@@ -62,7 +62,7 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
     api_key = os.getenv("OPENAI_API_KEY")
     
     client = OpenAI(
-            api_key = api_key
+            api_key = "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"
     )
 
     completion = client.chat.completions.create(

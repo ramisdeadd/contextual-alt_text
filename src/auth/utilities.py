@@ -19,5 +19,5 @@ async def create_admin_user(session: SessionDep):
                    
         db_user = User.model_validate(user)
         session.add(db_user)
-        session.commit()
-        session.refresh(db_user)
+        await session.commit()
+        await session.refresh(db_user)

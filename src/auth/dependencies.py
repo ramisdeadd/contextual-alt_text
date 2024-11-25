@@ -163,13 +163,14 @@ async def get_user_generated_history(curr_user: User, session: SessionDep):
     statement = select(Image).where(Image.user_id == curr_user.id)
     result = await session.execute(statement)
     history = result.all()
+    history = [image for (image,) in history]
     return history
 
 async def get_image_alt_text(curr_image: Image, session: SessionDep):
     statement = select(AltText).where(AltText.image_id == curr_image.id)
     result = await session.execute(statement)
     history = result.one()
-    return history
+    return history[0]
 
 async def get_all_users(session: SessionDep):
     statement = select(User).where(User.role == 'user')

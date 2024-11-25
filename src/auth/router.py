@@ -46,9 +46,13 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     first_name_display = current_user.first_name.title()
     img_history = await get_user_generated_history(current_user, session)
     alt_history = []
+
     for image in img_history:
-        alttext = await get_image_alt_text(image)
+        alttext = await get_image_alt_text(image, session)
         alt_history.append(alttext)
+
+    print(f"IMG HISTORY : {img_history}")
+    print(f"ALT HISTORY: {alt_history}")
     
     generated_history = list(zip(img_history, alt_history))
             
