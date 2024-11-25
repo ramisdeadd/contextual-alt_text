@@ -7,6 +7,7 @@ from database import SessionDep
 from fastapi.security import OAuth2PasswordRequestForm
 from configs import templates
 from sqlmodel import select
+from post.schemas import Image
 from auth.schemas import Page, PaginationInput, User
 from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
 from auth.dependencies import (
@@ -238,5 +239,10 @@ async def change_password(
     return response
 
 @router.get("/experiment", response_model=Page)
-async def read_users(session: SessionDep, pagination: PaginationInput):
-    return await paginate(select(User), session, pagination)
+async def read_users(session: SessionDep, pagination: PaginationInput = Depends()):
+    pagination = PaginationInput(
+        page=1,
+        page_size=20
+    )
+    check = await paginate(select(Image), session, pagination)
+    return check

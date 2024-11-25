@@ -17,7 +17,6 @@ async def lifespan(app: FastAPI):
     print("Starting Server ....")
     await create_db_and_tables()
     async for session in get_session():
-        print(f"START SESSION: {session}")
         await create_admin_user(session)
     yield
     print("Stopping Server ....")

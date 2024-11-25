@@ -294,29 +294,35 @@ async def paginate (
 ) -> Page[T]:
     # Turn original query into subquery
     subquery = query.subquery()
+    print(f"SUBQUERY: {subquery}")
     # Another select statement that counts the rows in the subquery
     # Merges the subquery and this query into one and ready for execution
-    count_statement = select((func.count()).select_from(subquery))
+    count_statement = select((func.count())).select_from(subquery)
+
     # count_statement is now the entire full statement
     # Execute counte_statement get the scalar result (total number of items)
     # Returns a single integer
     total_items = await session.scalar(count_statement)
     assert isinstance(total_items, int)
 
+    print(f"Total Items: {total_items}")
     # Out-of-bounds requests goes directly to last page
     # Ex: (151 + 50) // 50 = 4
     # The last extra item is placed alone on 4 due to //
     total_pages = (total_items + pagination_input.page_size - 1) // pagination_input.page_size
 
+    print(f"Total Pages: {total_pages}")
     # Gives at least 1 page even if no items exist from search
     # max function returns either total_pages or at least 1
     total_pages = max(total_pages, 1)
 
+    print(f"Total Pages Max: {total_pages}")
     # min function returns either page or total pages
     # If user enteres a pagination_input.page higher than total pages (out-of-bounds)
     # will automatically return the highest numbered page
     current_page = min(pagination_input.page, total_pages)
 
+    print(f"Current Page: {current_page}")
     # Decides when the number of items start showing. Offset of the starting point
     # of the items retrieved. Ex: (2 - 1) * 50 | Page 2 will start showing items
     # starting from item 50
@@ -324,10 +330,12 @@ async def paginate (
 
     # Gets the selected number of items to be displayed on the page. Starts from offset
     # and is limited to the number of items can be displayed on the page (page_size)
-    result = session.exec(query.offset(offset).limit(pagination_input.page_size))
+    result = await session.execute(query.offset(offset).limit(pagination_input.page_size))
 
+    print(f"Result: {result}")
     # Turns all the items from the result into a list 
-    items = list(result.all)
+    items = result.scalars().all()
+    print(f"Items: {items}")
 
     # No idea
     start_index = offset + 1 if total_items > 0 else 0
