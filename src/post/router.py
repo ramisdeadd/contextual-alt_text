@@ -48,6 +48,7 @@ async def generate_alt_text(
         f.write(img_content)
 
     with PIL.Image.open(img_path) as image:
+        image.convert("RGB")
         image.save(img_path, dpi=size)
         img_hash = generate_image_hash(img_path)
 

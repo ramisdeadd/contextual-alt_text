@@ -31,7 +31,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request, session: SessionDep, token: Annotated[str, Cookie(...)] = None):
-    print(f"MAIN SESSION: {session}")
     try:
         user = await get_current_user(token=token, allow=True, session=session)
         if user == None:

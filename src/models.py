@@ -50,7 +50,7 @@ class GenerateBLIP2():
              raw_image = Image.open(image_path).convert('RGB')
              inputs = self.processor(raw_image, return_tensors="pt").to(device, torch.float16)
              out = self.model.generate(**inputs)
-             return self.processor.decode(out[0], skip_special_tokens=True).strip()
+             return self.processor.batch_decode(out, skip_special_tokens=True)[0].strip()
      
 ### NLP MODELS           
     
