@@ -3,13 +3,13 @@
     <div class="titlecont">
         <div class="cobalt">Cobalt</div>
         <div class="hsub3">
-            <div class="greet">
+            <!-- <div class="greet">
                 {% if user %}
                     <span>Hi {{first_name_display}}</span>
                 {% else %}
                     <span>Greetings!</span>
                 {% endif %}
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="hgroup1">
@@ -42,7 +42,7 @@
 
         <div class="hsub2">
             {% if user and user.username %}
-            <div class="login">
+            <div class="logout">
                 <a href="/auth/logout">Logout</a>
             </div>
             {% else %}
@@ -50,9 +50,6 @@
                 <a href="/auth/login">Login</a>
             </div>
             {% endif %}
-            <div>
-                <img src="../../static/images/profile.png" height="35px">
-            </div>
         </div>
     </div>
 

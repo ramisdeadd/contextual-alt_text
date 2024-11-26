@@ -182,3 +182,19 @@ document.getElementById("copy-caption").addEventListener("click", async (e) => {
     image_caption_output.blur();
 });
 
+document.getElementById('getimage').addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        document.querySelector('.replacer-button').style.display = 'none';
+
+        const output = document.getElementById('output');
+        const file = this.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            output.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+});
+

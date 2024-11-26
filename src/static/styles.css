@@ -5,37 +5,71 @@
 }
 
 body{
-    font-family: Archivo;
+    font-family: "Roboto", sans-serif;
     height: auto;
     margin: 0;
     color: white;
+    box-sizing: border-box;
 }
 
 .header{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin: 0px 200px 50px;
-    padding-top: 80px;
+    justify-content: center;
+    align-items: center;
+    background-color: #2f3953;
+    width: auto;
+    width: 100%;
+    margin: 0 auto;
 }
 
-.header{
+.top-title {
+    color: rgb(45, 45, 51);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    letter-spacing: -2px;
+    flex-direction: column;
+}
+
+.subtitle {
+    font-size: 25px;
+    color: #707070;
+    margin-top: -50px;
+}
+
+.top-title h2 {
+    font-weight: 900;
+}
+
+.under-title-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    margin: 0px 200px 50px;
-    padding-top: 80px;
+    color: black;
+    justify-content: center;
+    justify-items: center;
+    margin-top: 30px;
 }
 
-.header-copy{
-    background: url(../../static/images/bg5.jpg) no-repeat;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0px 0px 50px;
-    padding-top: 0px;
+.signup-button a{
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px 5px;
+    background-color: rgb(68, 125, 230);
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
 }
 
+.signup-button {
+    margin-top: 7px;
+    margin-right: 30px;
+}
+
+.sidebutton-title {
+    color: rgb(85, 85, 85);
+}
 .alt-table {
     width: 550px;
 }
@@ -70,6 +104,7 @@ body{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-right: 40%;
 
 }
 
@@ -98,14 +133,15 @@ body{
 }
 
 .cobalt{
-    font-size: 50px;
-    letter-spacing: -4px;
+    font-size: 35px;
+    letter-spacing: -2px;
+    font-weight: 600;
+    margin-right: 20px;
 }
 
 .wspacer{
-    margin-right: 40px;
-    margin-left: 40px;
-    font-size: 20px;
+    margin-left: 30px;
+    font-size: 15px;
     letter-spacing: 0px;
 }
 
@@ -118,7 +154,8 @@ body{
 
 .login, .signup, .login2 a{
     letter-spacing: 0px;
-    font-size: 35px;
+    font-size: 25px;
+    font-weight: 600;
     padding: 10px 10px 10px;
     margin-right: 10px;
 }
@@ -158,18 +195,6 @@ body{
 
 .letC {
     font-size: 150px;
-}
-
-.bg {
-    background: url(../../static/images/bg5.jpg) no-repeat;
-    background-size: cover;
-    height: 900px;
-    position:relative;
-
-    /* opacity: 0;                         
-    transform: translateY(-1000px);        
-    animation: slideTopDown .75s ease-in-out forwards;
-    transition: transform 1.5s; */
 }
 
 .bg2 {
@@ -227,9 +252,7 @@ body{
     align-items: center;
     justify-content: center;  
 }
-.mouse img{
-    height: 100px;
-}
+
 
 ::-webkit-scrollbar {
   width: 7px;
@@ -295,7 +318,6 @@ body{
 }
 
 .center_form{
-    margin-top: 100px;
     color: black;
     flex-direction: row;
     display: flex;
@@ -303,33 +325,61 @@ body{
     align-items: center;
 }
 .upimgcover {
-    background-color: rgb(239, 241, 250);
-    width: 704px;
-    padding: 30px;
-    border-radius: 15px;
+    background-color: #414044;
+    width: 500px;
+    height: 340px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    margin-left: 5px;
-    margin-bottom: 50px;
+.dark-background {
+    background-color: #2e2d33;
+    width: 1300px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 0 auto;
 }
 
 .upimage {
     display: none;
+    
 }
 .file-input-label {
-    display: inline-block;
     padding: 3px 10px;
-    border: 1px solid #b3b3b3;
     border-radius: 5px;
     color: #535353;
-    background-color: rgb(236, 236, 236);
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     font-size: 12px;
 }
 
-.file-input-label:hover {
-    background-color: rgb(216, 216, 216);
-    color: #535353;
+.upload-button-image {
+    width: 30px !important; /* Adjust width */
+    height: auto !important; /* Adjust height */
+    display: inline-block; /* Ensures it stays inline */
+}
+
+
+
+#output {
+    margin-top: 10px;
+    max-width: 100%;
+    max-height: 300px;
+    display: block;
+}
+.image-output {
+    width: 200px;
+    height: 200px;
+}
+.replacer-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 130px;
 }
 
 .imgcap-results{
@@ -380,17 +430,18 @@ body{
 
 
 .uploadimage {
-    border: 2px dashed rgb(179, 165, 165);
+    border: 2px dashed rgb(165, 165, 179);
     border-radius: 5px;
-
-    width: 700px;
-    height: 400px;
+    margin: 0 auto;
+    width: 450px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     font-size: 10px;
+
 }
 
 .uploadimage img {
@@ -413,6 +464,10 @@ body{
     padding-top: 30px;
     padding-bottom: 30px;
     field-sizing: content;
+}
+
+.inputcontainer {
+    margin-top: 20px;
 }
 
 .generator-container {
@@ -472,6 +527,21 @@ body{
 .login a{
     text-decoration: none;
     color: white;
+    padding: 5px 10px 5px;
+    background-color: rgb(68, 125, 230);
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.logout a {
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px 5px;
+    background-color: rgb(230, 63, 63);
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
 }
 
 .results-container-alt {

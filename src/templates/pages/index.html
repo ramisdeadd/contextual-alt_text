@@ -8,47 +8,40 @@
             {% include 'layouts/navbar_index.html' %} 
             {% endblock %}
 
-            <div class="maintitle">
-                <h1>Contextual Alt-Text</h1>
-            </div>
-
-            <div class="container">
-                <a href="auth/signup">
-                    <div class="getstarted">
-                    Sign up!
-                    </div>
-                </a>
-                <div class="remarks">
-                    Enhancing contextuality of alt-text, <br>
-                    Better context is better quality.
-                </div>
-            </div>
-            
-            <!-- <div class="mouse">
-                Scroll Down!
-                <img src="mouse.png">
-            </div> -->
         </div>
     </section>
     <!-- Homepage -->
     <!-- Generate -->
     <section id="generate">
+        <div class="top-title">
+            <h2>Contextual Alt-Text Generator</h2>
+            <div class="subtitle">Automatically generate alt text for images in over 130 languages. Improve SEO and site accessibility.</div>
+        </div>
+
+        <div class="under-title-buttons">
+            <div class="signup-button"><a href="/auth/signup">Sign Up</a></div>
+            <div class="sidebutton-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit,<br> sed do eiusmod tempor incididunt ut</div>
+        </div>
         <div class="inputcontainer">
             <div class="center_form">
                 <div class="generator-container">
+                    <div class="dark-background">
                     <form id="upload-article">
                         <div class="upimgcover">
                             <div class="uploadimage" id="imagebox">
+                                <div class="replacer-button">
+                                    <label for="getimage" class="file-input-label"><img class="upload-button-image"  src="../../static/images/upload-white.png" width="5px" height="5px"></label>
+                                    <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
+                                </div>
+
                                 <img id="output">
+                                
                             </div>
                         </div>
-                        
+                    </div>
 
                         <div class="uploadbutton">
-                            <div>
-                                <label for="getimage" class="file-input-label">Upload Image</label>
-                                <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
-                            </div>
+                            
                             <div class="model-options">
                                 <select id="nlp" name="nlp" class="nlp">
                                     {% for model in nlp.values() %}
