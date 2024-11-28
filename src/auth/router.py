@@ -7,9 +7,11 @@ from database import SessionDep
 from fastapi.security import OAuth2PasswordRequestForm
 from configs import templates
 from sqlmodel import select
-from post.schemas import Image
+from sqlalchemy import func
+from post.models import ImageBase, AltTextBase
+from post.schemas import Image, AltText
 from auth.schemas import Page, PaginationInput, User
-from auth.models import UserPasswordUpdate, UserCreate, UserUpdate
+from auth.models import UserPasswordUpdate, UserCreate, UserUpdate, UserBase
 from auth.dependencies import (
     get_current_user, 
     get_password_hash,
@@ -42,37 +44,6 @@ async def read_users_me(request: Request, current_user: CurrUserDep):
     first_name_display = current_user.first_name.title()
     return templates.TemplateResponse("/pages/profile.html", {"request": request, "first_name_display": first_name_display, "user": current_user})
 
-@router.get("/dashboard", response_class=HTMLResponse)
-async def user_dashboard(request: Request, current_user: CurrUserDep, session: SessionDep):
-    first_name_display = current_user.first_name.title()
-    img_history = await get_user_generated_history(current_user, session)
-    alt_history = []
-
-    for image in img_history:
-        alttext = await get_image_alt_text(image, session)
-        alt_history.append(alttext)
-
-    print(f"IMG HISTORY : {img_history}")
-    print(f"ALT HISTORY: {alt_history}")
-    
-    generated_history = list(zip(img_history, alt_history))
-            
-    if current_user.role == 'admin':
-        users = await get_all_users(session)
-        print(users)
-        return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
-                                                                   "user": current_user, 
-                                                                   "first_name_display": first_name_display, 
-                                                                   "role": current_user.role, 
-                                                                   "users": users, 
-                                                                   "generation_history": generated_history})
-
-    return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
-                                                               "user": current_user, 
-                                                               "first_name_display": first_name_display,  
-                                                               "role": current_user.role, 
-                                                               "generation_history": generated_history})
-        
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
     return templates.TemplateResponse("/pages/login.html", {"request": request})
@@ -238,11 +209,36 @@ async def change_password(
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
 
+
+@router.get("/dashboard", response_class=HTMLResponse)
+async def user_dashboard(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
+    first_name_display = current_user.first_name.title()
+
+    alt_statement = select(AltText).join(Image).where(Image.user_id == User.id).join(User).where(Image.id == AltText.image_id)
+    image_statement = select(Image).join(User).where(Image.user_id == User.id)
+    
+    page = await paginate(image_statement, alt_statement, session, pagination)
+   
+    generation_history = list(zip(page.images, page.alttext))
+
+    if current_user.role == 'admin':
+        users = await get_all_users(session)
+        return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
+                                                                   "user": current_user, 
+                                                                   "first_name_display": first_name_display, 
+                                                                   "role": current_user.role, 
+                                                                   "users": users, 
+                                                                   "generation_history": generation_history})
+
+    return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
+                                                               "user": current_user, 
+                                                               "first_name_display": first_name_display,  
+                                                               "role": current_user.role, 
+                                                               "generation_history": generation_history})
+
 @router.get("/experiment", response_model=Page)
 async def read_users(session: SessionDep, pagination: PaginationInput = Depends()):
-    pagination = PaginationInput(
-        page=1,
-        page_size=20
-    )
-    check = await paginate(select(Image), session, pagination)
+    alt_statement = select(AltText).join(Image).where(Image.user_id == User.id).join(User).where(Image.id == AltText.image_id)
+    image_statement = select(Image).join(User).where(Image.user_id == User.id)
+    check = await paginate(image_statement, alt_statement, session, pagination)
     return check

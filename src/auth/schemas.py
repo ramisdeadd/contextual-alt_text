@@ -22,7 +22,8 @@ class PaginationInput(BaseModel):
     )
 
 class Page(BaseModel, Generic[T]):
-    items: list[T] = Field(description="List of items in one page")
+    images: list[T] = Field(description="List of images in one page")
+    alttext: list[T] = Field(description="List of alt-text in one page")
     total_items: int = Field(ge=0, description="Number of total items")
     start_index: int = Field(ge=0, description="Starting item index")
     end_index: int = Field(ge=0, description="Ending item index")

@@ -159,18 +159,6 @@ async def update_user_profile(user: UserUpdate,
     
     return curr_user
 
-async def get_user_generated_history(curr_user: User, session: SessionDep):
-    statement = select(Image).where(Image.user_id == curr_user.id)
-    result = await session.execute(statement)
-    history = result.all()
-    history = [image for (image,) in history]
-    return history
-
-async def get_image_alt_text(curr_image: Image, session: SessionDep):
-    statement = select(AltText).where(AltText.image_id == curr_image.id)
-    result = await session.execute(statement)
-    history = result.one()
-    return history[0]
 
 async def get_all_users(session: SessionDep):
     statement = select(User).where(User.role == 'user')
@@ -286,15 +274,30 @@ def verify_password_strength(password: str):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Password must not contain spaces",
         )
+
+async def get_user_generated_history(curr_user: User, session: SessionDep):
+    statement = select(Image).where(Image.user_id == curr_user.id)
+    result = await session.execute(statement)
+    history = result.all()
+    history = [image for (image,) in history]
+    return history
+
+async def get_image_alt_text(curr_image: Image, session: SessionDep):
+    statement = select(AltText).where(AltText.image_id == curr_image.id)
+    result = await session.execute(statement)
+    history = result.one()
+    return history[0]
+
     
 async def paginate (
-        query: SelectOfScalar[T],
+        image_query: SelectOfScalar[T],
+        alt_query: SelectOfScalar[T],
         session: SessionDep,
         pagination_input: PaginationInput
 ) -> Page[T]:
     # Turn original query into subquery
-    subquery = query.subquery()
-    print(f"SUBQUERY: {subquery}")
+    subquery = image_query.subquery()
+
     # Another select statement that counts the rows in the subquery
     # Merges the subquery and this query into one and ready for execution
     count_statement = select((func.count())).select_from(subquery)
@@ -305,24 +308,20 @@ async def paginate (
     total_items = await session.scalar(count_statement)
     assert isinstance(total_items, int)
 
-    print(f"Total Items: {total_items}")
     # Out-of-bounds requests goes directly to last page
     # Ex: (151 + 50) // 50 = 4
     # The last extra item is placed alone on 4 due to //
     total_pages = (total_items + pagination_input.page_size - 1) // pagination_input.page_size
 
-    print(f"Total Pages: {total_pages}")
     # Gives at least 1 page even if no items exist from search
     # max function returns either total_pages or at least 1
     total_pages = max(total_pages, 1)
 
-    print(f"Total Pages Max: {total_pages}")
     # min function returns either page or total pages
     # If user enteres a pagination_input.page higher than total pages (out-of-bounds)
     # will automatically return the highest numbered page
     current_page = min(pagination_input.page, total_pages)
 
-    print(f"Current Page: {current_page}")
     # Decides when the number of items start showing. Offset of the starting point
     # of the items retrieved. Ex: (2 - 1) * 50 | Page 2 will start showing items
     # starting from item 50
@@ -330,24 +329,28 @@ async def paginate (
 
     # Gets the selected number of items to be displayed on the page. Starts from offset
     # and is limited to the number of items can be displayed on the page (page_size)
-    result = await session.execute(query.offset(offset).limit(pagination_input.page_size))
+    image_result = await session.execute(image_query.offset(offset).limit(pagination_input.page_size))
+    alt_result = await session.execute(alt_query.offset(offset).limit(pagination_input.page_size))
 
-    print(f"Result: {result}")
     # Turns all the items from the result into a list 
-    items = result.scalars().all()
-    print(f"Items: {items}")
+    images = image_result.all()
+    images = [item for i in images for item in i]
+
+    alttext = alt_result.all()
+    alttext = [item for a in alttext for item in a]
 
     # No idea
     start_index = offset + 1 if total_items > 0 else 0
     end_index = min(offset + pagination_input.page_size, total_items)
 
     return Page[T](
-        items=items,
+        images=images,
+        alttext=alttext,
         total_items=total_items,
         start_index=start_index,
         end_index=end_index,
         total_pages=total_pages,
-        current_page_size=len(items),  # can differ from the requested page_size
+        current_page_size=len(images),  # can differ from the requested page_size
         current_page=current_page,  # can differ from the requested page
     )
 

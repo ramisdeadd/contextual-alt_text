@@ -24,4 +24,4 @@ class UserCreate(UserBase):
     hashed_password: str
 
 class UserPublic(UserBase):
-    id: int
+    id: int = Field(default=None, primary_key=True)
