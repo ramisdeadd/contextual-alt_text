@@ -43,7 +43,7 @@ class GenerateGPT2():
 
 class GenerateBLIP2():
      def __init__(self):
-             self.processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
+             self.processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b", revision="51572668da0eb669e01a189dc22abe6088589a24")
              self.model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", load_in_8bit=True, device_map="auto")
                 
      def predict(self, image_path: Path):
