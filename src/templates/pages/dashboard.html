@@ -140,9 +140,21 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="experiment">
+                {% for i in range(total_pages) %}
+                    {% if i + 1 == curr_page%}
+                    <p class="experiment-1">
+                        <a href="{{ url_for('user_dashboard')}}?page={{i+1}}&page_size={{page_size}}">{{i+1}}</a>
+                    </p>
+                    {% else %}
+                    <p class="experiment-2">
+                        <a href="{{ url_for('user_dashboard')}}?page={{i+1}}&page_size={{page_size}}">{{i+1}}</a>
+                    </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-    
 </div>
 
 

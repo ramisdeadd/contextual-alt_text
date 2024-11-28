@@ -15,7 +15,7 @@ class User(UserBase, table=True):
 class PaginationInput(BaseModel):
     page: int = Field(default=1, ge=1, description="Requested Page Number")
     page_size: int = Field(
-        default=10,
+        default=5,
         ge=1,
         le=MAX_RESULTS_PER_PAGE,
         description="Requested Number of Items Per Page"

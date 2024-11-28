@@ -210,7 +210,7 @@ async def change_password(
     return response
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.get("/dashboard", response_class=HTMLResponse, name="user_dashboard")
 async def user_dashboard(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
     first_name_display = current_user.first_name.title()
 
@@ -227,13 +227,18 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                    "user": current_user, 
                                                                    "first_name_display": first_name_display, 
                                                                    "role": current_user.role, 
-                                                                   "users": users, 
+                                                                   "curr_page": page.current_page,
+                                                                   "total_pages": page.total_pages,
+                                                                   "page_size": pagination.page_size,
                                                                    "generation_history": generation_history})
 
     return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
                                                                "user": current_user, 
                                                                "first_name_display": first_name_display,  
                                                                "role": current_user.role, 
+                                                               "curr_page": page.current_page,
+                                                               "total_pages": page.total_pages,
+                                                               "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
 
 @router.get("/experiment", response_model=Page)
