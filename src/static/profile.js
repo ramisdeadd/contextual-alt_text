@@ -1,143 +1,138 @@
 function CustomValidation() {
-    this.invalidities = [];
-  }
-  
-  CustomValidation.prototype = {
-    getInvalidities: function() {
+  this.invalidities = [];
+}
+
+CustomValidation.prototype = {
+  getInvalidities: function() {
       return this.invalidities.join('. \n');
-    },
-    checkInvalidity: function(input) {
+  },
+  checkInvalidity: function(input) {
       this.invalidities = [];
 
-      // Username validation
       var username = document.getElementById('username_input');
       var usernameValidationElements = document.querySelectorAll('label[for="username_input"] li');
-  
+
       if (username.value.length < 6 || username.value.length > 13) {
-        usernameValidationElements[0].textContent = 'Username must be 6-13 characters long.';
-        usernameValidationElements[0].classList.add('invalid');
-        usernameValidationElements[0].style.color = 'red';
+          usernameValidationElements[0].textContent = 'Username must be 6-13 characters long.';
+          usernameValidationElements[0].classList.add('invalid');
+          usernameValidationElements[0].style.color = 'red';
       } else {
-        usernameValidationElements[0].textContent = 'Username is valid length.';
-        usernameValidationElements[0].classList.add('valid');
-        usernameValidationElements[0].style.color = 'green';
+          usernameValidationElements[0].textContent = 'Username is valid length.';
+          usernameValidationElements[0].classList.remove('invalid');
+          usernameValidationElements[0].style.color = 'green';
       }
-  
+
       if (/[^a-zA-Z0-9]/.test(username.value)) {
-        usernameValidationElements[1].textContent = 'Username must contain only letters and numbers.';
-        usernameValidationElements[1].classList.add('invalid');
-        usernameValidationElements[1].style.color = 'red';
+          usernameValidationElements[1].textContent = 'Username must contain only letters and numbers.';
+          usernameValidationElements[1].classList.add('invalid');
+          usernameValidationElements[1].style.color = 'red';
       } else {
-        usernameValidationElements[1].textContent = 'Username contains valid characters.';
-        usernameValidationElements[1].classList.add('valid');
-        usernameValidationElements[1].style.color = 'green';
+          usernameValidationElements[1].textContent = 'Username contains valid characters.';
+          usernameValidationElements[1].classList.remove('invalid');
+          usernameValidationElements[1].style.color = 'green';
       }
-  
+
       if (/\s/.test(username.value)) {
-        usernameValidationElements[2].textContent = 'Username must not contain spaces.';
-        usernameValidationElements[2].classList.add('invalid');
-        usernameValidationElements[2].style.color = 'red';
+          usernameValidationElements[2].textContent = 'Username must not contain spaces.';
+          usernameValidationElements[2].classList.add('invalid');
+          usernameValidationElements[2].style.color = 'red';
       } else {
-        usernameValidationElements[2].textContent = 'Username contains no spaces.';
-        usernameValidationElements[2].classList.add('valid');
-        usernameValidationElements[2].style.color = 'green';
+          usernameValidationElements[2].textContent = 'Username contains no spaces.';
+          usernameValidationElements[2].classList.remove('invalid');
+          usernameValidationElements[2].style.color = 'green';
       }
-  
-      // First name validation
+
       var firstName = document.getElementById('first_name_input');
       var firstNameValidationElements = document.querySelectorAll('label[for="first_name_input"] li');
-  
+
       if (firstName.value.length < 2 || firstName.value.length > 40) {
-        firstNameValidationElements[0].textContent = 'First name must be 2-40 characters long.';
-        firstNameValidationElements[0].classList.add('invalid');
-        firstNameValidationElements[0].style.color = 'red';
+          firstNameValidationElements[0].textContent = 'First name must be 2-40 characters long.';
+          firstNameValidationElements[0].classList.add('invalid');
+          firstNameValidationElements[0].style.color = 'red';
       } else {
-        firstNameValidationElements[0].textContent = 'First name has valid length.';
-        firstNameValidationElements[0].classList.add('valid');
-        firstNameValidationElements[0].style.color = 'green';
+          firstNameValidationElements[0].textContent = 'First name has valid length.';
+          firstNameValidationElements[0].classList.add('valid');
+          firstNameValidationElements[0].style.color = 'green';
       }
   
       if (/[^a-zA-Z ]/.test(firstName.value)) {
-        firstNameValidationElements[1].textContent = 'First name must contain only letters.';
-        firstNameValidationElements[1].classList.add('invalid');
-        firstNameValidationElements[1].style.color = 'red';
+          firstNameValidationElements[1].textContent = 'First name must contain only letters.';
+          firstNameValidationElements[1].classList.add('invalid');
+          firstNameValidationElements[1].style.color = 'red';
       } else {
-        firstNameValidationElements[1].textContent = 'First name contains valid characters.';
-        firstNameValidationElements[1].classList.add('valid');
-        firstNameValidationElements[1].style.color = 'green';
+          firstNameValidationElements[1].textContent = 'First name contains valid characters.';
+          firstNameValidationElements[1].classList.add('valid');
+          firstNameValidationElements[1].style.color = 'green';
       }
   
       if (/\d/.test(firstName.value)) {
-        firstNameValidationElements[2].textContent = 'First name must not contain numbers.';
-        firstNameValidationElements[2].classList.add('invalid');
-        firstNameValidationElements[2].style.color = 'red';
+          firstNameValidationElements[2].textContent = 'First name must not contain numbers.';
+          firstNameValidationElements[2].classList.add('invalid');
+          firstNameValidationElements[2].style.color = 'red';
       } else {
-        firstNameValidationElements[2].textContent = 'First name contains no numbers.';
-        firstNameValidationElements[2].classList.add('valid');
-        firstNameValidationElements[2].style.color = 'green';
+          firstNameValidationElements[2].textContent = 'First name contains no numbers.';
+          firstNameValidationElements[2].classList.add('valid');
+          firstNameValidationElements[2].style.color = 'green';
       }
 
       var trimmedFirstName = firstName.value.trim();
       
       if (firstName.value !== trimmedFirstName) {
-        firstNameValidationElements[3].textContent = 'First name must not have leading or trailing spaces.';
-        firstNameValidationElements[3].classList.add('invalid');
-        firstNameValidationElements[3].style.color = 'red';
+          firstNameValidationElements[3].textContent = 'First name must not have leading or trailing spaces.';
+          firstNameValidationElements[3].classList.add('invalid');
+          firstNameValidationElements[3].style.color = 'red';
       } else {
-        firstNameValidationElements[3].textContent = 'First name has no leading or trailing spaces.';
-        firstNameValidationElements[3].classList.add('valid');
-        firstNameValidationElements[3].style.color = 'green';
+          firstNameValidationElements[3].textContent = 'First name has no leading or trailing spaces.';
+          firstNameValidationElements[3].classList.add('valid');
+          firstNameValidationElements[3].style.color = 'green';
       }
-
-  
-      // Last name validation
+      
       var lastName = document.getElementById('last_name_input');
       var lastNameValidationElements = document.querySelectorAll('label[for="last_name_input"] li');
   
       if (lastName.value.length < 2 || lastName.value.length > 40) {
-        lastNameValidationElements[0].textContent = 'Last name must be 2-40 characters long.';
-        lastNameValidationElements[0].classList.add('invalid');
-        lastNameValidationElements[0].style.color = 'red';
+          lastNameValidationElements[0].textContent = 'Last name must be 2-40 characters long.';
+          lastNameValidationElements[0].classList.add('invalid');
+          lastNameValidationElements[0].style.color = 'red';
       } else {
-        lastNameValidationElements[0].textContent = 'Last name has valid length.';
-        lastNameValidationElements[0].classList.add('valid');
-        lastNameValidationElements[0].style.color = 'green';
+          lastNameValidationElements[0].textContent = 'Last name has valid length.';
+          lastNameValidationElements[0].classList.add('valid');
+          lastNameValidationElements[0].style.color = 'green';
       }
   
       if (/[^a-zA-Z]/.test(lastName.value)) {
-        lastNameValidationElements[1].textContent = 'Last name must contain only letters.';
-        lastNameValidationElements[1].classList.add('invalid');
-        lastNameValidationElements[1].style.color = 'red';
+          lastNameValidationElements[1].textContent = 'Last name must contain only letters.';
+          lastNameValidationElements[1].classList.add('invalid');
+          lastNameValidationElements[1].style.color = 'red';
       } else {
-        lastNameValidationElements[1].textContent = 'Last name contains valid characters.';
-        lastNameValidationElements[1].classList.add('valid');
-        lastNameValidationElements[1].style.color = 'green';
+          lastNameValidationElements[1].textContent = 'Last name contains valid characters.';
+          lastNameValidationElements[1].classList.add('valid');
+          lastNameValidationElements[1].style.color = 'green';
       }
   
       if (/\s/.test(lastName.value)) {
-        lastNameValidationElements[2].textContent = 'Last name must not contain spaces.';
-        lastNameValidationElements[2].classList.add('invalid');
-        lastNameValidationElements[2].style.color = 'red';
+          lastNameValidationElements[2].textContent = 'Last name must not contain spaces.';
+          lastNameValidationElements[2].classList.add('invalid');
+          lastNameValidationElements[2].style.color = 'red';
       } else {
-        lastNameValidationElements[2].textContent = 'Last name contains no spaces.';
-        lastNameValidationElements[2].classList.add('valid');
-        lastNameValidationElements[2].style.color = 'green';
+          lastNameValidationElements[2].textContent = 'Last name contains no spaces.';
+          lastNameValidationElements[2].classList.add('valid');
+          lastNameValidationElements[2].style.color = 'green';
       }
-  
+
       var email = document.getElementById('email_input');
       var emailValidationElement = document.querySelector('label[for="email_input"] li:nth-child(1)');
       var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailPattern.test(email.value)) {
-        emailValidationElement.textContent = 'Contains a valid email.';
-        emailValidationElement.classList.add('valid');
-        emailValidationElement.style.color = 'green';
+          emailValidationElement.textContent = 'Contains a valid email.';
+          emailValidationElement.classList.add('valid');
+          emailValidationElement.style.color = 'green';
       } else {
-        emailValidationElement.textContent = 'Does not contain a valid email.';
-        emailValidationElement.classList.add('invalid');
-        emailValidationElement.style.color = 'red';
+          emailValidationElement.textContent = 'Does not contain a valid email.';
+          emailValidationElement.classList.add('invalid');
+          emailValidationElement.style.color = 'red';
       }
 
-      // Password validation
       var password = document.getElementById('change_password');
       var passwordValidationElements = document.querySelectorAll('label[for="change_password"] li');
 
@@ -185,13 +180,12 @@ function CustomValidation() {
           passwordValidationElements[4].textContent = 'Password must not contain spaces.';
           passwordValidationElements[4].classList.add('invalid');
           passwordValidationElements[4].style.color = 'red';
-        } else {
+          } else {
           passwordValidationElements[4].textContent = 'Password contains no spaces.';
           passwordValidationElements[4].classList.add('valid');
           passwordValidationElements[4].style.color = 'green';
-        }
-    
-
+          }
+          
       // Confirm password validation
       var confirmPassword = document.getElementById('confirm_password');
       var confirmPasswordValidationElements = document.querySelectorAll('label[for="confirm_password"] li');
@@ -205,104 +199,155 @@ function CustomValidation() {
           confirmPasswordValidationElements[0].classList.add('valid');
           confirmPasswordValidationElements[0].style.color = 'green';
       }
-    }
-  };
-  
-  // Event Listeners
-  document.getElementById('username_input').CustomValidation = new CustomValidation();
-  document.getElementById('username_input').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
-  
-  document.getElementById('first_name_input').CustomValidation = new CustomValidation();
-  document.getElementById('first_name_input').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
-  
-  document.getElementById('last_name_input').CustomValidation = new CustomValidation();
-  document.getElementById('last_name_input').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
-  
-  document.getElementById('email_input').CustomValidation = new CustomValidation();
-  document.getElementById('email_input').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
+      
+  },
+  isFormValid: function(formId) {
+      this.checkInvalidity();
+      const invalidElements = document.querySelectorAll(`#${formId} label li.invalid`);
+      return invalidElements.length === 0;
+  }
+};
 
-  document.getElementById('change_password').CustomValidation = new CustomValidation();
-  document.getElementById('change_password').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
+// Event Listeners for validation
+document.getElementById('username_input').CustomValidation = new CustomValidation();
+document.getElementById('username_input').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
 
-  document.getElementById('confirm_password').CustomValidation = new CustomValidation();
-  document.getElementById('confirm_password').addEventListener('keyup', function() {
-    this.CustomValidation.checkInvalidity(this);
-  });
+document.getElementById('first_name_input').CustomValidation = new CustomValidation();
+document.getElementById('first_name_input').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
 
+document.getElementById('last_name_input').CustomValidation = new CustomValidation();
+document.getElementById('last_name_input').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
 
+document.getElementById('email_input').CustomValidation = new CustomValidation();
+document.getElementById('email_input').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
+
+document.getElementById('change_password').CustomValidation = new CustomValidation();
+document.getElementById('change_password').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
+
+document.getElementById('confirm_password').CustomValidation = new CustomValidation();
+document.getElementById('confirm_password').addEventListener('keyup', function() {
+  this.CustomValidation.checkInvalidity(this);
+});
+
+// Form Submission Handlers
 document.getElementById("username-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = document.getElementById("username-form");
-    const formData = new FormData(form);
+  e.preventDefault();
+  const form = document.getElementById("username-form");
+  const usernameInput = document.getElementById('username_input');
 
-    console.log(formData)
+  const isFormValid = usernameInput.CustomValidation.isFormValid("username-form");
+  if (!isFormValid) {
+      alert("Please fix the errors before submitting.");
+      return;
+  }
 
-    const response = await fetch(`/auth/profile/update-username`, {
+  const formData = new FormData(form);
+  try {
+      const response = await fetch(`/auth/profile/update-username`, {
+          method: 'POST',
+          body: formData
+      });
+
+      const result = await response.json();
+      if (response.redirected) {
+          window.location.href = response.url;
+      } else {
+          alert(result.detail || "An error occurred during submission.");
+      }
+  } catch (error) {
+      console.error("Submission failed:", error);
+      alert("Failed to send data to the server.");
+  }
+});
+
+document.getElementById("profile-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = document.getElementById("profile-form");
+
+  const inputs = form.querySelectorAll('input');
+  let isFormValid = true;
+
+  inputs.forEach(input => {
+    if (!input.CustomValidation.isFormValid("profile-form")) {
+      isFormValid = false;
+    }
+  });
+
+  if (!isFormValid) {
+    alert("Please fix the errors before submitting.");
+    return;
+  }
+
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(`/auth/profile/update-profile`, {
       method: 'POST',
       body: formData
-  });
+    });
 
-    const result = await response.json();
-    console.log(result);
-    
     if (response.redirected) {
       window.location.href = response.url;
     } else {
-      console.log(response)
-    }
-
-});
-  
-document.getElementById("profile-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = document.getElementById("profile-form")
-    const formData = new FormData(form);
-
-    console.log(formData)
-
-    const response = await fetch(`/auth/profile/update-profile`, {
-        method: 'POST',
-        body: formData
-    });
-
       const result = await response.json();
-      console.log(result)
-
-      if (response.redirected) {
-        window.location.href = response.url;
-      } else {
-        console.log(response)
-      }
+      alert(result.detail || "An error occurred during submission.");
+    }
+  } catch (error) {
+    console.error("Submission failed:", error);
+    alert("Failed to send data to the server.");
+  }
 });
+
 
 document.getElementById("password-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = document.getElementById("password-form");
-    const formData = new FormData(form);
+  e.preventDefault();
+  const form = document.getElementById("password-form");
+  const inputs = form.querySelectorAll('input');
+  let isFormValid = true;
+  inputs.forEach(input => {
+    if (input.CustomValidation && typeof input.CustomValidation.isFormValid === 'function') {
+      const isValid = input.CustomValidation.isFormValid();
+      console.log(`Validation for ${input.id}: ${isValid}`);
+      if (!isValid) {
+        isFormValid = false;
+      }
+    } else {
+      console.error(`CustomValidation is not defined for input: ${input.id}`);
+    }
+  });
 
-    console.log([formData.entries()]);
+  if (!isFormValid) {
+    alert("Please fix the errors before submitting.");
+    return;
+  }
 
+  const formData = new FormData(form);
+
+  try {
     const response = await fetch(`/auth/profile/change-password`, {
-        method: 'POST',
-        body: formData
+      method: 'POST',
+      body: formData
     });
 
+    if (response.redirected) {
+      window.location.href = response.url;
+    } else {
       const result = await response.json();
-      console.log(result);
-
-      if (response.redirected) {
-        window.location.href = response.url;
-      } else {
-        console.log(response)
-      }
+      alert(result.detail || "An error occurred during submission.");
+    }
+  } catch (error) {
+    console.error("Submission failed:", error);
+    alert("Failed to send data to the server.");
+  }
 });

@@ -1,131 +1,135 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
+<section>
+    {% block navbar_index%}
+    {% include 'layouts/navbar_index.html' %} 
+    {% endblock %}
+</section>
 
-<div class="main-signup-container">
-    <div class="signup-container">
-        <div class="logcobalt">
-            <h1>
-                COBALT
-            </h1>
-        </div>
-        <div class="logintoptitle">
-            <h1>
-                Create a new <br> account!
-            </h1>
-        </div>
-        <div class="signform">
-            <form id="signup-form" name="signup_form">
-                <div class="signuser">
-                    <label for="username_input">Username<br>
-                    <input type="text" id="username_input" name="username" minlength="6" maxlength="13" pattern="[a-zA-Z0-9]+" title="Username must be between 6 and 13 Characters. No special Characters and spaces." required>               
-                    
-                    <div class="requirements">
-                        <ul>
-                            <li>At least 6-13 characters long.</li>
-                            <li>No special characters.</li>
-                            <li>No spaces.</li>
-                        </ul>
-                    </div>
-                    </label>
 
-                </div>
-                <div class="signuser">
-                    <label for="first_name_input">First Name<br>
-                    <input type="text" id="first_name_input" name="first_name" minlength="2" maxlength="40" pattern="[a-zA-Z\s]+" title="First Name must be between 2 and 40. No special Characters and numbers." required >       
-                    
-                    <div class="requirements">
-                        <ul>
-                            <li>Atleast 2-40 characters</li>
-                            <li>No special characters</li>
-                            <li>No Numbers</li>
-                            <li>Must not have leading or trailing spaces.</li>
-                        </ul>
-                    </div>       
-                    </label> 
-                </div>
-                <div class="signuser">
-                    <label for="last_input_input">Last Name<br>
-                    <input type="text" id="last_input_input" name="last_name" required>               
-                
-                    <div class="requirements">
-                        <ul>
-                            <li>At least 2-40 characters long.</li>
-                            <li>No special characters.</li>
-                            <li>No spaces.</li>
-                        </ul>
-                    </div>
-                    </label>
-                </div>
-                <div class="signuser">
-                    <label for="email_input">Email<br>
-                        <input type="text" id="email_input" name="email" required>               
+<div class="page-container">
+
+    <div class="signup-header">
+        <h2>Create your account for free</h2>
+        <span>Already have an account? <a href="/auth/login">Sign in</a></span>
+    </div>
+
+    <div class="main-signup-container">
+
+        <div class="signup-container">
+            <div class="signform">
+                <form id="signup-form" name="signup_form">
+                    <div class="signuser">
+                        <label for="username_input">Username<br>
+                        <input type="text" id="username_input" name="username" minlength="6" maxlength="13" pattern="[a-zA-Z0-9]+" title="Username must be between 6 and 13 Characters. No special Characters and spaces." placeholder="Username" required>               
                         
                         <div class="requirements">
                             <ul>
-                                <li>Must be in order of: characters@characters.domain</li>
+                                <li>At least 6-13 characters long.</li>
+                                <li>No special characters.</li>
+                                <li>No spaces.</li>
                             </ul>
                         </div>
-                    </label>
-                </div>
-                <div class="signuser">
-                    <label for="password_input">Password<br>
-                    <input type="password" id="password_input" name="plain_password" title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
-                
-                    <div class="requirements">
-                        <ul>
-                            <li>At least 8 characters</li>
-                            <li>Must contain at least one number</li>
-                            <li>Must contain at least one uppercase character</li>
-                            <li>Must contain at least one lowercase</li>
-                        </ul>
-                    </div>
-                    </label>
-                </div>
-                <div class="signuser">
-                    <label for="conf_password">Confirm Password<br>
-                    <input type="password" id="conf_password" name="confpassword" title="Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
-                
-                    <div class="requirements">
-                        <ul>
-                            <li>Passwords must match</li>
-                        </ul>
-                    </div>
-                    </label>
-                </div>
+                        </label>
 
-                <div class="signbutton"> 
-                    <button type="submit" id="signup_btn">Sign Up</button>
+                    </div>
+                    <div class="signuser">
+                        <label for="first_name_input">First Name<br>
+                        <input type="text" placeholder="ex. Juan" id="first_name_input" name="first_name" minlength="2" maxlength="40" pattern="[a-zA-Z\s]+" title="First Name must be between 2 and 40. No special Characters and numbers." required >       
+                        
+                        <div class="requirements">
+                            <ul>
+                                <li>Atleast 2-40 characters</li>
+                                <li>No special characters</li>
+                                <li>No Numbers</li>
+                                <li>Must not have leading or trailing spaces.</li>
+                            </ul>
+                        </div>       
+                        </label> 
+                    </div>
+                    <div class="signuser">
+                        <label for="last_input_input">Last Name<br>
+                        <input type="text" placeholder="ex. Delacruz" id="last_input_input" name="last_name" required>               
+                    
+                        <div class="requirements">
+                            <ul>
+                                <li>At least 2-40 characters long.</li>
+                                <li>No special characters.</li>
+                                <li>No spaces.</li>
+                            </ul>
+                        </div>
+                        </label>
+                    </div>
+                    <div class="signuser">
+                        <label for="email_input">Email<br>
+                            <input type="text" placeholder="name@example.com" id="email_input" name="email" required>               
+                            
+                            <div class="requirements">
+                                <ul>
+                                    <li>Must be in order of: characters@characters.domain</li>
+                                </ul>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="signuser">
+                        <label for="password_input">Password<br>
+                        <input type="password" placeholder="Password" id="password_input" name="plain_password" title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
+                    
+                        <div class="requirements">
+                            <ul>
+                                <li>At least 8 characters</li>
+                                <li>Must contain at least one number</li>
+                                <li>Must contain at least one uppercase character</li>
+                                <li>Must contain at least one lowercase</li>
+                            </ul>
+                        </div>
+                        </label>
+                    </div>
+                    <div class="signuser">
+                        <label for="conf_password">Confirm Password<br>
+                        <input type="password" id="conf_password" name="confpassword" title="Password must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>               
+                    
+                        <div class="requirements">
+                            <ul>
+                                <li>Passwords must match</li>
+                            </ul>
+                        </div>
+                        </label>
+                    </div>
+
+                    <div class="signbutton"> 
+                        <button type="submit" id="signup_btn">Sign Up</button>
+                    </div>
+                </form>
+        
+
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <section>
+        <footer class="footer-block">
+            <img src="../../static/images/main-icon-white.png">
+            <div class="cobalt-footer">
+                <h3>Cobalt.ai</h3>
+                <div class="footer-subtitle">
+                    <span>Contextual Alt-Text Generator</span>
                 </div>
-            </form>
     
+                
+            </div>
+            <div class="footer-content">
+                <span>© 2024 Cobalt. All rights reserved.</span>
+            </div>
+    
+    
+        </footer>
 
-        </div>
-
-        <div class="logsign">
-            <a href="/auth/login">Login Here</a>
-        </div>
-        <div class="returnhome">
-            <a href="/">Return to home</a>
-        </div>
-    </div>
-
-
-    <div class="logimage">
-        <div class="logtitle">
-            Enhancing contextuality of alt-text, <br>
-            Better context is better quality.
-        </div>
-        <div class="logsubtitle">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br>
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco <br>
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in <br>
-            </p>
-        </div>
-    </div>
-
-    </div>
+</section>
 </div>
+
 
 
 

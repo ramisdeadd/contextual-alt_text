@@ -8,47 +8,40 @@
             {% include 'layouts/navbar_index.html' %} 
             {% endblock %}
 
-            <div class="maintitle">
-                <h1>Contextual Alt-Text</h1>
-            </div>
-
-            <div class="container">
-                <a href="auth/signup">
-                    <div class="getstarted">
-                    Sign up!
-                    </div>
-                </a>
-                <div class="remarks">
-                    Enhancing contextuality of alt-text, <br>
-                    Better context is better quality.
-                </div>
-            </div>
-            
-            <!-- <div class="mouse">
-                Scroll Down!
-                <img src="mouse.png">
-            </div> -->
         </div>
     </section>
     <!-- Homepage -->
     <!-- Generate -->
     <section id="generate">
+        <div class="top-title">
+            <h2>Contextual Alt-Text Generator</h2>
+            <div class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</div>
+        </div>
+
+        <div class="under-title-buttons">
+            <div class="signup-button"><a href="/auth/signup">Sign Up</a></div>
+            <div class="sidebutton-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit,<br> sed do eiusmod tempor incididunt ut</div>
+        </div>
         <div class="inputcontainer">
             <div class="center_form">
                 <div class="generator-container">
+                    <div class="dark-background">
                     <form id="upload-article">
                         <div class="upimgcover">
                             <div class="uploadimage" id="imagebox">
+                                <div class="replacer-button">
+                                    <label for="getimage" class="file-input-label"><img class="upload-button-image"  src="../../static/images/upload-white.png" width="5px" height="5px"></label>
+                                    <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
+                                </div>
+
                                 <img id="output">
+                                
                             </div>
                         </div>
-                        
+                    </div>
 
                         <div class="uploadbutton">
-                            <div>
-                                <label for="getimage" class="file-input-label">Upload Image</label>
-                                <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
-                            </div>
+                            
                             <div class="model-options">
                                 <select id="nlp" name="nlp" class="nlp">
                                     {% for model in nlp.values() %}
@@ -129,7 +122,16 @@
                         </div>
                         
                         <div class="button_center">
-                            <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
+                            {% if user and user.username %}
+                            <div>
+                                <button class="alt-button" type="submit" id="generate_btn">Generate Alt-Text</button>
+                            </div>
+                            {% else %}
+                            <div>
+                                <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
+                            </div>
+                            {% endif %}
+                            
                         </div>
 
                     </form>
@@ -140,36 +142,179 @@
     <!-- Generate -->
     <!-- Info -->
     <section id="info"> 
+
     <div class="infocontainer">
-        <div class="info1">
-            <div>
-                <h1>What is an alt-text?</h1>
+        <div class="bottom-information">
+            <div class="ai-intro">
+                <h2>Let AI write your alt text. Automatically.</h2>
             </div>
-            <div>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-                    sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
+            <div class="ai-sub-intro">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et<br> dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea<br> commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla<br> pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+        </div>
+    </div>
+
+    <div class="how-it-works">
+        <div class="ai-intro">
+            <h2>How It Works</h2>
+        </div>
+
+        <div class="image-holder-container">
+            <div class="image-holder">
+                <img src="../../static/images/hiw-01.jpg">
+                <h2>1. Upload an image</h3>
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                </span>    
+            </div>
+            <div class="image-holder">
+                <img src="../../static/images/hiw-02.jpg">
+                <h2>2. Our AI analyzes the image</h3>
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                </span>    
+            </div>
+            <div class="image-holder">
+                <img src="../../static/images/hiw-03.jpg">
+                <h2>3. You get alt text</h3>
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                </span>    
+            </div>
+            <div class="image-holder">
+                <img src="../../static/images/hiw-03.jpg">
+                <h2>3. You get alt text</h3>
+                <span>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                </span>    
             </div>
         </div>
 
-        <div class="info2">
+    </div>
+
+    <div class="integrations-container">
+        <div class="integrations-row-1">
+            <h2>Flexible Integrations</h2>
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            </span>
+        </div>
+        <div class="integrations-row-2">
             <div>
-                <h1>What is contextual alt-text?</h1>
+                <h2>1. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
             </div>
             <div>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
-                    in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
-                    sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
+                <h2>2. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
             </div>
-        </div>  
+            <div>
+                <h2>3. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
+            </div>
+        </div>
+        <div class="integrations-row-3">
+            <div>
+                <h2>4. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
+            </div>
+            <div>
+                <h2>5. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
+            </div>
+            <div>
+                <h2>6. Lorem ipsum</h2>
+                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</span>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="about-alt-text">
+        <div class="about-alt-child-1">
+            <h2>About Alt-Text</h2>
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et<br> dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea<br> commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            </span>
+        </div>
+
+        <div class="about-alt-child-2">
+            <span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et<br> dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea<br> commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            </span>
+        </div>
+    </div>
+
+    <div class="matrix-container">
+        <div class="matrix-header">
+            <h2>Accuracy Matrix</h2>
+        </div>
+
+        <div class="matrix-content-row">
+            <div class="matrix-content-column">
+                <div>
+                    <h3>consectetur</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+                <div>
+                    <h3>adipiscing elit</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+            </div>
+        
+            <div>
+                <div>
+                    <h3>cillum </h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+                <div>
+                    <h3>sed do</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+            </div>
+        
+            <div>
+                <div>
+                    <h3>ipsum dolor</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+                <div>
+                    <h3>Duis aute</h3>
+                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</span>
+                </div>
+            </div>
+        </div>
+        
     </div>
     </section>
- 
+    
+    <section>
+        <footer class="footer-block">
+            <img src="../../static/images/main-icon-white.png">
+            <div class="cobalt-footer">
+                <h3>Cobalt.ai</h3>
+                <div class="footer-subtitle">
+                    <span>Contextual Alt-Text Generator</span>
+                </div>
+    
+                
+            </div>
+            <div class="footer-content">
+                <span>© 2024 Cobalt. All rights reserved.</span>
+            </div>
+    
+    
+        </footer>
+
+</section>
+
 <script src="{{ url_for('static', path='scripts.js') }}" defer></script>
 {% endblock %}
