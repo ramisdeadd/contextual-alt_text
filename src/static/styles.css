@@ -20,7 +20,7 @@ body{
     justify-content: center;
     align-items: center;
     background-color: #212530;
-    width: auto;
+    height: 60px;
     width: 100%;
     margin: 0 auto;
 }
@@ -173,7 +173,7 @@ body{
     letter-spacing: 0px;
 }
 
-.login, .signup, .login2 a{
+.login, .signup, .login2 a, .logout{
     letter-spacing: 0px;
     font-size: 25px;
     font-weight: 600;
@@ -639,12 +639,26 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 35px;
 }
 .alt-button {
     text-decoration: none;
     color: white;
     padding: 20px 60px 20px;
     background-color: rgb(68, 125, 230);
+    font-size: 16px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    border: none;
+}
+
+.alt-button:disabled {
+    text-decoration: none;
+    color: rgb(138, 138, 138);
+    padding: 20px 60px 20px;
+    background-color: rgb(95, 95, 95);
     font-size: 16px;
     text-align: center;
     border-radius: 5px;
@@ -699,6 +713,7 @@ body{
     border-radius: 5px;
     font-weight: 600;
 }
+
 
 .results-container-alt {
     resize: none;
@@ -841,38 +856,33 @@ body{
 }
 
 .mainlog-container {
-    margin-top: 0px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    border: 2px solid rgb(218, 218, 218);
+    width: 350px;
+    margin: 0px auto;
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-bottom: 50px;
 }
 
 .log-container{
-    margin-left: 100px;
     color: black;
 }
 
-
-
-
-.loguser {
-    display: flex;
+.login-form {
     flex-direction: column;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
 }
 
-.loguser label {
-    font-size: 15px;
-    margin: 5px;
-    color: #383737;
-}
 
-.loguser input {
-    height: 30px;
-    border-radius: 5px;
-    border: 3px solid #ccc;
-}
+
+
 
 .password-editor{
     display: flex;
@@ -888,38 +898,11 @@ body{
     color: #383737;
 }
 
-.logpass {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.logpass label {
-    font-size: 15px;
-    margin: 5px;
-    color: #383737;
-}
-
-.logpass input {
-    height: 30px;
-    border-radius: 5px;
-    border: 3px solid #ccc;
-}
 
 .logbutton{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.logbutton button{  
-    padding: 10px 100px 10px;
-    border-radius: 10px;
-    background-color: #fcefa1e0;
-    border: none;
-    outline: none;
-    font-size: 15px;
-    font-family: "Roboto", sans-serif;
-    color: rgb(55, 55, 55);
 }
 
 .logsign a{
@@ -970,7 +953,7 @@ body{
 
 
 .signup-header {
-    margin-top: 60px;
+    margin-top: 100px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -997,10 +980,40 @@ body{
     font-weight: 900;
 }
 
+.signin-header {
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #212530;
+    font-size: 19px;
+    gap: 0px;
+    margin-bottom: 30px;
+}
 
+.signin-header > * {
+    margin: 0;
+    padding: 0; 
+}
+
+.signin-header span {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    color:#535353;
+}
+.signin-header h2 {
+    font-weight: 900;
+}
+
+.signuser {
+    display: flex;
+    flex-direction: column;
+}
 .signuser label {
     font-size: 14px;
-    margin: 5px;
     color: #383737;
     margin-top: 20px;
     font-weight: 600;
@@ -1018,9 +1031,24 @@ body{
 
 
 .signbutton button{
-    margin-left: 7px;
+    margin-left: 0px;
     margin-top: 20px;
-    padding: 10px 105px 10px;
+    padding: 10px 108px 10px;
+    border-radius: 5px;
+    background-color: rgb(68, 125, 230);
+    border: none;
+    outline: none;
+    font-weight: 900;
+    font-size: 15px;
+    font-family: "Roboto", sans-serif;
+    color: rgb(255, 255, 255);
+}   
+
+
+.logbutton button{
+    margin-left: 0px;
+    margin-top: 20px;
+    padding: 10px 112px 10px;
     border-radius: 5px;
     background-color: rgb(68, 125, 230);
     border: none;

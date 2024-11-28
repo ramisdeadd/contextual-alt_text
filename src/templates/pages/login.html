@@ -1,68 +1,67 @@
 {% extends 'layouts/base.html' %}
 {% block body %}
 
-<div class="mainlog-container">
-
-    <div class="log-container">
-        <div class="logcobalt">
-            <h1>
-                COBALT
-            </h1>
-        </div>
-
-        <div class="logintoptitle">
-            <h1>
-                Log into your <br> account!
-            </h1>
-        </div>
-        <div class="log-form">
-            
-            <form id="login-form">
-                <div class="signuser">
-                    <label for="">Username:</label>
-                    <input type="text" id="" name="username">               
-                </div>
-                <div class="signuser">
-                    <label for="">Password:</label>
-                    <input type="password" id="" name="password"> 
-                    
-                    <div class="invalid-login">
-                        <ul class="no-bullet">
-                            <li>Invalid Credentials. Try again.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="logbutton">
-                    <button type="submit">LOGIN</button>
-                </div>
-            </form>
-        </div>
-    
-        <div class="logsign2">
-            <a href="/auth/signup">No account? Signup Here</a>
-        </div>
-        <div class="returnhome2">
-            <a href="/">Return to home</a>
-        </div>
+<section>
+    {% block navbar_index%}
+    {% include 'layouts/navbar_index.html' %} 
+    {% endblock %}
+</section>
+<div class="page-container">
+    <div class="signin-header">
+        <h2>Sign in to your account</h2>
+        <span>or <a href="/auth/signup">Sign up for a free account</a></span>
     </div>
+    <div class="mainlog-container">
 
-    <div class="logimage">
-        <div class="logtitle">
-            Enhancing contextuality of alt-text, <br>
-            Better context is better quality.
+        <div class="log-container">
+            <div class="log-form">
+                
+                <form id="login-form" class="login-form">
+                    <div class="signuser">
+                        <label for="">Username</label>
+                        <input type="text" placeholder="Username" id="" name="username">               
+                    </div>
+                    <div class="signuser">
+                        <label for="">Password</label>
+                        <input type="password" placeholder="Password" id="" name="password"> 
+                        
+                        <div class="invalid-login">
+                            <ul class="no-bullet">
+                                <li>Invalid Credentials. Try again.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="logbutton">
+                        <button type="submit">LOGIN</button>
+                    </div>
+                </form>
+            </div>
+        
         </div>
-        <div class="logsubtitle">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt <br>
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco <br>
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in <br>
-            </p>
-        </div>
+
     </div>
 </div>
 
 
+<section>
+    <footer class="footer-block">
+        <img src="../../static/images/main-icon-white.png">
+        <div class="cobalt-footer">
+            <h3>Cobalt.ai</h3>
+            <div class="footer-subtitle">
+                <span>Contextual Alt-Text Generator</span>
+            </div>
 
+            
+        </div>
+        <div class="footer-content">
+            <span>© 2024 Cobalt. All rights reserved.</span>
+        </div>
+
+
+    </footer>
+
+</section>
 
 <script src="{{ url_for('static', path='login.js') }}" defer></script>
 {% endblock %}
