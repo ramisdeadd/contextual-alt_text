@@ -669,27 +669,22 @@ body{
 
 .alt-button-profile {
     padding: 10px 20px 10px;
-    border-radius: 10px;
-    background-color: #fcefa1e0;
+    border-radius: 5px;
+    background-color: rgb(83, 85, 255);
     border: none;
     outline: none;
     font-size: 15px;
-    font-family: Archivo;
-    color: rgb(55, 55, 55);
-    transition: transform .6s, background-color .6s;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     margin-top: 30px;
-    margin-left: 550px;
+    margin-left: 621px;
+    font-weight: 900;
 }
 .acctset h2{
     color: #383737;
 }
 
 
-.alt-button-profile:hover {
-    transform: scale(1.1);
-    background-color: #fdec88e0;
-}
 
 
 .login a{
@@ -1063,7 +1058,7 @@ body{
     margin-left: 40px;
     margin-right: 50px;
     color: #eed9a0;
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
 
     display: flex;
@@ -1075,7 +1070,7 @@ body{
     margin-left: 40px;
     margin-right: 50px;
     color: #d3a629;
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
 
     display: flex;
@@ -1181,27 +1176,18 @@ body{
 
 .main-profile input {
     height: 30px;
-    width: 255px;
+    width: 254px;
     border-radius: 5px;
-    border: 3px solid #ccc;
+    border: 2px solid #ccc;
+    margin-bottom: 10px;
 }
 
 .main-profile label {
-    font-size: 15px;
+    font-size: 14px;
     margin: 5px;
     color: #383737;
 }
 
-.main-profile button{
-    padding: 10px 50px 10px;
-    border-radius: 10px;
-    background-color: #fcefa1e0;
-    border: none;
-    outline: none;
-    font-size: 15px;
-    font-family: Archivo;
-    color: rgb(55, 55, 55);
-}  
 
 .profile-editor {
     margin-bottom: 50px;
@@ -1336,7 +1322,7 @@ table {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin: 20px auto;
     outline: 2px solid rgb(216, 216, 216);
-    font-family: Archivo;
+    font-family: "Roboto", sans-serif;
     margin-left: 190px;
     margin-right: 190px;
 }
@@ -1348,6 +1334,7 @@ th {
     color: #4b4b4b;
     text-align: left;
     border-bottom: 1px solid #adadad; 
+    text-align: center;
 
 }
 
@@ -1356,10 +1343,9 @@ td {
     padding: 30px 15px;
     background-color: #fff;
     color: #636363;
-    /* border-bottom: 1px solid #d3d3d3; */
-    font-family: Archivo;
-    font-size: 14px;
-    letter-spacing: -1px;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 
@@ -1394,14 +1380,15 @@ td {
     padding: 10px 30px 10px;
     background-color: rgb(255, 44, 44);
     color: white;
+    font-weight: 900;
     border: none;
     border-radius: 5px;
-    font-family: archivo;
+    font-family: "Roboto", sans-serif;
 }
 thead th {
     background-color: #fffbfb;
     color: #4d4d4d;
-    font-family: archivo;
+    font-family: "Roboto", sans-serif;
     font-size: 16px;
 
 }
@@ -1450,7 +1437,8 @@ thead th {
 
 .profile-subtitle {
     color: #777777;
-    font-size: 10px;
+    font-size: 13px;
+    font-weight: 400;
     margin-top: -18px;
     padding: 0;
 }
@@ -1484,7 +1472,7 @@ thead th {
     border-bottom-left-radius: 7px;
     outline: none;
     border: 1px solid rgb(219, 219, 219);
-    font-family: archivo;
+    font-family: "Roboto", sans-serif;
     font-size: 12px;
     border-right: none;
 
@@ -1493,26 +1481,28 @@ thead th {
 .searchbutton-dashboard button {
     padding: 10px 10px 8px;
     border: none;
-    background-color:#f5fab3d7;
-    color: rgb(56, 56, 56);
+    background-color: rgb(83, 85, 255);
+    color: rgb(255, 255, 255);
     border-top: 1px solid rgb(219, 219, 219);
     border-bottom: 1px solid rgb(219, 219, 219);
     border-right: 1px solid rgb(219, 219, 219);
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
-    font-family: archivo;
+    font-family: "Roboto", sans-serif;
     cursor: pointer;
+    font-weight: 900;
 }
 
 .refresh-dashboard button {
     padding: 10px 10px 8px;
     border: none;
-    font-family: archivo;
+    font-family: "Roboto", sans-serif;
     color: #ffffff;
     background-color: rgb(83, 85, 255);
     margin-left: 20px;
     border-radius: 7px;
     cursor: pointer;
+    font-weight: 900;
 }
 
 .generated-list-container {
@@ -1563,15 +1553,26 @@ thead th {
 .experiment {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    border: 1px solid black;
-    padding: 5px 35px 5px 35px
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 100px;
 }
 
-.experiment-1 {
-    color: green;
+.experiment-1, .experiment-2 {
+    border: 3px solid rgb(221, 221, 221);
+    width: 15px;
+    height: 15px;
+    padding: 5px 7px 7px;
+    border-radius: 7px;
+
 }
 
-.experiment-2 {
-    color: red;
+.experiment-1 a, .experiment-2 a{
+    text-decoration: none;
+    color: #212530;
+    font-size: 15px;
+    font-weight: 900;
+
 }
