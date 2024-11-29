@@ -1576,3 +1576,20 @@ thead th {
     font-weight: 900;
 
 }
+
+
+.forget-remember-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 265px;
+    font-size: 14px;
+}
+
+.remember-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
