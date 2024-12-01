@@ -32,7 +32,7 @@
         </div>
 
         <div class="wspacer">
-            {% if user.role == 'admin' %}
+            {% if user and user.role == 'admin' %}
                 <a href="/auth/admin">User Management</a>
             {% endif %}
         </div>

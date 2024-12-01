@@ -10,6 +10,7 @@ from post.dependencies import (
     save_alt_gen,
     save_image_gen,
     save_alt_user,
+    save_caption_user,
     check_image_exist,
     rename_file_with_hash
 );
@@ -84,6 +85,18 @@ async def save_alt_text(request: Request,
                         ):
     data = await request.json()
     alt_text = data.get("alt_text")
-    save_alt_user(current_user, alt_text, session)
+    await save_alt_user(current_user, alt_text, session)
+    
+    return JSONResponse(content={"message": "Alt-text saved successfully!"}, status_code=status.HTTP_200_OK)
+
+@router.post("/save-image-caption/", response_class=JSONResponse)
+async def save_alt_text(request: Request,
+                        current_user: Annotated[str, Depends(get_current_active_user)],
+                        session: SessionDep
+                        ):
+    data = await request.json()
+    image_caption = data.get("image_caption")
+    print(f"IMAGE CAPTION - {image_caption}")
+    await save_caption_user(current_user, image_caption, session)
     
     return JSONResponse(content={"message": "Alt-text saved successfully!"}, status_code=status.HTTP_200_OK)

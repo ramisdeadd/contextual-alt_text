@@ -1265,9 +1265,10 @@ body{
 }
 
 #getcaption {
+    padding-top: 15px;
     border-width: 0px 0px 1px 0px;
     width: 700px;
-    height: 50px;
+    height: 15px;
 }
 
 #getalttext:focus {
