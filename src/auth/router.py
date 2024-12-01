@@ -127,9 +127,6 @@ async def update_username(
     curr_user = await get_current_user(session=session, token=token, allow=None)
     user = await update_user_username(user, curr_user, session)
 
-    print(f"CHANGE: {username}")
-    print(f"USER: {user.username}")
-
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     # create_access_token -> END
     access_token = create_access_token(
@@ -220,17 +217,6 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     page = await paginate(image_statement, alt_statement, session, pagination)
    
     generation_history = list(zip(page.images, page.alttext))
-
-    if current_user.role == 'admin':
-        users = await get_all_users(session)
-        return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
-                                                                   "user": current_user, 
-                                                                   "first_name_display": first_name_display, 
-                                                                   "role": current_user.role, 
-                                                                   "curr_page": page.current_page,
-                                                                   "total_pages": page.total_pages,
-                                                                   "page_size": pagination.page_size,
-                                                                   "generation_history": generation_history})
 
     return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
                                                                "user": current_user, 

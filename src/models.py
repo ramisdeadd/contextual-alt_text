@@ -71,11 +71,12 @@ class GeneratePEGASUS():
             self.tokenizer = AutoTokenizer.from_pretrained("google/pegasus-xsum")
 
     def predict(self, text: str):
-            inputs = self.tokenizer(text, max_length=1024, return_tensors="pt")
-            summary_ids = self.model.generate(inputs["input_ids"], max_length=100, min_length=50)
+            inputs = self.tokenizer(text, max_length=1024, return_tensors="pt", truncation=True)
+            summary_ids = self.model.generate(inputs["input_ids"], max_length=125, min_length=50)
             summary = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
             return summary
-    
+
+
 class GenerateT5():
     def __init__(self):
            self.model = T5ForConditionalGeneration.from_pretrained("google-t5/t5-base").to(device)

@@ -30,6 +30,12 @@
                 <span>About</span>
             {% endif %}
         </div>
+
+        <div class="wspacer">
+            {% if user.role == 'admin' %}
+                <a href="/auth/admin">User Management</a>
+            {% endif %}
+        </div>
     </div>
     
     <div class="hgroup2">

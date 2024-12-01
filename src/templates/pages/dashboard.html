@@ -12,9 +12,6 @@
     <div>
         <div class="generated-list-container">
             <div class="searchbar-container">
-                <div>
-
-                </div>
                 <div class="search-button-dashboard">
                     <div class="searchbar-dashboard">
                         <input type="text" id="searchInput" placeholder="Search Alt-Text..">
@@ -28,7 +25,6 @@
                 </div>
 
             </div>
-
 
             <table id="dataTable">
                 <thead>
@@ -140,14 +136,14 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="experiment">
+            <div class="page-list">
                 {% for i in range(total_pages) %}
                     {% if i + 1 == curr_page%}
-                    <p class="experiment-1">
+                    <p class="curr-page">
                         <a href="{{ url_for('user_dashboard')}}?page={{i+1}}&page_size={{page_size}}">{{i+1}}</a>
                     </p>
                     {% else %}
-                    <p class="experiment-2">
+                    <p class="other-page">
                         <a href="{{ url_for('user_dashboard')}}?page={{i+1}}&page_size={{page_size}}">{{i+1}}</a>
                     </p>
                     {% endif %}
