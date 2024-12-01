@@ -1476,11 +1476,10 @@ thead th {
 }
 
 .searchbar-container {
-    color: black;
     display: flex;
-    width: 70%;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: 190px;
 }
 
 .search-button-dashboard {
@@ -1572,7 +1571,7 @@ thead th {
     margin-right: 5px;
 }
 
-.page-list {
+.experiment {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -1582,38 +1581,23 @@ thead th {
     margin-bottom: 100px;
 }
 
-.curr-page {
-    border: 3px solid rgb(0, 0, 0);
-    background-color: #212530;
-    width: 15px;
-    height: 15px;
-    padding: 5px 7px 7px;
-    border-radius: 7px;
-}
-
-
-
-.other-page {
+.experiment-1, .experiment-2 {
     border: 3px solid rgb(221, 221, 221);
     width: 15px;
     height: 15px;
     padding: 5px 7px 7px;
     border-radius: 7px;
+
 }
 
-.curr-page a {
-    text-decoration: none;
-    color: white;
-    font-size: 15px;
-    font-weight: 900;
-}
-
-.other-page a {
+.experiment-1 a, .experiment-2 a{
     text-decoration: none;
     color: #212530;
     font-size: 15px;
     font-weight: 900;
+
 }
+
 
 .forget-remember-container {
     margin-top: 15px;
