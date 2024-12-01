@@ -261,6 +261,7 @@ document.getElementById("username-form").addEventListener("submit", async (e) =>
       if (response.redirected) {
           window.location.href = response.url;
       } else {
+        const result = await response.json();
           alert(result.detail || "An error occurred during submission.");
       }
   } catch (error) {
@@ -299,6 +300,7 @@ document.getElementById("profile-form").addEventListener("submit", async (e) => 
     if (response.redirected) {
       window.location.href = response.url;
     } else {
+      const result = await response.json();
       alert(result.detail || "An error occurred during submission.");
     }
   } catch (error) {
