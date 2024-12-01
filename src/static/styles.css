@@ -978,6 +978,7 @@ body{
 
 .curr-page a {
     color: rgb(255, 255, 255);
+    text-decoration: none;
     border: 1px solid black;
     background-color: rgb(0, 0, 0);
 }
@@ -985,11 +986,10 @@ body{
 
 .other-page a {
     color: rgb(0, 0, 0);
+    text-decoration: none;
     border: 1px solid black;
     background-color: rgb(255, 255, 255);
 }
-
-
 
 .signup-header {
     margin-top: 100px;
@@ -1595,34 +1595,6 @@ thead th {
     list-style: none !important;
     margin-right: 5px;
 }
-
-.experiment {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    margin-bottom: 100px;
-}
-
-.experiment-1, .experiment-2 {
-    border: 3px solid rgb(221, 221, 221);
-    width: 15px;
-    height: 15px;
-    padding: 5px 7px 7px;
-    border-radius: 7px;
-
-}
-
-.experiment-1 a, .experiment-2 a{
-    text-decoration: none;
-    color: #212530;
-    font-size: 15px;
-    font-weight: 900;
-
-}
-
 
 .forget-remember-container {
     margin-top: 15px;
