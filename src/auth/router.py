@@ -212,8 +212,11 @@ async def change_password(
 async def user_dashboard(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
     first_name_display = current_user.first_name.title()
 
-    alt_statement = select(AltText).join(Image).where(Image.user_id == User.id).join(User).where(Image.id == AltText.image_id)
-    image_statement = select(Image).join(User).where(Image.user_id == User.id)
+    alt_statement = select(AltText).join(Image).where(
+    (Image.user_id == current_user.id) & (Image.id == AltText.image_id))
+
+    image_statement = select(Image).join(User).where(
+    (Image.user_id == current_user.id))
     
     page = await altcap_paginate(image_statement, alt_statement, session, pagination)
    
@@ -233,3 +236,4 @@ async def user_management(session: SessionDep, pagination: PaginationInput = Dep
     user_statement = select(User)
     check = await user_paginate(user_statement, session, pagination)
     return check
+
