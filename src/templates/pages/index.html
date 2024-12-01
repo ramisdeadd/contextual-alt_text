@@ -18,11 +18,14 @@
             <div class="subtitle">Welcome to Cobalt, an AI tool that creates smart alt-text for your images to improve accessibility for all users and SEO.</div>
         </div>
 
+        {% if user == false %}
+
         <div class="under-title-buttons">
             <div class="signup-button"><a href="/auth/signup">Sign Up</a></div>
             <div class="sidebutton-title">Sign up for Cobalt to start creating smart, 
                 accurate alt-text for your images today. It’s free!</div>
         </div>
+        {% endif %}
         <div class="inputcontainer">
             <div class="center_form">
                 <div class="generator-container">
