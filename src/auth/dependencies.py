@@ -10,7 +10,7 @@ from sqlalchemy.sql import func
 from sqlmodel.sql.expression import SelectOfScalar
 from database import SessionDep
 from auth.models import UserCreate, UserPasswordUpdate, UserUpdate
-from auth.schemas import User, PaginationInput, Page
+from auth.schemas import User, PaginationInput, UserPage, AltCapPage
 from post.schemas import Image, AltText
 import jwt
 import re
@@ -31,10 +31,7 @@ def get_password_hash(plain_password):
     return pwd_context.hash(plain_password)
 
 async def get_user(username: str, session: SessionDep) -> User:
-    print(f"USER: {username}")
     statement = select(User).where(User.username == username)
-    print(f"STATEMENT: {statement}")
-    print(f"SESSION: {session}")
     result = await session.execute(statement)
     user = result.scalar_one_or_none()
     return user
@@ -289,12 +286,12 @@ async def get_image_alt_text(curr_image: Image, session: SessionDep):
     return history[0]
 
     
-async def paginate (
+async def altcap_paginate (
         image_query: SelectOfScalar[T],
         alt_query: SelectOfScalar[T],
         session: SessionDep,
         pagination_input: PaginationInput
-) -> Page[T]:
+) -> AltCapPage[T]:
     # Turn original query into subquery
     subquery = image_query.subquery()
 
@@ -343,7 +340,7 @@ async def paginate (
     start_index = offset + 1 if total_items > 0 else 0
     end_index = min(offset + pagination_input.page_size, total_items)
 
-    return Page[T](
+    return AltCapPage[T](
         images=images,
         alttext=alttext,
         total_items=total_items,
@@ -351,6 +348,44 @@ async def paginate (
         end_index=end_index,
         total_pages=total_pages,
         current_page_size=len(images),  # can differ from the requested page_size
+        current_page=current_page,  # can differ from the requested page
+    )
+
+async def user_paginate (
+        query: SelectOfScalar[T],
+        session: SessionDep,
+        pagination_input: PaginationInput
+) -> UserPage[T]:
+    subquery = query.subquery()
+
+    count_statement = select((func.count())).select_from(subquery)
+
+    total_items = await session.scalar(count_statement)
+    assert isinstance(total_items, int)
+
+    total_pages = (total_items + pagination_input.page_size - 1) // pagination_input.page_size
+
+    total_pages = max(total_pages, 1)
+    current_page = min(pagination_input.page, total_pages)
+
+    offset = (current_page - 1) * pagination_input.page_size
+
+    result = await session.execute(query.offset(offset).limit(pagination_input.page_size))
+
+    users = list(result.scalars().all())
+
+    print(f"ITEMS: {users}")
+
+    start_index = offset + 1 if total_items > 0 else 0
+    end_index = min(offset + pagination_input.page_size, total_items)
+
+    return UserPage[T](
+        users=users,
+        total_items=total_items,
+        start_index=start_index,
+        end_index=end_index,
+        total_pages=total_pages,
+        current_page_size=len(users),  # can differ from the requested page_size
         current_page=current_page,  # can differ from the requested page
     )
 

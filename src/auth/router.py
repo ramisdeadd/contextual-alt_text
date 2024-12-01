@@ -10,7 +10,7 @@ from sqlmodel import select
 from sqlalchemy import func
 from post.models import ImageBase, AltTextBase
 from post.schemas import Image, AltText
-from auth.schemas import Page, PaginationInput, User
+from auth.schemas import PaginationInput, User, UserPage, AltCapPage
 from auth.models import UserPasswordUpdate, UserCreate, UserUpdate, UserBase
 from auth.dependencies import (
     get_current_user, 
@@ -30,7 +30,8 @@ from auth.dependencies import (
     get_user_generated_history,
     get_image_alt_text,
     get_all_users,
-    paginate,
+    altcap_paginate,
+    user_paginate,
     PaginationDep,
     CurrUserDep,
     ACCESS_TOKEN_EXPIRE_MINUTES,
@@ -112,7 +113,7 @@ async def signup_user(username: Annotated[str, Form()],
     return response 
 
 
-@router.post("/profile/update-username", response_class=HTMLResponse)
+@router.post("/profile/update-username", response_class=RedirectResponse)
 async def update_username(
     username: Annotated[str, Form()],
     token: Annotated[str, Cookie(...)],
@@ -139,7 +140,7 @@ async def update_username(
 
     return response
 
-@router.post("/profile/update-profile", response_class=HTMLResponse)
+@router.post("/profile/update-profile", response_class=RedirectResponse)
 async def update_user(
     session: SessionDep,
     first_name: Annotated[str, Form()],
@@ -166,7 +167,7 @@ async def update_user(
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
 
-@router.post("/profile/change-password", response_class=HTMLResponse)
+@router.post("/profile/change-password", response_class=RedirectResponse)
 async def change_password(
     session: SessionDep,
     curr_password: Annotated[str, Form()],
@@ -214,7 +215,7 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     alt_statement = select(AltText).join(Image).where(Image.user_id == User.id).join(User).where(Image.id == AltText.image_id)
     image_statement = select(Image).join(User).where(Image.user_id == User.id)
     
-    page = await paginate(image_statement, alt_statement, session, pagination)
+    page = await altcap_paginate(image_statement, alt_statement, session, pagination)
    
     generation_history = list(zip(page.images, page.alttext))
 
@@ -227,9 +228,8 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
 
-@router.get("/experiment", response_model=Page)
-async def read_users(session: SessionDep, pagination: PaginationInput = Depends()):
-    alt_statement = select(AltText).join(Image).where(Image.user_id == User.id).join(User).where(Image.id == AltText.image_id)
-    image_statement = select(Image).join(User).where(Image.user_id == User.id)
-    check = await paginate(image_statement, alt_statement, session, pagination)
+@router.get("/admin", response_model=UserPage)
+async def user_management(session: SessionDep, pagination: PaginationInput = Depends()):
+    user_statement = select(User)
+    check = await user_paginate(user_statement, session, pagination)
     return check

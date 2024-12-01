@@ -21,9 +21,18 @@ class PaginationInput(BaseModel):
         description="Requested Number of Items Per Page"
     )
 
-class Page(BaseModel, Generic[T]):
+class AltCapPage(BaseModel, Generic[T]):
     images: list[T] = Field(description="List of images in one page")
     alttext: list[T] = Field(description="List of alt-text in one page")
+    total_items: int = Field(ge=0, description="Number of total items")
+    start_index: int = Field(ge=0, description="Starting item index")
+    end_index: int = Field(ge=0, description="Ending item index")
+    total_pages: int = Field(ge=0, description="Total number of pages")
+    current_page: int = Field(ge=0, description="Page Number")
+    current_page_size: int = Field(ge=0, description="Number of items per page")
+
+class UserPage(BaseModel, Generic[T]):
+    users: list[T] = Field(description="List of users in one page")
     total_items: int = Field(ge=0, description="Number of total items")
     start_index: int = Field(ge=0, description="Starting item index")
     end_index: int = Field(ge=0, description="Ending item index")
