@@ -86,18 +86,18 @@ async def save_alt_user(
         session: SessionDep,
 ):
     user_query = select(User).where(User.id == user.id)
-    user_result = await session.excute(user_query)
-    user = user_result.first()
+    user_result = await session.execute(user_query)
+    user = user_result.scalars().first()
 
-    image_query = await select(Image).where(Image.user_id == user.id).order_by(Image.id.desc())
-    image_result = session.excute(image_query)
-    image = image_result.first()
+    image_query = select(Image).where(Image.user_id == user.id).order_by(Image.id.desc())
+    image_result = await session.execute(image_query)
+    image = image_result.scalars().first()
 
     if image:
         # Get the most recent alt-text for the image
         alt_text_query = select(AltText).where(AltText.image_id == image.id).order_by(AltText.id.desc())
-        alt_text_result = await session.excute(alt_text_query)
-        db_alt = alt_text_result.first()
+        alt_text_result = await session.execute(alt_text_query)
+        db_alt = alt_text_result.scalars().first()
 
         if db_alt:
             # Update the alt-text
@@ -108,3 +108,22 @@ async def save_alt_user(
             return db_alt
         
     return None
+
+async def save_caption_user(
+        user: User,
+        caption_edit: str,
+        session: SessionDep,
+):
+    user_query = select(User).where(User.id == user.id)
+    user_result = await session.execute(user_query)
+    user = user_result.scalars().first()
+
+    image_query = select(Image).where(Image.user_id == user.id).order_by(Image.id.desc())
+    image_result = await session.execute(image_query)
+    db_image = image_result.scalars().first()
+
+    db_image.caption_edit = caption_edit
+    session.add(db_image)
+    await session.commit()
+    await session.refresh(db_image)
+    return db_image

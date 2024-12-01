@@ -27,14 +27,12 @@ function validGeneration() {
 
 function enableEditing() {
     if (alt_text_output.textContent == '' && image_caption_output.value == '') {
-        console.log('CHECK-1')
         alt_text_output.contentEditable = false
         image_caption_output.disabled = true
 
         save_alt_button.disabled = true
         save_cap_button.disabled = true
     } else {
-        console.log('CHECK-2')
         alt_text_output.contentEditable = true
         image_caption_output.disabled = false
 
@@ -77,7 +75,7 @@ async function generateAlt() {
     } else {
         const result = await response.json();
         alt_text_output.textContent = result['generated-alt-text'];
-        image_caption_output.value = result['generated-image-caption'];
+        image_caption_output.textContent = result['generated-image-caption'];
     }
 
     enableGenerate()
@@ -156,6 +154,31 @@ save_alt_button.addEventListener("click", async (e) => {
 
     if (response.ok) {
         console.log("Alt-Text Saved Successfully")
+    } else {
+        console.log("Saving Error")
+    }
+})
+
+save_cap_button.addEventListener("click", async (e) => {
+    
+    let image_caption_content = image_caption_output.textContent
+
+    console.log(`IMAGE CAPTION` + image_caption_content)
+
+    const response = await fetch('/post/save-image-caption/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({image_caption: image_caption_content})
+    });
+
+    if (response.status == 401 ) {
+        window.location.href = '/auth/login';
+    } 
+
+    if (response.ok) {
+        console.log("Image Caption Saved Successfully")
     } else {
         console.log("Saving Error")
     }
