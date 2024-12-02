@@ -1,1 +1,127 @@
-Hello!
+{% extends 'layouts/base.html' %}
+
+
+
+{% block body %}
+<div dash-main-container>
+    {% block navbar_dashboard_profile%}
+    {% include 'layouts/navbar_index.html' %} 
+    {% endblock %}
+
+    <div>
+        <div class="generated-list-container">
+            <div class="searchbar-container">
+                <div class="search-button-dashboard">
+                    <div class="searchbar-dashboard">
+                        <input type="text" id="searchInput" placeholder="Search Alt-Text..">
+                    </div>
+                    <div class="searchbutton-dashboard">
+                        <button id="searchButton" onclick="searchTable()">Search</button>
+                    </div>
+                    <div class="refresh-dashboard">
+                        <button onclick="location.reload()">Refresh</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="selected-dashboard">
+                                Selected: 0
+                            </div>
+                        </th>
+                        <th colspan="7"></th>
+                        <th>
+                            <div  class="delete-button">
+                                <button>Delete</button>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr class="lower-th">
+                        <th> 
+                            <div class="dashboard-checkbox">
+                                <input type="checkbox" name="option1" value="Option1">
+                            </div>
+                        </th>
+                        <th>Image Caption</th>
+                        <th></th>
+                        <th>Alt-Text</th>
+                        <th></th>
+                        <th>Image Caption</th>
+                        <th>Alt-Text</th>
+                        <th>Image Generator</th>
+                        <th colspan="2">Text Generator</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="label-checkbox">
+                            <div class="dashboard-id">
+                            </div>
+                            <div class="dashboard-checkbox">
+                                <input type="checkbox" name="option1" value="Option1">
+                            </div>
+                        </td>
+                        
+                        <td class="caption-table">
+                            <div class="dashboard-buttons">
+                                <div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <div>
+                                <div class="icon2-alt-dashboard">
+                                    <button id="copy-alt" type="button">
+                                        <img src="../../static/images/copy.png" width="20px" height="auto">
+                                    </button>
+                                </div> 
+                            </div>
+                        </td>
+
+                        <td class="alt-table">
+                            <div class="dashboard-buttons">
+                                <div>
+
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            
+                            <div>
+                                <div class="icon2-alt-dashboard">
+                                    <button id="copy-alt" type="button">
+                                        <img src="../../static/images/copy.png" width="20px" height="auto">
+                                    </button>
+                                </div> 
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ url_for('static', path='dashboard.js') }}" defer></script>
+{% endblock %}
