@@ -1189,6 +1189,20 @@ body{
     box-sizing: border-box; 
 }
 
+thead tr:nth-child(3) th:nth-child(3),thead tr:nth-child(3) th:nth-child(6), thead tr:nth-child(3) th:nth-child(5),thead tr:nth-child(3) th:nth-child(7), thead tr:nth-child(3) th:nth-child(8),
+ td:nth-child(5), td:nth-child(3), td:nth-child(7), td:nth-child(6), td:nth-child(8), thead tr:nth-child(2) th:nth-child(3), thead tr:nth-child(2) th:nth-child(4)
+{
+    border-right: 2px solid #dadada; 
+}
+
+td:nth-child(7), td:nth-child(8), td:nth-child(9),td:nth-child(6)   {
+    text-align: center;
+}
+
+td:nth-child(2) {
+    text-align-last: left;
+}
+
 .main-profile input {
     height: 30px;
     width: 254px;
@@ -1215,6 +1229,16 @@ body{
     margin: 120px 0px 0px;
     border-radius: 15px;
     margin-right: 50px;
+}
+
+.image-generator {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.user-alt-text {
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .whitebg2 {
@@ -1327,11 +1351,11 @@ body{
     flex-direction: column;
 }
 
-
 table {
     width: auto;
     height: auto;
     border-collapse: collapse;
+    border-spacing: 0;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -1383,12 +1407,13 @@ td {
 }
 
 .dashboard-id {
+    margin-left: 20px;
     margin-top: -4px;
-    margin-right: 15px;
 }
 
 .dashboard-checkbox {
     margin-top: -1px;
+    margin-left: 20px;
 }
 
 .delete-button button {
@@ -1456,6 +1481,7 @@ thead th {
     font-weight: 400;
     margin-top: -18px;
     padding: 0;
+    width: 200px;
 }
 
 .profile-title {

@@ -61,8 +61,8 @@
                         <th></th>
                         <th>Image Caption</th>
                         <th>Alt-Text</th>
-                        <th>Image Generator</th>
-                        <th colspan="2">Text Generator</th>
+                        <th>Image</th>
+                        <th>Text</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,10 +78,9 @@
                         </td>
                         <td class="caption-table">
                             <div class="dashboard-buttons">
-                                <div>
+                                <div class="model-output-imagecaption">
                                     {{img.caption}}
                                 </div>
-
                             </div>
 
                         </td>
@@ -118,14 +117,23 @@
                             {{img.caption_edit}}
                         </td>
                         <td>
-                            {{alt.alt_edit}}
+                            <div class="user-alt-text">
+                                {{alt.alt_edit}}
+                            </div>
+
                         </td>
                         <td>
-                            {{img.caption_gen}}
+                            <div class="image-generator">
+                                {{img.caption_gen}}
+                            </div>
+
                         </td>
+
+
                         <td>
                             {{alt.alt_gen}}
                         </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>
