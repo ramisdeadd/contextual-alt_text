@@ -374,8 +374,6 @@ async def user_paginate (
 
     users = list(result.scalars().all())
 
-    print(f"ITEMS: {users}")
-
     start_index = offset + 1 if total_items > 0 else 0
     end_index = min(offset + pagination_input.page_size, total_items)
 

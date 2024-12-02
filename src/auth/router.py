@@ -231,9 +231,16 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
 
-@router.get("/admin", response_class=HTMLResponse)
-async def user_management(request: Request, session: SessionDep, pagination: PaginationInput = Depends()):
+@router.get("/admin", response_class=HTMLResponse, name="admin_dashboard")
+async def user_management(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
     user_statement = select(User)
-    check = await user_paginate(user_statement, session, pagination)
-    return templates.TemplateResponse("pages/admin.html", {"request": request})
+    page = await user_paginate(user_statement, session, pagination)
+    print(f"USERS: {page.users}")
+    return templates.TemplateResponse("pages/admin.html", {"request": request,
+                                                           "user": current_user,
+                                                           "curr_page": page.current_page,
+                                                           "total_pages": page.total_pages,
+                                                           "page_size": pagination.page_size,
+                                                           "registered_users": page.users
+                                                           })
 
