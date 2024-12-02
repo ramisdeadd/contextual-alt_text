@@ -14,9 +14,8 @@ body{
     height: 100%;
 }
 
-.header {
+.header{
     display: flex;
-    top: 0;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -24,6 +23,9 @@ body{
     height: 60px;
     width: 100%;
     margin: 0 auto;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
 .top-title {
@@ -34,6 +36,7 @@ body{
     font-size: 35px;
     letter-spacing: -2px;
     flex-direction: column;
+    margin-top: 100px;
 }
 
 .subtitle {
@@ -229,16 +232,6 @@ body{
       transform: translateY(0);
       opacity: 1;
     }
-}
-
-.getstarted {
-    font-size: 30px;
-    margin-right: 50px;
-    background-color: rgb(240, 233, 139);
-    padding: 20px 40px 20px;
-    border-radius: 40px;
-    color: black;
-    transition: transform 0.4s, background-color 0.5s;
 }
 
 
@@ -966,32 +959,8 @@ body{
     min-height: 100vh; 
 }
 
-.page-list {
-    display: flex;
-    justify-content: center;
-    font-size: large;
-    gap: 25px;
-}
-
-.page-list a {
-    padding: 8px 15px 8px 15px;
-    border-radius: 8px;
-}
-
-.curr-page a {
-    color: rgb(255, 255, 255);
-    text-decoration: none;
-    border: 1px solid black;
-    background-color: rgb(0, 0, 0);
-}
 
 
-.other-page a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    border: 1px solid black;
-    background-color: rgb(255, 255, 255);
-}
 
 .signup-header {
     margin-top: 100px;
@@ -1290,10 +1259,9 @@ body{
 }
 
 #getcaption {
-    padding-top: 15px;
     border-width: 0px 0px 1px 0px;
     width: 700px;
-    height: 15px;
+    height: 50px;
 }
 
 #getalttext:focus {
@@ -1502,10 +1470,11 @@ thead th {
 }
 
 .searchbar-container {
+    color: black;
     display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-right: 190px;
+    width: 70%;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .search-button-dashboard {
@@ -1553,12 +1522,11 @@ thead th {
 }
 
 .generated-list-container {
-    display: grid;
-    grid-template-rows: 1fr 8fr 1fr;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-top: 25px;
-    margin-bottom: 35px;
+    justify-content: center;
+    margin-top: 100px;
 }
 
 .highlight-dashboard {
@@ -1596,6 +1564,49 @@ thead th {
 .no-bullet {
     list-style: none !important;
     margin-right: 5px;
+}
+
+.page-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.curr-page {
+    border: 3px solid rgb(0, 0, 0);
+    background-color: #212530;
+    width: 15px;
+    height: 15px;
+    padding: 5px 7px 7px;
+    border-radius: 7px;
+}
+
+
+
+.other-page {
+    border: 3px solid rgb(221, 221, 221);
+    width: 15px;
+    height: 15px;
+    padding: 5px 7px 7px;
+    border-radius: 7px;
+}
+
+.curr-page a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.other-page a {
+    text-decoration: none;
+    color: #212530;
+    font-size: 15px;
+    font-weight: 900;
 }
 
 .forget-remember-container {
