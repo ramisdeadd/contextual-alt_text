@@ -70,7 +70,7 @@
                     <tr>
                         <td class="label-checkbox">
                             <div class="dashboard-id">
-                                {{img.id}}
+                                {{loop.index + ((curr_page - 1) * page_size)}}
                             </div>
                             <div class="dashboard-checkbox">
                                 <input type="checkbox" name="option1" value="Option1">
