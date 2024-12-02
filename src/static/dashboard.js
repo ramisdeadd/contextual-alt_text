@@ -28,3 +28,25 @@ function searchTable() {
       rows[i].style.display = match ? '' : 'none';
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    copy_btns = document.querySelectorAll('.copy-caption').forEach(button => {
+        button.addEventListener('click', (e) => {
+            let curr_row = button.closest('tr')
+            let caption = curr_row.querySelector('.dash-image-caption')
+
+            navigator.clipboard.writeText(caption.textContent);
+        })
+    })
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+    copy_btns = document.querySelectorAll('.copy-alt').forEach(button => {
+        button.addEventListener('click', (e) => {
+            let curr_row = button.closest('tr')
+            let alttext = curr_row.querySelector('.dash-alt-text')
+
+            navigator.clipboard.writeText(alttext.textContent);
+        })
+    })
+})
