@@ -29,9 +29,11 @@ function searchTable() {
   }
 }
 
+let SELECTED = []
+
 document.addEventListener("DOMContentLoaded", () => {
     copy_btns = document.querySelectorAll('.copy-caption').forEach(button => {
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', () => {
             let curr_row = button.closest('tr')
             let caption = curr_row.querySelector('.dash-image-caption')
 
@@ -42,11 +44,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     copy_btns = document.querySelectorAll('.copy-alt').forEach(button => {
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', () => {
             let curr_row = button.closest('tr')
             let alttext = curr_row.querySelector('.dash-alt-text')
 
             navigator.clipboard.writeText(alttext.textContent);
+        })
+    })
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+    select_checkboxes = document.querySelectorAll('.select-item').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                SELECTED.push(checkbox.value)
+                console.log(SELECTED)
+            } else {
+                SELECTED = SELECTED.filter(item => item !== checkbox.value)
+                console.log(SELECTED)
+            }
         })
     })
 })

@@ -52,7 +52,7 @@
                     <tr class="lower-th">
                         <th> 
                             <div class="dashboard-checkbox">
-                                <input type="checkbox" name="option1" value="Option1">
+                                <input type="checkbox" name="select-all" value="select-all">
                             </div>
                         </th>
                         <th>Image Caption</th>
@@ -73,11 +73,8 @@
                                 {{loop.index + ((curr_page - 1) * page_size)}}
                             </div>
                             <div class="dashboard-checkbox">
-                                <input type="checkbox" name="option1" value="Option1">
+                                <input type="checkbox" class="select-item" name="select-item" value="{{img.id}}">
                             </div>
-                            <div>
-                                <input type="hidden" value="{{img.id}}">
-                            </div> 
                         </td>
                         <td class="caption-table">
                             <div class="dashboard-outputs">

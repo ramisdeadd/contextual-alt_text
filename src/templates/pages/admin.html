@@ -43,7 +43,7 @@
                     <tr>
                         <th> 
                             <div class="dashboard-checkbox">
-                                <input type="checkbox" name="option1" value="Option1">
+                                <input type="checkbox" name="select-all" value="select-all">
                             </div>
                         </th>
                         <th>Username</th>
@@ -62,11 +62,8 @@
                                 {{loop.index + ((curr_page - 1) * page_size)}}
                             </div>
                             <div class="dashboard-checkbox">
-                                <input type="checkbox" name="option1" value="Option1">
+                                <input type="checkbox" class="select-row" name="select-row" value="{{user.id}}">
                             </div>
-                            <div>
-                                <input type="hidden" value="{{user.id}}">
-                            </div> 
                         </td>
                         <td>
                             {{user.username}}
