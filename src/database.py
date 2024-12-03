@@ -1,13 +1,12 @@
 from typing import Annotated, AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
-from fastapi import Depends, Query
-from sqlmodel import Session, SQLModel, create_engine, select
-sqlite_file_name = "alt-text.db"
-sqlite_url = f"sqlite+aiosqlite:///../data/{sqlite_file_name}"
+from fastapi import Depends
+from sqlmodel import SQLModel
+postgres_file_name = "alt_text_db"
+postgres_url = f"postgresql+asyncpg://myuser:myuser-fastapi@localhost/{postgres_file_name}"
 
-connect_args = {"check_same_thread": False}
-engine = create_async_engine(sqlite_url, echo=True, connect_args=connect_args)
+engine = create_async_engine(postgres_url, echo=True)
 
 async def create_db_and_tables():
     async with engine.begin() as conn:

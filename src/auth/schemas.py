@@ -2,13 +2,14 @@ from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 from auth.models import UserBase
 from typing import Generic, TypeVar, List
+import uuid
 
 T = TypeVar("T", bound=SQLModel)
 
 MAX_RESULTS_PER_PAGE = 50
 
 class User(UserBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
 
 
