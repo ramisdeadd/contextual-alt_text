@@ -14,8 +14,8 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 class GenerateBLIP():
     def __init__(self): 
-            self.processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-            self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to(device)
+            self.processor = AutoProcessor.from_pretrained("Salesforce/blip-image-captioning-base", revision="637f179f73831e02cf6140cd1c7c5d34035a4387")
+            self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", revision="637f179f73831e02cf6140cd1c7c5d34035a4387").to(device)
     
     def predict(self, image_path: Path):
             image = Image.open(image_path)
@@ -43,8 +43,8 @@ class GenerateGPT2():
 
 class GenerateBLIP2():
      def __init__(self):
-             self.processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
-             self.model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", load_in_8bit=True, device_map="auto",llm_int8_enable_fp32_cpu_offload=True)
+             self.processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b", revision="51572668da0eb669e01a189dc22abe6088589a24")
+             self.model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-opt-2.7b", load_in_8bit=True, device_map="auto",llm_int8_enable_fp32_cpu_offload=True, revision="51572668da0eb669e01a189dc22abe6088589a24")
                 
      def predict(self, image_path: Path):
              raw_image = Image.open(image_path).convert('RGB')
