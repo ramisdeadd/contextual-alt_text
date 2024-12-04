@@ -58,11 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
                 SELECTED.push(checkbox.value)
-                console.log(SELECTED)
             } else {
                 SELECTED = SELECTED.filter(item => item !== checkbox.value)
-                console.log(SELECTED)
             }
         })
     })
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+    select_all_checkboxes = document.querySelector()
 })

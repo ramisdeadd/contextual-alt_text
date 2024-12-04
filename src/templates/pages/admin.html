@@ -62,7 +62,7 @@
                                 {{loop.index + ((curr_page - 1) * page_size)}}
                             </div>
                             <div class="dashboard-checkbox">
-                                <input type="checkbox" class="select-row" name="select-row" value="{{user.id}}">
+                                <input type="checkbox" class="select-item" name="select-item" value="{{user.id}}">
                             </div>
                         </td>
                         <td>
@@ -109,5 +109,5 @@
 </div>
 
 
-<script src="{{ url_for('static', path='dashboard.js') }}" defer></script>
+<script src="{{ url_for('static', path='admin.js') }}" defer></script>
 {% endblock %}
