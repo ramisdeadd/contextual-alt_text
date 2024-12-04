@@ -1,3 +1,6 @@
+const select_checkboxes = document.querySelectorAll('.select-item')
+
+
 function searchTable() {
   const input = document.getElementById('searchInput');
   const filter = input.value.toLowerCase();
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 document.addEventListener("DOMContentLoaded", () => {
-    select_checkboxes = document.querySelectorAll('.select-item').forEach(checkbox => {
+    select_checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
                 SELECTED.push(checkbox.value)
@@ -66,5 +69,22 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 document.addEventListener("DOMContentLoaded", () => {
-    select_all_checkboxes = document.querySelector()
+    select_all_checkboxes = document.querySelector('.select-all')
+    
+    select_all_checkboxes.addEventListener('change', () => {
+        if (select_all_checkboxes.checked) {
+            SELECTED = []
+            select_checkboxes.forEach(checkbox => {
+                checkbox.checked = true
+                SELECTED.push(checkbox.value)
+            })
+            console.log(SELECTED)
+        } else {
+            select_checkboxes.forEach(checkbox => {
+                checkbox.checked = false
+            })
+            SELECTED = []
+            console.log(SELECTED)
+        }
+    })
 })
