@@ -1,5 +1,6 @@
 const select_checkboxes = document.querySelectorAll('.select-item')
 
+let SELECTED = []
 
 function searchTable() {
   const input = document.getElementById('searchInput');
@@ -32,7 +33,6 @@ function searchTable() {
   }
 }
 
-let SELECTED = []
 
 document.addEventListener("DOMContentLoaded", () => {
     copy_btns = document.querySelectorAll('.copy-caption').forEach(button => {
@@ -56,13 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+function trackSelected(arr) {
+    selected_track = document.getElementById("select-track")
+    selected_track.textContent = arr.length
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
     select_checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             if (checkbox.checked) {
                 SELECTED.push(checkbox.value)
+                trackSelected(SELECTED)
             } else {
                 SELECTED = SELECTED.filter(item => item !== checkbox.value)
+                trackSelected(SELECTED)
             }
         })
     })
@@ -78,13 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 checkbox.checked = true
                 SELECTED.push(checkbox.value)
             })
-            console.log(SELECTED)
+            trackSelected(SELECTED)
         } else {
             select_checkboxes.forEach(checkbox => {
                 checkbox.checked = false
             })
             SELECTED = []
-            console.log(SELECTED)
+            trackSelected(SELECTED)
         }
     })
 })

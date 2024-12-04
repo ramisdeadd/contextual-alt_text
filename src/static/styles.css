@@ -1491,6 +1491,8 @@ thead th {
 }
 
 .selected-dashboard {
+    display: flex;
+    gap: 10px;
     font-size: small;
     color: #777777;
 }
