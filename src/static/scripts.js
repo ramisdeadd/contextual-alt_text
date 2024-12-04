@@ -26,7 +26,7 @@ function validGeneration() {
 }
 
 function enableEditing() {
-    if (alt_text_output.textContent == '' && image_caption_output.value == '') {
+    if (alt_text_output.textContent == '' && image_caption_output.textContent == '') {
         alt_text_output.contentEditable = false
         image_caption_output.disabled = true
 

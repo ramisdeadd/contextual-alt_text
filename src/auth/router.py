@@ -1,5 +1,5 @@
 import re
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import Request, Depends, Form, HTTPException, status, Cookie, APIRouter
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from datetime import timedelta
@@ -232,6 +232,8 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                "total_pages": page.total_pages,
                                                                "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
+
+
 
 @router.get("/admin", response_class=HTMLResponse, name="admin_dashboard")
 async def user_management(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):

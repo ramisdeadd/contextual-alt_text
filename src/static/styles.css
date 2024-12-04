@@ -1273,8 +1273,6 @@ td:nth-child(2) {
     margin-bottom: 50px;
 }
 
-/* TEMPORARY CSS - JOSH ADDONS */
-
 #getalttext {
     padding-top: 15px;
     border-width: 0px 0px 1px 0px;
@@ -1283,6 +1281,7 @@ td:nth-child(2) {
 }
 
 #getcaption {
+    padding-top: 15px;
     border-width: 0px 0px 1px 0px;
     width: 700px;
     height: 50px;

@@ -1,7 +1,6 @@
 import hashlib
 from pathlib import Path
 from sqlmodel import Session, select
-from post.models import AltTextEdit
 from post.schemas import AltText, Image
 from auth.schemas import User
 from database import engine, SessionDep

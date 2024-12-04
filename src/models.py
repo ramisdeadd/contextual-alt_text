@@ -71,8 +71,8 @@ class GeneratePEGASUS():
             self.tokenizer = AutoTokenizer.from_pretrained("google/pegasus-xsum")
 
     def predict(self, text: str):
-            inputs = self.tokenizer(text, max_length=1024, return_tensors="pt", truncation=True)
-            summary_ids = self.model.generate(inputs["input_ids"], max_length=125, min_length=50)
+            inputs = self.tokenizer(text, max_length=2000, return_tensors="pt", truncation=True)
+            summary_ids = self.model.generate(inputs["input_ids"], max_length=100, min_length=50)
             summary = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
             return summary
 
@@ -83,7 +83,7 @@ class GenerateT5():
            self.tokenizer = AutoTokenizer.from_pretrained("google-t5/t5-base", device_map="auto")  
 
     def predict(self, text: str):
-           inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt", truncation=True).input_ids.to("cuda")
+           inputs = self.tokenizer(f"Summarize: {text}", max_length=2000, return_tensors="pt", truncation=True).input_ids.to("cuda")
            summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
            return summary
@@ -94,7 +94,7 @@ class GenerateFlanT5():
            self.tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large", device_map="auto")  
 
     def predict(self, text: str):
-           inputs = self.tokenizer(f"Summarize: {text}", max_length=1024, return_tensors="pt", truncation=True).input_ids.to("cuda")
+           inputs = self.tokenizer(f"Summarize: {text}", max_length=2000, return_tensors="pt", truncation=True).input_ids.to("cuda")
            summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
            return summary
