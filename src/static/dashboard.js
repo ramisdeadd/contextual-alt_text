@@ -1,4 +1,5 @@
 const select_checkboxes = document.querySelectorAll('.select-item')
+const selected_items = document.getElementById('selected-items')
 
 let SELECTED = []
 
@@ -59,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function trackSelected(arr) {
     selected_track = document.getElementById("select-track")
     selected_track.textContent = arr.length
+    selected_items.value = arr
 }
 
 
@@ -96,3 +98,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 })
+
+document.getElementById("delete-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = document.getElementById("delete-form");
+  
+    const formData = new FormData(form);
+    try {
+        const response = await fetch(`/auth/dashboard`, {
+            method: 'POST',
+            body: formData
+        });
+  
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+          const result = await response.json();
+            alert(result.detail || "An error occurred during submission.");
+        }
+    } catch (error) {
+        console.error("Submission failed:", error);
+        alert("Failed to send data to the server.");
+    }
+  });
+  

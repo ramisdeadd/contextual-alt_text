@@ -14,6 +14,7 @@ from auth.schemas import User, PaginationInput, UserPage, AltCapPage
 from post.schemas import Image, AltText
 import jwt
 import re
+import uuid
 
 T = TypeVar("T", bound=SQLModel)
 
@@ -285,6 +286,25 @@ async def get_image_alt_text(curr_image: Image, session: SessionDep):
     history = result.one()
     return history[0]
 
+async def disable_image_alt(curr_user: User, image_id: str, session: SessionDep):
+    try:
+        image_uuid = uuid.UUID(image_id)  # Convert the string to a UUID
+    except ValueError:
+        print(f"Invalid UUID: {image_id}")
+        return
+
+    image_statement = select(Image).where(Image.id == image_uuid)
+    image_result = await session.execute(image_statement)
+    image = image_result.scalar_one_or_none()
+
+    if image:
+        image.disabled = True
+        session.add(image)
+        await session.commit()
+        await session.refresh(image)
+        print(f"IMAGE DISABLED: {image}")
+    else:
+        print(f"IMAGE NOT FOUND: {image_id}")
     
 async def altcap_paginate (
         image_query: SelectOfScalar[T],

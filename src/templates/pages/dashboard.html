@@ -37,9 +37,12 @@
                         </th>
                         <th colspan="6"></th>
                         <th>
-                            <div  class="delete-button">
-                                <button>Delete</button>
-                            </div>
+                            <form id="delete-form" name="delete-form" method="POST">
+                                <div  class="delete-button">
+                                    <button type="submit">Delete</button>
+                                </div>
+                                <input type="hidden" id="selected-items" name="selected_items" value="">
+                            </form>
                         </th>
                     </tr>
                     <tr>

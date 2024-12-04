@@ -27,6 +27,7 @@ from auth.dependencies import (
     verify_username,
     verify_password_strength,
     authenticate_user,
+    disable_image_alt,
     get_user_generated_history,
     get_image_alt_text,
     get_all_users,
@@ -213,10 +214,10 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     first_name_display = current_user.first_name.title()
 
     alt_statement = select(AltText).join(Image).where(
-    (Image.user_id == current_user.id) & (Image.id == AltText.image_id))
+    (Image.user_id == current_user.id) & (Image.disabled == False) & (Image.id == AltText.image_id) & (AltText.disabled == False)) 
 
     image_statement = select(Image).join(User).where(
-    (Image.user_id == current_user.id))
+    (Image.user_id == current_user.id) & (Image.disabled == False))
     
     page = await altcap_paginate(image_statement, alt_statement, session, pagination)
    
@@ -233,7 +234,15 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
 
+@router.post("/dashboard", response_class=RedirectResponse)
+async def disable_item(request: Request, current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
+    selected_items = selected_items.split(',')
 
+    for item in selected_items:
+        await disable_image_alt(curr_user=current_user, image_id=item, session=session)
+    
+    response = RedirectResponse("/auth/dashboard", status_code=status.HTTP_302_FOUND)
+    return response
 
 @router.get("/admin", response_class=HTMLResponse, name="admin_dashboard")
 async def user_management(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
