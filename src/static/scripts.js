@@ -43,7 +43,7 @@ function enableEditing() {
 
 function resetOutputs() {
     alt_text_output.textContent = ''
-    image_caption_output.value = ''
+    image_caption_output.textContent = ''
 }
 
 function enableGenerate() {
@@ -199,7 +199,7 @@ document.getElementById("copy-caption").addEventListener("click", async (e) => {
     image_caption_output.select();
     image_caption_output.setSelectionRange(0, 9999);
 
-    navigator.clipboard.writeText(image_caption_output.value);
+    navigator.clipboard.writeText(image_caption_output.textContent);
     console.log("Image Caption Copied to Clipboard")
 
     image_caption_output.blur();
