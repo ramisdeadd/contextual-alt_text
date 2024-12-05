@@ -305,6 +305,25 @@ async def disable_image_alt(curr_user: User, image_id: str, session: SessionDep)
         print(f"IMAGE DISABLED: {image}")
     else:
         print(f"IMAGE NOT FOUND: {image_id}")
+
+async def disable_user_acc(user_id : str, session: SessionDep):
+    try:
+        user_uuid = uuid.UUID(user_id)  # Convert the string to a UUID
+    except ValueError:
+        print(f"Invalid UUID: {user_id}")
+        return
+
+    user_statement = select(User).where(User.id == user_uuid)
+    user_result = await session.execute(user_statement)
+    user = user_result.scalar_one_or_none()
+
+    if user:
+        user.disabled = True
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
+    else:
+        print(f"USER NOT FOUND: {user_id}")
     
 async def altcap_paginate (
         image_query: SelectOfScalar[T],

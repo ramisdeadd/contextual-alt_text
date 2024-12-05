@@ -28,6 +28,7 @@ from auth.dependencies import (
     verify_password_strength,
     authenticate_user,
     disable_image_alt,
+    disable_user_acc,
     get_user_generated_history,
     get_image_alt_text,
     get_all_users,
@@ -234,8 +235,8 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
                                                                "page_size": pagination.page_size,
                                                                "generation_history": generation_history})
 
-@router.post("/dashboard", response_class=RedirectResponse)
-async def disable_item(request: Request, current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
+@router.post("/dashboard/disable_item", response_class=RedirectResponse)
+async def disable_item(current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
     selected_items = selected_items.split(',')
 
     for item in selected_items:
@@ -246,7 +247,7 @@ async def disable_item(request: Request, current_user: CurrUserDep, session: Ses
 
 @router.get("/admin", response_class=HTMLResponse, name="admin_dashboard")
 async def user_management(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
-    user_statement = select(User)
+    user_statement = select(User).where(User.id != current_user.id)
     page = await user_paginate(user_statement, session, pagination)
     print(f"USERS: {page.users}")
     return templates.TemplateResponse("pages/admin.html", {"request": request,
@@ -257,3 +258,15 @@ async def user_management(request: Request, current_user: CurrUserDep, session: 
                                                            "registered_users": page.users
                                                            })
 
+@router.post("/admin/disable_user", response_class=RedirectResponse)
+async def disable_user(current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
+    selected_items = selected_items.split(',')
+
+    if current_user.role == 'admin':
+        for item in selected_items:
+            await disable_user_acc(user_id=item, session=session)
+    else: 
+        print("Unauthorized User Disabling")
+    
+    response = RedirectResponse("/auth/dashboard", status_code=status.HTTP_302_FOUND)
+    return response

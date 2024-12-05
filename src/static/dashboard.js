@@ -105,7 +105,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
   
     const formData = new FormData(form);
     try {
-        const response = await fetch(`/auth/dashboard`, {
+        const response = await fetch(`/auth/dashboard/disable_item`, {
             method: 'POST',
             body: formData
         });
