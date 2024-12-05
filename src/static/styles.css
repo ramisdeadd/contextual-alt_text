@@ -1365,6 +1365,19 @@ table {
     margin-right: 190px;
 }
 
+.dashboard-dropdown select {
+    width: 70px;
+    height: 40px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    border: 2px solid #b3b3b3;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 30px;
+}
 
 th {
     padding: 12px 16px;
