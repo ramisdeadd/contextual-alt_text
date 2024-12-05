@@ -3,7 +3,7 @@ from datetime import datetime
 # Generic Class -> Specifying that the base must be SQLModel
 
 class UserBase(SQLModel):
-    username: str = Field(index=True)
+    username: str = Field(index=True, unique=True)
     first_name: str
     last_name: str
     email: str = Field(unique=True)

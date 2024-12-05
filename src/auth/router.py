@@ -21,6 +21,7 @@ from auth.dependencies import (
     update_user_profile,
     update_user_username,
     create_user,
+    check_user_exist,
     verify_first_name,
     verify_email,
     verify_last_name,
@@ -110,10 +111,16 @@ async def signup_user(username: Annotated[str, Form()],
         hashed_password = hashed_password,
         disabled = False,
     )
-    user = await create_user(user, session)
-    response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
-    return response 
 
+    if await check_user_exist(user, session):
+        user = await create_user(user, session)
+        response = RedirectResponse("/auth/login", status_code=status.HTTP_302_FOUND)
+        return response 
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username or Email already in use",
+        )
 
 @router.post("/profile/update-username", response_class=RedirectResponse)
 async def update_username(

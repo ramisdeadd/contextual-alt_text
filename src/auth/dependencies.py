@@ -128,6 +128,20 @@ async def create_user(user: UserCreate, session: SessionDep) -> User:
     await session.refresh(db_user)
     return db_user
 
+async def check_user_exist(user: UserCreate, session: SessionDep):
+    username_statement = select(User).where(User.username == user.username)
+    username_result = await session.execute(username_statement)
+    existing_user = username_result.scalar_one_or_none()
+
+    email_statement = select(User).where(User.email == user.email)
+    email_result = await session.execute(email_statement)
+    existing_email = email_result.scalar_one_or_none()
+
+    if existing_user or existing_email:
+        return False
+    else:
+        return True
+
 async def update_user_username(user: UserUpdate,
                                curr_user: User,
                                session: SessionDep) -> User:
