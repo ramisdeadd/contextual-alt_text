@@ -34,13 +34,21 @@
                                 <p id="select-track">0</p>
                             </div>
                         </th>
-                        <th colspan="4"></th>
+                        <th colspan="3"></th>
+                        <th>
+                            <form id="activate-form" name="activate-form" method="POST">
+                                <div  class="activate-button">
+                                    <button type="submit">Activate</button>
+                                </div>
+                                <input type="hidden" id="selected-items-act" name="selected_items" value="">
+                            </form>
+                        </th>
                         <th>
                             <form id="delete-form" name="delete-form" method="POST">
                                 <div  class="delete-button">
                                     <button type="submit">Delete</button>
                                 </div>
-                                <input type="hidden" id="selected-items" name="selected_items" value="">
+                                <input type="hidden" id="selected-items-del" name="selected_items" value="">
                             </form>
                         </th>
                     </tr>

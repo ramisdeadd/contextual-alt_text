@@ -1,5 +1,6 @@
 const select_checkboxes = document.querySelectorAll('.select-item')
-const selected_items = document.getElementById('selected-items')
+const selected_items_del = document.getElementById('selected-items-del')
+const selected_items_act = document.getElementById('selected-items-act')
 
 let SELECTED = []
 
@@ -35,11 +36,12 @@ function searchTable() {
 }
 
 function trackSelected(arr) {
+    console.log("CHECK" + arr)
     selected_track = document.getElementById("select-track")
     selected_track.textContent = arr.length
-    selected_items.value = arr
+    selected_items_del.value = arr
+    selected_items_act.value = arr
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     select_checkboxes.forEach(checkbox => {
@@ -82,7 +84,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
   
     const formData = new FormData(form);
     try {
-        const response = await fetch(`/auth/admin/disable_user"`, {
+        const response = await fetch(`/auth/admin/disable_user`, {
             method: 'POST',
             body: formData
         });
@@ -98,3 +100,27 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
         alert("Failed to send data to the server.");
     }
   });
+
+  document.getElementById("activate-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = document.getElementById("activate-form");
+  
+    const formData = new FormData(form);
+    try {
+        const response = await fetch(`/auth/admin/activate_user`, {
+            method: 'POST',
+            body: formData
+        });
+  
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+          const result = await response.json();
+            alert(result.detail || "An error occurred during submission.");
+        }
+    } catch (error) {
+        console.error("Submission failed:", error);
+        alert("Failed to send data to the server.");
+    }
+  });
+

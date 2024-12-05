@@ -1424,6 +1424,17 @@ td {
     border-radius: 5px;
     font-family: "Roboto", sans-serif;
 }
+
+.activate-button button {
+    padding: 10px 30px 10px;
+    background-color: rgb(36, 110, 42);
+    color: white;
+    font-weight: 900;
+    border: none;
+    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+}
+
 thead th {
     background-color: #fffbfb;
     color: #4d4d4d;

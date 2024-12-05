@@ -29,7 +29,7 @@ from auth.dependencies import (
     verify_password_strength,
     authenticate_user,
     disable_image_alt,
-    disable_user_acc,
+    user_acc_status,
     get_user_generated_history,
     get_image_alt_text,
     get_all_users,
@@ -265,15 +265,29 @@ async def user_management(request: Request, current_user: CurrUserDep, session: 
                                                            "registered_users": page.users
                                                            })
 
+@router.post("/admin/activate_user", response_class=RedirectResponse)
+async def disable_user(current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
+    selected_items = selected_items.split(',')
+
+    if current_user.role == 'admin':
+        for item in selected_items:
+            await user_acc_status(user_id=item, session=session, status='activate')
+    else: 
+        print("Unauthorized User Activation")
+    
+    response = RedirectResponse("/auth/admin", status_code=status.HTTP_302_FOUND)
+    return response
+
+
 @router.post("/admin/disable_user", response_class=RedirectResponse)
 async def disable_user(current_user: CurrUserDep, session: SessionDep, selected_items: Annotated[str, Form()]):
     selected_items = selected_items.split(',')
 
     if current_user.role == 'admin':
         for item in selected_items:
-            await disable_user_acc(user_id=item, session=session)
+            await user_acc_status(user_id=item, session=session, status='disable')
     else: 
         print("Unauthorized User Disabling")
     
-    response = RedirectResponse("/auth/dashboard", status_code=status.HTTP_302_FOUND)
+    response = RedirectResponse("/auth/admin", status_code=status.HTTP_302_FOUND)
     return response

@@ -320,7 +320,7 @@ async def disable_image_alt(curr_user: User, image_id: str, session: SessionDep)
     else:
         print(f"IMAGE NOT FOUND: {image_id}")
 
-async def disable_user_acc(user_id : str, session: SessionDep):
+async def user_acc_status(user_id : str, session: SessionDep, status: str):
     try:
         user_uuid = uuid.UUID(user_id)  # Convert the string to a UUID
     except ValueError:
@@ -332,7 +332,11 @@ async def disable_user_acc(user_id : str, session: SessionDep):
     user = user_result.scalar_one_or_none()
 
     if user:
-        user.disabled = True
+        if status == "activate":
+            user.disabled = False
+        else:
+            user.disabled = True
+
         session.add(user)
         await session.commit()
         await session.refresh(user)
