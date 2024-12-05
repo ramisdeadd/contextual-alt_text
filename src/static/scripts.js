@@ -28,13 +28,13 @@ function validGeneration() {
 function enableEditing() {
     if (alt_text_output.textContent == '' && image_caption_output.textContent == '') {
         alt_text_output.contentEditable = false
-        image_caption_output.disabled = true
+        image_caption_output.contentEditable = false
 
         save_alt_button.disabled = true
         save_cap_button.disabled = true
     } else {
         alt_text_output.contentEditable = true
-        image_caption_output.disabled = false
+        image_caption_output.contentEditable = true
 
         save_alt_button.disabled = false
         save_cap_button.disabled = false

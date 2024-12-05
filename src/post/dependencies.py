@@ -88,15 +88,21 @@ async def save_alt_user(
     user_result = await session.execute(user_query)
     user = user_result.scalars().first()
 
-    image_query = select(Image).where(Image.user_id == user.id).order_by(Image.id.desc())
+    print(f"USER USER USER {user}")
+
+    image_query = select(Image).where(Image.user_id == user.id).order_by(Image.created_at.desc())
     image_result = await session.execute(image_query)
     image = image_result.scalars().first()
 
+    print(f"IMAGE IMAGE IMAGE {image}")
+
     if image:
         # Get the most recent alt-text for the image
-        alt_text_query = select(AltText).where(AltText.image_id == image.id).order_by(AltText.id.desc())
+        alt_text_query = select(AltText).where(AltText.image_id == image.id).order_by(AltText.created_at.desc())
         alt_text_result = await session.execute(alt_text_query)
         db_alt = alt_text_result.scalars().first()
+
+        print(f"ALT ALT ALT {db_alt}")
 
         if db_alt:
             # Update the alt-text

@@ -16,8 +16,8 @@ from post.dependencies import nlp_models_dict, vision_models_dict
 async def lifespan(app: FastAPI):
     print("Starting Server ....")
     await create_db_and_tables()
-    # async for session in get_session():
-    #    await create_admin_user(session)
+    async for session in get_session():
+        await create_admin_user(session)
     yield
     print("Stopping Server ....")
 

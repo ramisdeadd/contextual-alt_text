@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel
-
+from datetime import datetime
 # Generic Class -> Specifying that the base must be SQLModel
 
 class UserBase(SQLModel):
@@ -9,6 +9,7 @@ class UserBase(SQLModel):
     email: str = Field(unique=True)
     disabled: bool = Field(default=False)
     role: str = Field(default="user")
+    created_at: datetime = Field(default_factory=datetime.now)
 
 class UserUpdate(SQLModel):
     username: str | None = None

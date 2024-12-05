@@ -220,11 +220,11 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     (Image.user_id == current_user.id) & (Image.disabled == False))
     
     page = await altcap_paginate(image_statement, alt_statement, session, pagination)
+    
+    print(page)
    
     generation_history = list(zip(page.images, page.alttext))
-
-    print(f"CURR PAGE: {page.current_page}")
-
+    
     return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
                                                                "user": current_user, 
                                                                "first_name_display": first_name_display,  

@@ -85,12 +85,13 @@ async def save_alt_text(request: Request,
                         ):
     data = await request.json()
     alt_text = data.get("alt_text")
+    print(f"ALT TEXT: {alt_text}")
     await save_alt_user(current_user, alt_text, session)
     
     return JSONResponse(content={"message": "Alt-text saved successfully!"}, status_code=status.HTTP_200_OK)
 
 @router.post("/save-image-caption/", response_class=JSONResponse)
-async def save_alt_text(request: Request,
+async def save_image_caption(request: Request,
                         current_user: Annotated[str, Depends(get_current_active_user)],
                         session: SessionDep
                         ):
@@ -99,4 +100,4 @@ async def save_alt_text(request: Request,
     print(f"IMAGE CAPTION - {image_caption}")
     await save_caption_user(current_user, image_caption, session)
     
-    return JSONResponse(content={"message": "Alt-text saved successfully!"}, status_code=status.HTTP_200_OK)
+    return JSONResponse(content={"message": "Image Caption saved successfully!"}, status_code=status.HTTP_200_OK)
