@@ -275,63 +275,7 @@
         </div>
     </div>
 
-    <div class="matrix-container">
-        <div class="matrix-header">
-            <h2>How our alt-text generator compares to other ones in the web</h2>
-        </div>
-
-        <div class="matrix-content-row">
-            <div class="matrix-content-column">
-                <div>
-                    <h3>BLEU-4 Performance:</h3>
-                    <span>The BLEU-4 metric evaluates how closely the generated text matches the reference text. For T5, pairing with GPT2 results in a score of 2.2, with ClipCap it scores 2.26, with BLIP it scores 2.56, and with BLIP2, it achieves the highest score of 3.1, giving an NLP average of 2.53 for T5. For Pegasus, pairing with GPT2 results in a score of 2.41, ClipCap scores 2.44, BLIP reaches 2.51, and BLIP2 scores 3.07, resulting in an NLP average of 2.61. FlanT5's pairing with GPT2 results in a score of 2.34, with ClipCap it scores 2.41, with BLIP it reaches 2.66, and with BLIP2 it scores 3.18, giving it an NLP average of 2.65. Bart's pairing with GPT2 and ClipCap both score 2.42, with BLIP reaching 2.71, and BLIP2 achieves the highest score of 3.33, resulting in an NLP average of 2.72. The Vision Model averages show GPT2 with an average of 2.34, ClipCap at 2.37, BLIP at 2.59, and BLIP2 with the highest at 3.17.
-                    </span>
-                </div>
-                <div>
-                    <h3>METEOR Performance:</h3>
-                    <span>The METEOR metric measures how well the generated text captures the meaning of the reference text, considering synonyms and paraphrasing. For T5, pairing with GPT2 results in a score of 14.24, with ClipCap it scores 14.75, with BLIP it reaches 15.4, and with BLIP2 it scores 16.83, yielding an NLP average of 15.31 for T5. For Pegasus, pairing with GPT2 results in a score of 15.15, with ClipCap it scores 15.64, with BLIP it reaches 14.92, and with BLIP2 it scores 18.05, giving an NLP average of 15.53. FlanT5's performance starts at 15.26 with GPT2, improves slightly with ClipCap to 15.65, increases to 16.37 with BLIP, and reaches the highest score of 18.11 with BLIP2, resulting in an NLP average of 17.47. Bart's pairings with GPT2 score 15.07, with ClipCap it scores 15.72, with BLIP it reaches 16.94, and with BLIP2 it achieves the highest score of 18.75, giving an NLP average of 17.63. The Vision Model averages show GPT2 at 14.82, ClipCap at 15.37, BLIP at 15.6, and BLIP2 with the highest score of 17.88.
-                    </span>
-                </div>
-            </div>
-        
-            <div div class="matrix-content-column">
-                <div>
-                    <h3>ROUGE-L Performance:
-                    </h3>
-                    <span>The ROUGE-L metric measures how well the generated text maintains structural alignment and fluency with the reference text. T5’s pairing with GPT2 results in a score of 18.54, with ClipCap it improves to 19.29, with BLIP it scores 19.63, and with BLIP2 it reaches 21.13, yielding an NLP average of 19.65 for T5. For Pegasus, pairing with GPT2 results in a score of 19.48, with ClipCap it scores 19.79, with BLIP it reaches 19.75, and with BLIP2 it scores 22.44, giving an NLP average of 20.37. FlanT5's pairing with GPT2 scores 19.6, with ClipCap it increases to 19.9, with BLIP it reaches 20.87, and with BLIP2 it achieves 22.58, resulting in an NLP average of 20.74. Bart's pairings with GPT2 score 19.47, with ClipCap it increases to 20.3, with BLIP it reaches 20.93, and with BLIP2 it achieves 23.22, yielding an NLP average of 20.98. The Vision Model averages show GPT2 at 19.16, ClipCap at 19.79, BLIP at 20.1, and BLIP2 with the highest score of 22.26.
-                    </span>
-                </div>
-                <div>
-                    <h3>ABLATION - NLP Alt-Text
-                    </h3>
-                    <span>The ablation results for NLP Alt-Text generation evaluate the models' ability to generate alternative textual descriptions using three metrics: BLEU-4, METEOR, and ROUGE-L.
-                        For BLEU-4, which measures n-gram precision between the generated and reference text, Bart performs the best with a score of 1.43, followed by FlanT5 and Pegasus, both with a score of 1.24. T5 scores slightly lower at 1.12. In METEOR, which assesses word matches and semantic similarity, Pegasus achieves the highest score of 8.3, followed by FlanT5 with 7.73 and T5 with 7.53. Bart scores the lowest at 7.17, indicating slightly less semantic alignment. For ROUGE-L, which evaluates fluency and structure by measuring the longest common subsequences, Pegasus scores the highest with 12.12, followed by FlanT5 at 11.43 and T5 with 11.1. Bart scores the lowest with 10.75.
-                        In summary, Bart is best in BLEU-4, Pegasus excels in METEOR and ROUGE-L, while T5 lags behind in all three metrics.
-                        </span>
-                </div>
-            </div>
-        
-            <div div class="matrix-content-column">
-                <div>
-                    <h3>CAPSum VS Sum
-                    </h3>
-                    <span>In this section, the performance improvement of models when provided with both captions and summaries (Cap + Sum) is compared to when only summaries (Sum) are used. The "Difference" column represents the increase in performance when captions are added.
-                        For BLEU-4, the average improvement is 1.37, indicating a modest gain when captions are included. T5 and FlanT5 see the highest improvement with 1.41, while Bart shows the least improvement with 1.29. In METEOR, the average difference is 9.18, showing a significant increase in semantic similarity when captions are added. Bart benefits the most with a gain of 10.46, while T5 experiences the least improvement with 7.78. For ROUGE-L, the average improvement is 9.09, reflecting enhanced fluency and coherence with the inclusion of captions. Bart again shows the largest gain with 10.23, while T5 has the smallest improvement at 8.55.
-                        In summary, adding captions provides a noticeable improvement across all models, with Bart benefiting the most in METEOR and ROUGE-L, while T5 shows the smallest gains overall.
-                        </span>
-                </div>
-                <div>
-                    <h3>NLP Models - Context v Summary
-                    </h3>
-                    <span>This section compares the models' performance when provided with detailed context versus just a summary.
-                        For BLEU-4, Bart achieves the highest score of 12.43, indicating superior accuracy in matching n-grams with context. FlanT5 follows with a score of 10.5, while T5 and Pegasus score much lower, both at 6.68. In METEOR, Bart outperforms all models with a score of 49.63, showing strong semantic alignment when context is provided. FlanT5 and Pegasus follow with scores of 44.71 and 34.92, respectively, while T5 scores the lowest at 34.67. For ROUGE-L, Bart excels with a score of 26.79, followed by FlanT5 at 23.09 and Pegasus at 17.77. T5 scores the lowest at 17.5, indicating its relative weakness in structural alignment.
-                        In summary, Bart demonstrates the strongest performance across all metrics when provided with context, while T5 shows the weakest results, especially in terms of structural alignment.
-                        </span>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+    
     </section>
     
     <section>

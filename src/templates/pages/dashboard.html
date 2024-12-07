@@ -28,7 +28,7 @@
 
 
                 <div class="dashboard-dropdown">
-                    <label for="dashboard-dropdown"></label>
+                    <label for="dashboard-dropdown">Page Size: </label>
                     <select id="dashboard-dropdown" name="dashboard-dropdown">
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -65,8 +65,8 @@
 
                     </tr>
                     <tr class="lower-th">
-                        <th> 
-                            <div class="dashboard-checkbox">
+                        <th class="dashboard-checkbox2"> 
+                            <div >
                                 <input type="checkbox" class="select-all" name="select-all" value="select-all">
                             </div>
                         </th>
@@ -129,7 +129,10 @@
                             </div>
                         </td>
                         <td>
-                            {{img.caption_edit}}
+                            <div class="user-img-cap">
+                                {{img.caption_edit}}
+                            </div>
+
                         </td>
                         <td>
                             <div class="user-alt-text">
@@ -146,7 +149,10 @@
 
 
                         <td>
-                            {{alt.alt_gen}}
+                            <div class="image-generator">
+                                {{alt.alt_gen}}
+                            </div>
+
                         </td>
 
                     </tr>
