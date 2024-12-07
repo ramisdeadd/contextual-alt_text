@@ -91,7 +91,6 @@ async def get_current_user(session: SessionDep,
     except InvalidTokenError:
         raise credentials_timeout
     
-    print(f"Username: {username}")
     user = await get_user(username=username, session=session)
     if user is None:
         print("Token Error - User Not Found")
@@ -316,7 +315,6 @@ async def disable_image_alt(curr_user: User, image_id: str, session: SessionDep)
         session.add(image)
         await session.commit()
         await session.refresh(image)
-        print(f"IMAGE DISABLED: {image}")
     else:
         print(f"IMAGE NOT FOUND: {image_id}")
 
@@ -393,7 +391,6 @@ async def altcap_paginate (
     alttext = alt_result.all()
     alttext = [item for a in alttext for item in a]
 
-    # No idea
     start_index = offset + 1 if total_items > 0 else 0
     end_index = min(offset + pagination_input.page_size, total_items)
 

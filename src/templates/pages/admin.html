@@ -33,9 +33,16 @@
                         </select>
                     </div>
                 </div>
-
-
-
+                
+                <div class="dashboard-dropdown">
+                    <label for="dashboard-dropdown"></label>
+                    <select id="dashboard-dropdown" name="dashboard-dropdown" value="{{page_size}}">
+                        <option {% if page_size == 5 %}selected{% endif %} value="5">5</option>
+                        <option {% if page_size == 10 %}selected{% endif %} value="10">10</option>
+                        <option {% if page_size == 15 %}selected{% endif %} value="15">15</option>
+                        <option {% if page_size == 20 %}selected{% endif %} value="20">20</option>
+                    </select>
+                </div>
             </div>
 
             <table id="dataTable">

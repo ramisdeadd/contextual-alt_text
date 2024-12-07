@@ -1,5 +1,7 @@
 const select_checkboxes = document.querySelectorAll('.select-item')
 const selected_items = document.getElementById('selected-items')
+const curr_page = document.querySelector('.curr-page')
+const page_size_dropdown = document.getElementById('dashboard-dropdown')
 
 let SELECTED = []
 
@@ -122,3 +124,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
     }
   });
   
+page_size_dropdown.addEventListener('change', (e) => {
+    curr_page_value = curr_page.firstElementChild.textContent
+    window.location.href = `http://127.0.0.1:8000/auth/dashboard?page${curr_page_value}&page_size=${e.target.value}` 
+});

@@ -171,7 +171,6 @@ async def update_user(
     )
     curr_user = await get_current_user(session=session, token=token, allow=None)
     user = await update_user_profile(user, curr_user, session)
-    print(user)
 
     response = RedirectResponse("/auth/profile", status_code=status.HTTP_302_FOUND)
     return response
@@ -228,10 +227,10 @@ async def user_dashboard(request: Request, current_user: CurrUserDep, session: S
     (Image.user_id == current_user.id) & (Image.disabled == False))
     
     page = await altcap_paginate(image_statement, alt_statement, session, pagination)
-    
-    print(page)
-   
+       
     generation_history = list(zip(page.images, page.alttext))
+
+    print(f"CHECK CHECK CHECK: {pagination.page_size}")
     
     return templates.TemplateResponse("pages/dashboard.html", {"request": request, 
                                                                "user": current_user, 
@@ -256,7 +255,6 @@ async def disable_item(current_user: CurrUserDep, session: SessionDep, selected_
 async def user_management(request: Request, current_user: CurrUserDep, session: SessionDep, pagination: PaginationInput = Depends()):
     user_statement = select(User).where(User.id != current_user.id)
     page = await user_paginate(user_statement, session, pagination)
-    print(f"USERS: {page.users}")
     return templates.TemplateResponse("pages/admin.html", {"request": request,
                                                            "user": current_user,
                                                            "curr_page": page.current_page,
