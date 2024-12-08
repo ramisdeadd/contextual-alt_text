@@ -15,6 +15,7 @@ body{
 }
 
 .header{
+    position: fixed;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -26,6 +27,7 @@ body{
     position: fixed;
     top: 0;
     z-index: 1000;
+    overflow: hidden;
 }
 
 .top-title {
@@ -71,6 +73,11 @@ body{
     font-weight: 600;
 }
 
+.signup-button a:hover {
+    background-color: rgb(55, 100, 184);
+}
+
+
 .signup-button {
     margin-top: 7px;
     margin-right: 30px;
@@ -101,7 +108,8 @@ body{
 .wspacer a{
     color: #cfcaca;
     text-decoration: none;
-    transition: transform .3s ease-in-out, color .3s ease-in-out;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
 }
 
 .wspacer2 a{
@@ -114,9 +122,12 @@ body{
 }
 
 .wspacer {
-    transition: transform .3s ease-in-out, color .3s ease-in-out;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     color: #cfcaca;
     cursor: pointer;
+    padding: 10px 15px 10px;
+    border-radius: 5px;
+    
 }
 
 .hgroup1{
@@ -129,21 +140,15 @@ body{
 }
 
 .wspacer:hover {
-    transform: scale(1.2);
     color: white;
+    background-color: rgb(99, 99, 99);
+    padding: 10px 15px 10px;
+    border-radius: 5px;
 }
 
-.wspacer2:hover {
-    transform: scale(1.2);
-
-}
 
 .wspacer a:hover {
-    transform: scale(1.2);
     color: white;
-}
-.wspacer2 a:hover {
-    color: rgb(29, 29, 29);
 }
 .hgroup2{
     display: flex;
@@ -161,7 +166,6 @@ body{
 }
 
 .wspacer{
-    margin-left: 30px;
     font-size: 15px;
     letter-spacing: 0px;
 }
@@ -180,7 +184,6 @@ body{
     padding: 10px 10px 10px;
     margin-right: 10px;
 }
-
 
 .login2 a{
     text-decoration: none;
@@ -663,6 +666,11 @@ body{
     cursor: pointer;
     font-weight: 600;
     border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.alt-button:hover {
+    background-color: rgb(59, 96, 163);
 }
 
 .alt-button:disabled {
@@ -709,6 +717,10 @@ body{
     font-weight: 600;
 }
 
+.login a:hover {
+    background-color: rgb(55, 100, 184);
+}
+
 .logout a {
     text-decoration: none;
     color: white;
@@ -718,8 +730,13 @@ body{
     text-align: center;
     border-radius: 5px;
     font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.logout a:hover{
+    background-color: rgb(177, 51, 51);
+    color: rgb(238, 238, 238);
+}
 
 .results-container-alt {
     resize: none;
