@@ -612,7 +612,7 @@ body{
     width: 70px;
     background-color: rgb(255, 63, 63);
     color: rgb(238, 238, 238);
-    height: 30px;
+    height: 45px;
     border: 1px solid rgb(255, 170, 170);
     border-radius: 6px;
     font-size: 15px;
@@ -676,24 +676,20 @@ body{
     flex-direction: column;
 }
 
-.button_center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 35px;
-}
+
 .alt-button {
     text-decoration: none;
     color: white;
-    padding: 20px 60px 20px;
+    padding: 15px 20px 15px;
     background-color: rgb(68, 125, 230);
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
     border: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    vertical-align: middle;
 }
 
 .alt-button:hover {
@@ -702,19 +698,21 @@ body{
 
 .alt-button:disabled {
     text-decoration: none;
-    color: rgb(138, 138, 138);
-    padding: 20px 60px 20px;
-    background-color: rgb(95, 95, 95);
-    font-size: 16px;
+    color: rgb(163, 163, 163);
+    padding: 13px 20px 13px;
+    background-color: rgb(78, 78, 78);
+    font-size: 14px;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
     font-weight: 600;
     border: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    vertical-align: middle;
 }
 
 .alt-button-profile {
-    padding: 10px 20px 10px;
+    padding: 13px 20px 13px;
     border-radius: 5px;
     background-color: rgb(83, 85, 255);
     border: none;
@@ -901,14 +899,17 @@ body{
 }
 
 .uploadbutton {
-    display: grid;
-    gap: 365px;
-    grid-template-columns: 1fr 1fr;
-    margin-top: 25px;
-    margin-left: 90px;
-    overflow: hidden;
-    align-items: center; 
-    justify-items: center; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 770px;
+    margin-top: 20px;
+}
+
+.clear-button-index-container {
+    width: 100px;
 }
 
 .uploadbutton input {
@@ -916,9 +917,9 @@ body{
 }
 
 .model-options{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
 .mainlog-container {

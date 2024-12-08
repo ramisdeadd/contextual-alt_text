@@ -58,7 +58,23 @@
                                 </select>
                             </div>
 
-                            <button class="clear-button-index" type="button" id="clearImage" style="display: none;">Clear</button>
+                            <div class="button_center">
+                                {% if user and user.username %}
+                                <div>
+                                    <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
+                                </div>
+                                {% else %}
+                                <div>
+                                    <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
+                                </div>
+                                {% endif %}
+                                
+                            </div>
+
+                            <div class="clear-button-index-container">
+                                <button class="clear-button-index" type="button" id="clearImage" style="display: none;">Clear</button>
+                            </div>  
+
                         </div>    
 
                         <div class="imgcap_alt">
@@ -125,18 +141,7 @@
                             <textarea id="gettext" name="text" placeholder="Enter Article Here"></textarea>
                         </div>
                         
-                        <div class="button_center">
-                            {% if user and user.username %}
-                            <div>
-                                <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
-                            </div>
-                            {% else %}
-                            <div>
-                                <button class="alt-button" type="submit" id="generate_btn" disabled>Generate Alt-Text</button>
-                            </div>
-                            {% endif %}
-                            
-                        </div>
+
 
                     </form>
                 </div>   
