@@ -48,12 +48,12 @@
                             <div class="model-options">
                                 <select id="nlp" name="nlp" class="nlp">
                                     {% for model in nlp.values() %}
-                                        <option value="{{model}}">{{model}}</option>
+                                        <option value="{{model}}" {% if model == "BART" %}selected{% endif %}>{{model}} {% if model == "BART" %}- BEST{% endif %}</option>
                                     {% endfor %}
                                 </select>
                                 <select id="cv" name="cv" class="cv">
                                     {% for model in cv.values() %}
-                                        <option value="{{model}}">{{model}}</option>
+                                        <option value="{{model}}" {% if model == "BLIP2" %}selected{% endif %}>{{model}} {% if model == "BLIP2" %}- BEST{% endif %}</option>
                                     {% endfor %}
                                 </select>
                             </div>

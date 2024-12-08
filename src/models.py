@@ -61,7 +61,7 @@ class GenerateBART():
 
     def predict(self, text: str):
             inputs = self.tokenizer([text], max_length=2000, return_tensors="pt", truncation=True)
-            summary_ids = self.model.generate(inputs["input_ids"], num_beams=2, min_length=50, max_length=100)
+            summary_ids = self.model.generate(inputs["input_ids"], num_beams=2, min_length=100, max_length=200)
             summary = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
             return summary
     
@@ -72,7 +72,7 @@ class GeneratePEGASUS():
 
     def predict(self, text: str):
             inputs = self.tokenizer(text, max_length=2000, return_tensors="pt", truncation=True)
-            summary_ids = self.model.generate(inputs["input_ids"], max_length=100, min_length=50)
+            summary_ids = self.model.generate(inputs["input_ids"], max_length=200, min_length=100)
             summary = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
             return summary
 
@@ -84,7 +84,7 @@ class GenerateT5():
 
     def predict(self, text: str):
            inputs = self.tokenizer(f"Summarize: {text}", max_length=2000, return_tensors="pt", truncation=True).input_ids.to("cuda")
-           summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
+           summary_ids = self.model.generate(inputs, max_length=200, min_length=100)
            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
            return summary
     
@@ -95,7 +95,7 @@ class GenerateFlanT5():
 
     def predict(self, text: str):
            inputs = self.tokenizer(f"Summarize: {text}", max_length=2000, return_tensors="pt", truncation=True).input_ids.to("cuda")
-           summary_ids = self.model.generate(inputs, max_length=100, min_length=50)
+           summary_ids = self.model.generate(inputs, max_length=200, min_length=100)
            summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
            return summary
     
