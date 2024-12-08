@@ -139,6 +139,10 @@ body{
 
 }
 
+.hgroup1:hover {
+    color: white;
+}
+
 .wspacer:hover {
     color: white;
     background-color: rgb(99, 99, 99);
@@ -177,26 +181,20 @@ body{
     letter-spacing: 0px;
 }
 
-.login, .signup, .login2 a, .logout{
+.login, .signup, .logout{
     letter-spacing: 0px;
     font-size: 25px;
     font-weight: 600;
     padding: 10px 10px 10px;
     margin-right: 10px;
+
 }
 
-.login2 a{
-    text-decoration: none;
-    color: #383737;
+.login a, .signup-button a {
+    transition: background-color .3s ease-in-out;
 }
 
-.login2:hover{
-    transform: scale(1.1);
-}
 
-.login2 {
-    transition: transform .5s ease-in-out, color .5s ease-in-out;
-}
 
 .maintitle {
     display: block;
@@ -537,9 +535,9 @@ body{
 }
 
 .upload-button-image {
-    width: 25px !important; /* Adjust width */
-    height: auto !important; /* Adjust height */
-    display: inline-block; /* Ensures it stays inline */
+    width: 25px !important;
+    height: auto !important; 
+    display: inline-block;
 }
 
 
@@ -559,6 +557,11 @@ body{
     justify-content: center;
     align-items: center;
     margin-top: 130px;
+    transition: opacity .2s ease-in-out;
+}
+
+.replacer-button:hover {
+    opacity: 50%;
 }
 
 .imgcap-results{
@@ -567,7 +570,7 @@ body{
 
 .imgcap_alt button{
     height: 25px;
-    font-family: Archivo;
+    font-family: "Roboto", sans-serif;
     display: inline-block; 
     background-color: rgb(239, 241, 250);
     padding: 3px 10px; 
@@ -580,7 +583,7 @@ body{
 }
 
 .model-options select {
-    width: 108px;
+    width: 120px;
     height: 25px;
     display: inline-block; 
     padding: 3px 10px; 
@@ -594,9 +597,33 @@ body{
     font-weight: 800;
 }
 
+.model-options select:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.model-options select:active {
+    border: 1px solid #747474; 
+    background-color: rgb(255, 255, 255);
+}
 
 
 
+.clear-button-index {
+    width: 70px;
+    background-color: rgb(255, 63, 63);
+    color: rgb(238, 238, 238);
+    height: 30px;
+    border: 1px solid rgb(255, 170, 170);
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color .2s ease-in-out;
+    cursor: pointer;
+}
+
+.clear-button-index:hover {
+    background-color: rgb(202, 60, 60);
+}
 
 
 .uploadimage {
@@ -698,7 +725,13 @@ body{
     margin-top: 30px;
     margin-left: 621px;
     font-weight: 900;
+    transition: background-color .2s ease-in-out;
 }
+
+.alt-button-profile:hover {
+    background-color: rgb(73, 75, 218);
+}
+
 .acctset h2{
     color: #383737;
 }
@@ -827,7 +860,14 @@ body{
 
 
 .results {
+    margin-top: 5px;
+    font-family: serif;
+    font-size: 17px;
     margin-left: 40px;
+}
+
+.results2 {
+    margin-left: 25px;
     margin-top: 5px;
     font-family: serif;
     font-size: 17px;
@@ -862,10 +902,13 @@ body{
 
 .uploadbutton {
     display: grid;
-    gap: 250px;
+    gap: 365px;
     grid-template-columns: 1fr 1fr;
     margin-top: 25px;
-    margin-left: -70px;
+    margin-left: 90px;
+    overflow: hidden;
+    align-items: center; 
+    justify-items: center; 
 }
 
 .uploadbutton input {
@@ -1065,7 +1108,14 @@ body{
     font-size: 15px;
     font-family: "Roboto", sans-serif;
     color: rgb(255, 255, 255);
-}   
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    cursor: pointer;
+} 
+
+.signbutton button:hover {
+    background-color: rgb(58, 105, 192);
+    color: rgb(226, 226, 226);
+}
 
 
 .logbutton button{
@@ -1080,7 +1130,15 @@ body{
     font-size: 15px;
     font-family: "Roboto", sans-serif;
     color: rgb(255, 255, 255);
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    cursor: pointer;
 }   
+
+
+.logbutton button:hover {
+    background-color: rgb(58, 105, 192);
+    color: rgb(226, 226, 226);
+}
 
 .greet span{
     margin-left: 40px;
@@ -1202,9 +1260,17 @@ body{
     box-sizing: border-box; 
 }
 
-thead tr:nth-child(3) th:nth-child(3),thead tr:nth-child(3) th:nth-child(6), thead tr:nth-child(3) th:nth-child(5),thead tr:nth-child(3) th:nth-child(7), thead tr:nth-child(3) th:nth-child(8),
- td:nth-child(5), td:nth-child(3), td:nth-child(7), td:nth-child(6), td:nth-child(8), thead tr:nth-child(2) th:nth-child(3), thead tr:nth-child(2) th:nth-child(4)
+.dash-table table thead tr:nth-child(3) th:nth-child(3),thead tr:nth-child(3) th:nth-child(6), thead tr:nth-child(3) th:nth-child(5), tr:nth-child(3) th:nth-child(7), thead tr:nth-child(3) th:nth-child(8),
+ td:nth-child(5), td:nth-child(3), .dash-table td:nth-child(7), td:nth-child(6), td:nth-child(8), thead tr:nth-child(2) th:nth-child(3), thead tr:nth-child(2) th:nth-child(4)
 {
+    border-right: 2px solid #dadada; 
+}
+
+.admin-table tr:nth-child(2) th:nth-child(2), tr:nth-child(2) .admin-table th:nth-child(5), tr:nth-child(2) th:nth-child(6){
+    border-right: 2px solid #dadada; 
+}
+
+.admin-table td:nth-child(2), .admin-table td:nth-child(4) {
     border-right: 2px solid #dadada; 
 }
 
@@ -1324,6 +1390,14 @@ td:nth-child(2) {
     margin-right: 0px;
 }
 
+.icon1-alt, .icon2-alt, .icon1-imgcap, .icon2-imgcap, .icon2-alt-dashboard {
+    transition: opacity .2s ease-in-out;
+}
+
+.icon1-alt:hover, .icon2-alt:hover, .icon1-imgcap:hover, .icon2-imgcap:hover, .icon2-alt-dashboard:hover {
+    opacity: 50%;
+}
+
 .icon2-imgcap {
     margin-right: 50px;
 }
@@ -1386,6 +1460,12 @@ table {
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-left: 5px;
+    cursor: pointer;
+    transition: background-color .2s ease-in-out;
+}
+
+.dashboard-dropdown select:hover {
+    background-color: #eceaea;
 }
 
 .dashboard-dropdown label {
@@ -1469,6 +1549,13 @@ td {
     border: none;
     border-radius: 5px;
     font-family: "Roboto", sans-serif;
+    transition: background-color .2s ease-in-out;
+    cursor: pointer;
+    
+}
+
+.delete-button button:hover {
+    background-color: rgb(219, 44, 44);
 }
 
 .activate-button button {
@@ -1591,9 +1678,15 @@ thead th {
     font-family: "Roboto", sans-serif;
     cursor: pointer;
     font-weight: 900;
+    transition: background-color .2s ease-in-out;
+}
+
+.searchbutton-dashboard button:hover {
+    background-color: rgb(69, 71, 218);
 }
 
 .refresh-dashboard button {
+    margin-top: 0px;
     padding: 10px 10px 8px;
     border: none;
     font-family: "Roboto", sans-serif;
@@ -1603,8 +1696,12 @@ thead th {
     border-radius: 7px;
     cursor: pointer;
     font-weight: 900;
+    transition: background-color .2s ease-in-out;
 }
 
+.refresh-dashboard button:hover {
+    background-color: rgb(69, 71, 218);
+}
 .generated-list-container {
     display: flex;
     flex-direction: column;

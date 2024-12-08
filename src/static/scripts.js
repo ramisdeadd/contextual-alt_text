@@ -104,23 +104,84 @@ context_input.addEventListener("input", async (e) => {
     enableEditing()
 })
 
-/* File Upload Functionality */
-
+// File upload functionality
 file_upload_input.addEventListener("change", async (e) => {
-    let output = document.getElementById('output');
+    const output = document.getElementById('output');
+    const clearButton = document.getElementById('clearImage');
     const border = document.querySelector('.uploadimage');
-    const border2 = document.getElementById('imagebox');
 
-    output.src = URL.createObjectURL(e.target.files[0]);
-    output.onload = function() {
-        URL.revokeObjectURL(output.src);
-    };
+    if (e.target.files.length > 0) {
+        // Display the selected image
+        output.src = URL.createObjectURL(e.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src);
+        };
+
+        // Make the clear button visible
+        clearButton.style.display = "block";
+    }
 
     border.style.border = "unset";
-    resetOutputs() 
-    validGeneration()
-    enableEditing()
+    resetOutputs();
+    validGeneration();
+    enableEditing();
 });
+document.getElementById("clearImage").addEventListener("click", () => {
+    const imageBox = document.getElementById('imagebox');
+    const clearButton = document.getElementById('clearImage');
+
+    // Restore the original structure directly
+    imageBox.outerHTML = `
+        <div class="uploadimage" id="imagebox">
+            <div class="replacer-button">
+                <label for="getimage" class="file-input-label">
+                    <img class="upload-button-image" src="../../static/images/upload-white.png" width="5px" height="5px">
+                </label>
+                <input type="file" id="getimage" name="img" accept="image/*" class="upimage">
+            </div>
+            <img id="output">
+        </div>
+    `;
+
+    // Hide the clear button
+    clearButton.style.display = "none";
+
+    // Re-bind the file input change event
+    const newFileInput = document.getElementById('getimage');
+    newFileInput.addEventListener("change", async (e) => {
+        const output = document.getElementById('output');
+        const clearButton = document.getElementById('clearImage');
+
+        if (e.target.files.length > 0) {
+            // Display the selected image
+            output.src = URL.createObjectURL(e.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src);
+            };
+
+            // Show the clear button
+            clearButton.style.display = "block";
+        }
+    });
+
+    
+    document.getElementById('getimage').addEventListener('change', function () {
+        if (this.files && this.files.length > 0) {
+            document.querySelector('.replacer-button').style.display = 'none';
+            document.querySelector('.uploadimage').style.border = 'none';
+            const output = document.getElementById('output');
+            const file = this.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                output.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
 
 select_cv.addEventListener("change", async (e) => {
     resetOutputs() 

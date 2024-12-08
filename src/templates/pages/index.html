@@ -48,15 +48,17 @@
                             <div class="model-options">
                                 <select id="nlp" name="nlp" class="nlp">
                                     {% for model in nlp.values() %}
-                                        <option value="{{model}}" {% if model == "BART" %}selected{% endif %}>{{model}} {% if model == "BART" %}- BEST{% endif %}</option>
+                                        <option value="{{model}}" {% if model == "BART" %}selected{% endif %}>{{model}} {% if model == "BART" %} (Best){% endif %}</option>
                                     {% endfor %}
                                 </select>
                                 <select id="cv" name="cv" class="cv">
                                     {% for model in cv.values() %}
-                                        <option value="{{model}}" {% if model == "BLIP2" %}selected{% endif %}>{{model}} {% if model == "BLIP2" %}- BEST{% endif %}</option>
+                                        <option value="{{model}}" {% if model == "BLIP2" %}selected{% endif %}>{{model}} {% if model == "BLIP2" %} (Best){% endif %}</option>
                                     {% endfor %}
                                 </select>
                             </div>
+
+                            <button class="clear-button-index" type="button" id="clearImage" style="display: none;">Clear</button>
                         </div>    
 
                         <div class="imgcap_alt">
@@ -110,7 +112,7 @@
                                         </div>
                                     </div>
         
-                                    <div class="results">
+                                    <div class="results2">
                                         <div id="getcaption" aria-labelledby="alternate-textarea-label" role="textbox" aria-multiline="true"></div>
                                     </div>
                                 </div>
