@@ -584,37 +584,39 @@ body{
     transition: background-color 0.3s, color 0.3s;
 }
 
+.generate-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .model-options select {
     width: 120px;
     height: 25px;
     display: inline-block; 
     padding: 3px 10px; 
     border: 1px solid #b3b3b3; 
-    color: #3a3a3a;
-    background-color: rgb(245, 245, 245); 
+    color: #ebebeb;
+    background-color: rgb(61, 61, 61); 
     cursor: pointer;
     font-size: 12px; 
     transition: background-color 0.3s, color 0.3s;
     font-family: "Roboto", sans-serif;
     font-weight: 800;
     border-radius: 5px;
+    border: none;
 }
 
 .model-options select:hover {
-    background-color: rgb(230, 230, 230);
-}
-
-.model-options select:active {
-    border: 1px solid #747474; 
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(56, 56, 56);
 }
 
 .button_center {
     display: flex;
     flex-direction: row;
-    margin-left: 150px;
-    margin-right: 180px;
-    width: 300px;
+    margin-left: 99px;
+    margin-top: 10px;
 }
 
 .clear-button-index {
@@ -623,12 +625,13 @@ body{
     color: rgb(238, 238, 238);
     height: 45px;
     border: 1px solid rgb(255, 170, 170);
-    border-radius: 6px;
+    border-radius: 3px;
     font-size: 15px;
     font-weight: 600;
     transition: background-color .2s ease-in-out;
     cursor: pointer;
-    margin-left: 210px;
+    border: none;
+    margin-left: 70px;
 }
 
 .clear-button-index:hover {
@@ -663,7 +666,7 @@ body{
     resize:vertical;
     margin-bottom: 20px;
     border-radius: 5px;
-    width: 700px;
+    width: 690px;
     height: auto;
     font-family: "Roboto", sans-serif;
     font-size: 15px;
@@ -674,6 +677,7 @@ body{
     field-sizing: content;
     letter-spacing: .5px;
 }
+
 
 .inputcontainer {
     margin-top: 20px;
@@ -690,7 +694,7 @@ body{
 .alt-button {
     text-decoration: none;
     color: white;
-    width: 200px;
+    width: 245px;
     padding: 15px 20px 15px;
     background-color: rgb(68, 125, 230);
     font-size: 14px;
@@ -909,7 +913,7 @@ body{
 
 .uploadbutton {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 770px;
@@ -926,9 +930,8 @@ body{
 
 .model-options{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 5px;
-    margin-right: 20px;
 }
 
 .mainlog-container {
