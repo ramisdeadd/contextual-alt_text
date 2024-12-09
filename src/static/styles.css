@@ -876,6 +876,7 @@ body{
     font-size: 17px;
     margin-left: 40px;
     height: 40px;
+
 }
 
 .results2 {
@@ -908,6 +909,7 @@ body{
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 0px 0px 0px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.096);
 
 }
 
@@ -1279,7 +1281,7 @@ body{
     border-right: 2px solid #dadada; 
 }
 
-.admin-table tr:nth-child(2) th:nth-child(2), tr:nth-child(2) .admin-table th:nth-child(5), tr:nth-child(2) th:nth-child(6){
+.admin-table tr:nth-child(2) th:nth-child(2),  .admin-table tr:nth-child(2) th:nth-child(5), tr:nth-child(2) th:nth-child(6) {
     border-right: 2px solid #dadada; 
 }
 
@@ -1483,7 +1485,7 @@ table {
 }
 
 .dashboard-dropdown label {
-    margin-left: 20px;
+    margin-left: 100px;
     font-size: 15px;
 }
 
