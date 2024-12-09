@@ -591,12 +591,13 @@ body{
     padding: 3px 10px; 
     border: 1px solid #b3b3b3; 
     color: #3a3a3a;
-    background-color: rgb(255, 255, 255); 
+    background-color: rgb(245, 245, 245); 
     cursor: pointer;
     font-size: 12px; 
     transition: background-color 0.3s, color 0.3s;
     font-family: "Roboto", sans-serif;
     font-weight: 800;
+    border-radius: 5px;
 }
 
 .model-options select:hover {
