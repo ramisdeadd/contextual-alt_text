@@ -12,7 +12,6 @@ from typing import Tuple, List, Union, Optional, Any
 from transformers import (
     GPT2Tokenizer,
     GPT2LMHeadModel,
-    AdamW,
 )
 
 # import torch

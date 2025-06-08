@@ -1,4 +1,3 @@
-from jwt.exceptions import InvalidTokenError
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 from fastapi import Depends, HTTPException, status, Cookie
@@ -88,7 +87,7 @@ async def get_current_user(session: SessionDep,
             token = token[len("Bearer "):]
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-    except InvalidTokenError:
+    except jwt.InvalidTokenError:
         raise credentials_timeout
     
     user = await get_user(username=username, session=session)

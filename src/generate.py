@@ -9,7 +9,8 @@ from openai import OpenAI
 from transformers import pipeline
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-curr_path = Path(__file__).parent.absolute()
+dotenv_path = Path(__file__).parent.parent / '.env'
+load_dotenv(dotenv_path=dotenv_path)
 
 def create_summary(text: str, model: str) -> str:
     if model == "BART":
@@ -58,8 +59,8 @@ def create_alttext(text: str, img_path: Path, image: bool, vision_model: str, nl
     summary = create_summary(text, nlp_model)
     caption = create_caption(img_path, vision_model)
 
-    load_dotenv()
     api_key_env = os.getenv("OPENAI_API_KEY")
+    print(api_key_env)
     
     client = OpenAI(
             api_key = api_key_env

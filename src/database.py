@@ -1,12 +1,20 @@
 from typing import Annotated, AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import URL
 from fastapi import Depends
 from sqlmodel import SQLModel
-postgres_file_name = "alt_text_db"
-postgres_url = f"postgresql+asyncpg://myuser:myuser-fastapi@localhost/{postgres_file_name}"
 
-engine = create_async_engine(postgres_url, echo=True)
+url_object = URL.create(
+    "postgresql+asyncpg",
+    username='alttext_generator',
+    password='KhU@%SLCkYOJt0',
+    host="localhost",
+    port=5432,
+    database="alttext_generator_db"
+)
+
+engine = create_async_engine(url_object, echo=True)
 
 async def create_db_and_tables():
     async with engine.begin() as conn:
